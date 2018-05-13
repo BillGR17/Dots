@@ -1,0 +1,8 @@
+#!/usr/bin/zsh
+
+if [ "$1" != "" ]; then
+  tmux kill-session -t $1
+else
+  tmux kill-session
+fi
+
