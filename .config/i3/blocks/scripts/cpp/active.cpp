@@ -1,7 +1,7 @@
 #include <iostream>
 
 int main(){
-  system("xwininfo -id $(xprop -root| awk '/NET_ACTIVE_WINDOW/ { print $5; exit }') |sed -n 2p |grep -o '\".*\"' |sed 's/\"//g'");
+  system("xprop -id $(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5) WM_NAME | cut -d '\"' -f 2");
   return 0;
 }
 
