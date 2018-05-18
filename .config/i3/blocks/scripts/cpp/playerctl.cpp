@@ -38,11 +38,17 @@ int main(){
   else{
     icon="";
   }
-  if (!r[2].empty()){
-    std::cout << icon <<" "<< r[1] <<" ~ "<<r[2] <<" ~ "<<r[3];
-  } else{
-    std::cout << icon <<" "<< r[1];
-  }
+  r.erase(r.begin());
+  if (r[0].find("(null)") == std::string::npos){
+    std::cout << icon << " ";
+    for(std::string& x : r ){
+      if(x.find("(null)") ==  std::string::npos){
+        std::cout << x ;
+        if(&x!=&r.back())
+          std::cout<<" ~ ";
+      }
+    }
+   }
   return 0;
 }
 
