@@ -32,7 +32,7 @@ int main(){
   for(std::string s : lang){
     std::string t=s.substr(0,s.find(','));
     int n = stoi(s.substr(s.find(',')+1,s.length()));
-    if(n==x||x>=n&&x<=(n+6)){
+    if(n==x||( x>=n&&x<=(n+6) )){
     std::cout<< t;
     }
   }
