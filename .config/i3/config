@@ -239,7 +239,8 @@ bar {
 }
 
 #Configs
-bindsym $mod+c exec alacritty -e tmux new -s i3c "cd ~/.config/i3/&&vim"
+bindsym $mod+c exec alacritty -e tmux new -s i3c "cd ~/.config/i3&&nvim"
+bindsym $mod+n exec alacritty -e tmux new -s nc "cd  /etc/nginx&&sudo nvim"
 
 focus_follows_mouse no
 

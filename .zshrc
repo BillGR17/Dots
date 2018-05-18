@@ -22,6 +22,13 @@ fpath=( ~/.zprompts ${fpath[@]} )
 autoload k
 
 alias nr="systemctl restart nginx"
+alias vim="nvim"
 
 PROMPT='%F{blue}%n%f %F{yellow}%1~%f '
 RPROMPT='[%F{yellow}%?%f]'
+
+
+
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source  /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+source  /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
