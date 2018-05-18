@@ -185,10 +185,6 @@ for_window [class="^Steam$" title="^Screenshot Uploader$"] floating enable
 for_window [class="^Steam$" title="^Steam Guard - Computer Authorization Required$"] floating enable
 for_window [title="^Steam Keyboard$"] floating enable
 
-#sceenshot settings
-bindsym Print exec flameshot full -p ~/Pictures/
-bindsym $mod+Print exec flameshot gui
-
 # Window borders
 new_window 1pixel
 smart_borders on
@@ -242,6 +238,12 @@ bar {
 bindsym $mod+c exec alacritty -e tmux new -s i3c "cd ~/.config/i3&&nvim"
 bindsym $mod+n exec alacritty -e tmux new -s nc "cd  /etc/nginx&&sudo nvim"
 
+#https://www.reddit.com/r/i3wm/comments/8jugx9/keyboard_binding_for_scrot_s_is_not_working_got/dz2im83
+bindsym --release Print exec --no-startup-id import -silent -window root "$HOME/Pictures/ss-$(date +'%I-%M-%S_%d-%m-%y').png"
+bindsym --release Shift+Print exec --no-startup-id import -silent "$HOME/Pictures/ss--$(date +'%I-%M-%S_%d-%m-%y').png"
+
+
+
 focus_follows_mouse no
 
 font pango:Noto Sans 0
@@ -267,8 +269,8 @@ exec --no-startup-id steam
 exec --no-startup-id dropbox
 exec --no-startup-id kdeconnect-indicator
 exec --no-startup-id copyq
-exec --no-startup-id flameshot
 exec --no-startup-id compton -b
+exec --no-startup-id feh --bg-fill ~/Pictures/br.jpg
 
 #setxkbmap -layout us,gr
 #setxkbmap -option 'grp:alt_shift_toggle'
