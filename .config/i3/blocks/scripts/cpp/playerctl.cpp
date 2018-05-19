@@ -29,7 +29,10 @@ int main(){
     }else{
       o+="playerctl -p "+b+" metadata "+s[i];
     }
-    r.push_back(exec(o.c_str()));
+    std::string out = exec(o.c_str());
+    if(out.find("null")==std::string::npos&&out.length()>2){
+      r.push_back(exec(o.c_str()));
+    }
   }
   std::string icon;
   if(r[0].find("Playing") != std::string::npos) {
@@ -42,13 +45,11 @@ int main(){
   if (r[0].find("(null)") == std::string::npos){
     std::cout << icon << " ";
     for(std::string& x : r ){
-      if(x.find("(null)") ==  std::string::npos){
-        std::cout << x ;
-        if(&x!=&r.back())
-          std::cout<<" ~ ";
-      }
+      std::cout<< x;
+      if(&x!=&r.back())
+        std::cout<<" ~ ";
     }
-   }
+  }
   return 0;
 }
 
