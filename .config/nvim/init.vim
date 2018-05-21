@@ -117,7 +117,7 @@ set complete-=i                                             " Do not search incl
 set completeopt=menu,menuone                                " Complete options (disable preview scratch window, longest removed to aways show menu)
 set pumheight=20                                            " Limit popup menu height
 set concealcursor=inv                                       " Conceal in insert (i), normal (n) and visual (v) modes
-set conceallevel=2 " Hide concealed text completely unless replacement character is defined
+set conceallevel=0
 set mouse=a
 set autoindent
 set smartindent
