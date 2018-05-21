@@ -142,7 +142,7 @@ set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set writebackup
 set encoding=utf-8
 set fileencoding=utf-8
-set listchars+=space:.
+set list
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:.
 " https://github.com/rakr/vim-one/issues/60
 set termguicolors     " enable true colors support
