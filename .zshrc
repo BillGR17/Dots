@@ -21,6 +21,8 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 
 fpath=( ~/.zprompts ${fpath[@]} )
 autoload k
 
+
+alias ne="cd /etc/nginx && sudo nvim nginx.conf"
 alias nr="systemctl restart nginx"
 alias vim="nvim"
 
