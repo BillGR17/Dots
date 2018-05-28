@@ -41,8 +41,8 @@ int main(){
   else{
     icon="";
   }
-  r.erase(r.begin());
-  if (r[0].find("(null)") == std::string::npos){
+  r.erase(r.begin(),r.begin()+1);
+  if (!r.empty()&&r[0].find("(null)") == std::string::npos){
     std::cout << icon << " ";
     for(std::string& x : r ){
       std::cout<< x;
