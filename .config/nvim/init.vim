@@ -21,7 +21,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'rakr/vim-one'
 call plug#end()
 
-
 " vim nerdtree on start
 au vimenter * NERDTree
 au VimEnter * wincmd p "dont focus on nerdtree on open
@@ -33,7 +32,7 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 " javascript config
-let g:syntastic_javascript_checkers = ['eslint'] " install esling with sudo npm i -g eslint or from linux pacages
+let g:syntastic_javascript_checkers = ['eslint']            " install esling with sudo npm i -g eslint or from linux pacages
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
@@ -42,11 +41,11 @@ let g:syntastic_check_on_wq = 1
 
 " c++ config
 let g:clang_use_library = 1                                 " Use libclang directly
-let g:clang_library_path ='/usr/lib64/libclang.so'           " Path to the libclang on the system
+let g:clang_library_path ='/usr/lib64/libclang.so'          " Path to the libclang on the system
 let g:clang_complete_auto = 1                               " Run autocompletion immediatelly after ->, ., ::
 let g:clang_complete_copen = 1                              " Open quickfix window on error
 let g:clang_periodic_quickfix = 1                           " Turn-off periodic updating of quickfix window (g:ClangUpdateQuickFix() does the same)
-let g:clang_snippets = 1                                   " Enable function args autocompletion, template parameters, ...
+let g:clang_snippets = 1                                    " Enable function args autocompletion, template parameters, ...
 let g:clang_snippets_engine = 'ultisnips'                   " Use UltiSnips engine for function args autocompletion (provides mechanism to jump over to the next argument)
 let g:clang_conceal_snippets = 1                            " clang_complete engine related setting
 
@@ -60,14 +59,13 @@ let g:cpp_experimental_template_highlight = 1
 " airline config
 let laststatus=2
 let g:airline_powerline_fonts = 1                           " Use Powerline fonts to show beautiful symbols
-let g:airline_theme='one'                             " Select 'murmur' theme as default one
+let g:airline_theme='one'                                   " Select 'murmur' theme as default one
 let g:airline_inactive_collapse = 0                         " Do not collapse the status line while having multiple windows
 let g:airline#extensions#whitespace#enabled = 1             " Do not check for whitespaces
 let g:airline#extensions#tabline#enabled = 1                " Display tab bar with buffers
 let g:airline#extensions#branch#enabled = 1                 " Enable Git client integration
 let g:airline#extensions#tagbar#enabled = 1                 " Enable Tagbar integration
 let g:airline#extensions#hunks#enabled = 1                  " Enable Git hunks integration
-
 let g:airline_powerline_fonts = 0
 " https://vi.stackexchange.com/a/3363
 if !exists('g:airline_symbols')
@@ -106,26 +104,22 @@ let g:gitgutter_eager = 0
 "vim autoclose fix
 let g:AutoClosePreserveDotReg = 0
 
-
 " vim settings
 syntax enable
 set number
 filetype plugin indent on
-set pumheight=20 " Limit popup menu height
+set pumheight=20                                            " Limit popup menu height
 set complete-=t                                             " Do not search tag files when auto-completing
 set complete-=i                                             " Do not search include files when auto-completing
-set completeopt=menu,menuone                                " Complete options (disable preview scratch window, longest removed to aways show menu)
+set completeopt=longest,menuone                             " Complete options (disable preview scratch window, longest removed to aways show menu)
 set pumheight=20                                            " Limit popup menu height
 set concealcursor=inv                                       " Conceal in insert (i), normal (n) and visual (v) modes
-set conceallevel=0
+set conceallevel=0                                          " Hide concealed text completely unless replacement character is defined
 set mouse=a
 set autoindent
 set smartindent
 set smarttab
-set tabstop=2
-set softtabstop=2
-set expandtab
-set shiftwidth=2
+set tabstop=2 shiftwidth=2 expandtab
 set showcmd
 set number
 set lazyredraw
