@@ -26,7 +26,14 @@ alias ne="cd /etc/nginx && sudo nvim nginx.conf"
 alias nr="systemctl restart nginx"
 alias vim="nvim"
 
-PROMPT='%F{blue}%n%f %F{yellow}%1~%f '
+function loc() {
+  echo ${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
+}
+
+plugins=(git )
+
+setopt PROMPT_SUBST
+PROMPT='%F{blue}%n%f %F{cyan}$(loc) %f'
 RPROMPT='[%F{yellow}%?%f]'
 
 
