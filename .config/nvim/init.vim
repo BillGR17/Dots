@@ -108,6 +108,7 @@ let g:AutoClosePreserveDotReg = 0
 syntax enable
 set number
 filetype plugin indent on
+set showtabline=0
 set pumheight=20                                            " Limit popup menu height
 set complete-=t                                             " Do not search tag files when auto-completing
 set complete-=i                                             " Do not search include files when auto-completing
