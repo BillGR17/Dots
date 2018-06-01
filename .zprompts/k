@@ -3,6 +3,6 @@
 if [ "$1" != "" ]; then
   tmux kill-session -t $1
 else
-  tmux kill-session -t ${echo $TMUX_PANE|tr -dc '0-9'}
+  tmux kill-session -t $(echo $TMUX_PANE|tr -dc '0-9')
 fi
 
