@@ -1,0 +1,9 @@
+#!/usr/bin/zsh
+
+#if first arg is number switch section with that number
+if [[ "$1"  == [0-9] ]]; then
+  tmux switch -t $1
+#if there is no arg dont do shit
+else
+  echo "You must enter a number..."
+fi
