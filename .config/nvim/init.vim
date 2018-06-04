@@ -58,15 +58,14 @@ let g:cpp_experimental_template_highlight = 1
 
 " airline config
 let laststatus=2
-let g:airline_powerline_fonts = 1                           " Use Powerline fonts to show beautiful symbols
+let g:airline_powerline_fonts = 0                           " Use Powerline fonts to show beautiful symbols
 let g:airline_theme='one'                                   " Select 'murmur' theme as default one
 let g:airline_inactive_collapse = 0                         " Do not collapse the status line while having multiple windows
-let g:airline#extensions#whitespace#enabled = 1             " Do not check for whitespaces
+let g:airline#extensions#whitespace#enabled = 0             " Do not check for whitespaces
 let g:airline#extensions#tabline#enabled = 1                " Display tab bar with buffers
 let g:airline#extensions#branch#enabled = 1                 " Enable Git client integration
 let g:airline#extensions#tagbar#enabled = 1                 " Enable Tagbar integration
 let g:airline#extensions#hunks#enabled = 1                  " Enable Git hunks integration
-let g:airline_powerline_fonts = 0
 " https://vi.stackexchange.com/a/3363
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
