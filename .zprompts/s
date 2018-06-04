@@ -5,5 +5,5 @@ if [[ "$1"  == [0-9] ]]; then
   tmux switch -t $1
 #if there is no arg dont do shit
 else
-  echo "You must enter a number..."
+  echo "You must enter a number...\nThis is the list from tmux ls\n$(tmux ls)"
 fi
