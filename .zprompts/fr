@@ -1,0 +1,4 @@
+#!/usr/bin/zsh
+#Find and replace quick script
+find $1 -name "*" -type f -exec sed -i -e "s/$2/$3/g" -- {} +
+echo "Done!"
