@@ -19,8 +19,7 @@ bindkey "\e[3~" delete-char
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
 fpath=( ~/.zprompts ${fpath[@]} )
-autoload k
-autoload s
+autoload k s fr
 
 alias ne="cd /etc/nginx && sudo nvim nginx.conf"
 alias nr="systemctl restart nginx"
