@@ -24,6 +24,7 @@ autoload k s fr
 alias ne="cd /etc/nginx && sudo nvim nginx.conf"
 alias nr="systemctl restart nginx"
 alias vim="nvim"
+alias steam.exe="wine ~/.wine/drive_c/Program\ Files\ \(x86\)/Steam/Steam.exe > /dev/null 2>&1 &"
 
 function loc() {
   echo ${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
