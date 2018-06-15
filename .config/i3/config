@@ -169,7 +169,17 @@ set $p DP-0
 set $s HDMI-0
 
 workspace 1 output $p
+workspace 3 output $p
+workspace 5 output $p
+workspace 7 output $p
+workspace 9 output $p
+
 workspace 2 output $s
+workspace 4 output $s
+workspace 6 output $s
+workspace 8 output $s
+workspace 10 output $s
+
 
 assign [class="Spotify"] $ws2
 
