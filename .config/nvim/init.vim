@@ -18,6 +18,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'octol/vim-cpp-enhanced-highlight'
   Plug 'bling/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
+  Plug 'valloric/MatchTagAlways'
   Plug 'rakr/vim-one'
 call plug#end()
 
@@ -83,6 +84,14 @@ let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
 
+" highlight closing tag "
+let g:mta_filetypes = {
+    \ 'html' : 1,
+    \ 'xhtml' : 1,
+    \ 'hbs' : 1,
+    \ 'ejs' : 1,
+    \ 'html.handlebars' : 1
+    \}
 
 " Snips config
 let g:UltiSnipsExpandTrigger="<tab>"
