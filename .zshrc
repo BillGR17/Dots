@@ -12,11 +12,18 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-bindkey "${terminfo[khome]}" beginning-of-line
-bindkey "${terminfo[kend]}" end-of-line
-bindkey "\e[3~" delete-char
+# key bindings
 
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+bindkey '\e[1~'   beginning-of-line  # Linux console
+bindkey '\e[H'    beginning-of-line  # xterm
+bindkey '\eOH'    beginning-of-line  # gnome-terminal
+bindkey '\e[2~'   overwrite-mode     # Linux console, xterm, gnome-terminal
+bindkey '\e[3~'   delete-char        # Linux console, xterm, gnome-terminal
+bindkey '\e[4~'   end-of-line        # Linux console
+bindkey '\e[F'    end-of-line        # xterm
+bindkey '\eOF'    end-of-line        # gnome-terminal
+
+
 
 fpath=( ~/.zprompts ${fpath[@]} )
 autoload k s fr
