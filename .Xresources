@@ -1,0 +1,4 @@
+!-*- Perl extensions -*-
+URxvt.perl-ext-common: selection-to-clipboard
+
+URxvt.url-launcher:   /usr/bin/firefox
