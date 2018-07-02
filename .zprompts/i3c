@@ -1,0 +1,6 @@
+#!/bin/bash
+
+path=$PWD
+
+cd ~/.config/i3/&&nvim
+cd $path
