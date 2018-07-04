@@ -16,7 +16,6 @@ bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}" end-of-line
 bindkey "\e[3~" delete-char
 
-alias ne="cd /etc/nginx && sudo nvim nginx.conf"
 alias nr="systemctl restart nginx"
 
 #https://github.com/jwilm/alacritty/issues/684
@@ -26,9 +25,8 @@ alias nvim="env TERM="" nvim"
 
 alias npm="yarn"
 
-#fpath=( ~/.zfunc $fpath )
-fpath=( ~/.zfuncs "${fpath[@]}" )
-autoload k s fr
+fpath=( ~/.zshf "${fpath[@]}" )
+autoload k conf fr
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ":completion:*:commands" rehash 1
