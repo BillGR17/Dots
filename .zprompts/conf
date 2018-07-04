@@ -1,0 +1,14 @@
+#!/bin/bash
+#There is a bug if you use this with zsh  the path is always ~/ so thats my way of fixing this...
+p="$PWD"
+if [[ $1 == "i3" ]];then
+  cd ~/.config/i3/&&nvim&&cd $p
+elif [[ $1 == "ng" ]];then
+  cd /etc/nginx/&&sudo nvim nginx.conf&&cd $p
+elif [[ $1 == "vi" ]];then
+  cd ~/.config/nvim/&&nvim init.vim&&cd $p
+elif [[ $1 == "ra" ]];then
+  cd ~/.config/ranger/&&nvim&&cd $p
+else
+  echo "Specify What you need to confing\n[ng=nginx]\n[i3=i3wm]\n[vi=nvim]\n[ra=ranger]"
+fi
