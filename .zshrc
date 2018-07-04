@@ -7,16 +7,18 @@ bindkey -e
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
 zstyle :compinstall filename '/home/awesomename/.zshrc'
-
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-bindkey "${terminfo[khome]}" beginning-of-line
-bindkey "${terminfo[kend]}" end-of-line
-bindkey "\e[3~" delete-char
+#Key
+bindkey "\e[2~"   overwrite-mode
+bindkey "\e[3~"   delete-char
+bindkey "\e[H"    beginning-of-line
+bindkey "\e[F"    end-of-line
 
-alias nr="systemctl restart nginx"
+#Alias&Functions
+alias nr="sudosystemctl restart nginx"
 
 #https://github.com/jwilm/alacritty/issues/684
 #meh
@@ -31,13 +33,14 @@ autoload k conf fr
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ":completion:*:commands" rehash 1
 
-function loc() {
-  echo ${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
-}
 
 #yarn global modules doesnt work without yarn path
 export PATH=$PATH:$(yarn global bin)
 
+#prompt settings
+function loc() {
+  echo ${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
+}
 setopt PROMPT_SUBST
 PROMPT='%F{blue}%n%f %F{cyan}$(loc) %f'
 RPROMPT='[%F{yellow}%?%f]'
@@ -46,6 +49,3 @@ RPROMPT='[%F{yellow}%?%f]'
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source  /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
