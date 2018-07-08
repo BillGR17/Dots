@@ -109,71 +109,52 @@ let g:SuperTabLongestEnhanced=1
 let g:gitgutter_realtime = 1
 let g:gitgutter_eager = 0
 
-"vim autoclose fix
+" vim autoclose fix
 let g:AutoClosePreserveDotReg = 0
+
+" Emmet
+let g:user_emmet_expandabbr_key='<C-e>'
 
 " vim settings
 syntax enable
-set number
 filetype plugin indent on
-set showtabline=0
-set pumheight=20                                            " Limit popup menu height
-set complete-=t                                             " Do not search tag files when auto-completing
-set complete-=i                                             " Do not search include files when auto-completing
-set completeopt=longest,menuone                             " Complete options (disable preview scratch window, longest removed to aways show menu)
-set pumheight=20                                            " Limit popup menu height
-set concealcursor=inv                                       " Conceal in insert (i), normal (n) and visual (v) modes
-set conceallevel=0                                          " Hide concealed text completely unless replacement character is defined
-set mouse=a
-set autoindent
-set smartindent
-set smarttab
-set tabstop=2 shiftwidth=2 expandtab
-set showcmd
-set number
-set lazyredraw
-set ttyfast
-set wildmenu
-set showmatch
-set incsearch
-set hlsearch
-set clipboard=unnamedplus
-set backup
+set pumheight=20                                                " Limit popup menu height
+set complete-=t                                                 " Do not search tag files when auto-completing
+set complete-=i                                                 " Do not search include files when auto-completing
+set completeopt=longest,menuone                                 " Complete options (disable preview scratch window, longest removed to aways show menu)
+set pumheight=20                                                " Limit popup menu height
+set concealcursor=inv                                           " Conceal in insert (i), normal (n) and visual (v) modes
+set conceallevel=0                                              " Hide concealed text completely unless replacement character is defined
+set mouse=a                                                     " Mouse Support
+set clipboard=unnamedplus                                       " Copy to Clipboard
+set autoindent                                                  " Does nothing more than copy the indentation from the previous line, when starting a new line.
+set smartindent                                                 " Atomatically inserts one extra level of indentation in some cases, and works for C-like files. fcs up stylus :)
+set tabstop=2 shiftwidth=2 softtabstop=2 expandtab              " Tabs Settings
+set cursorcolumn cursorline                                     " Creates a cross around the cursor
+set number                                                      " Shows Line numbers on left
+set showcmd                                                     " Show Command line
+set lazyredraw                                                  " Fixes render also faster render
+set ttyfast                                                     " Fixes ssh render `SOMETIMES`
+set wildmenu                                                    " Better Tab Completion For File Names
+set showmatch                                                   " Shows maching parethesis and stuff
+set incsearch                                                   " Shows the next match while entering a search
+set hlsearch                                                    " Keeps the hightlight from search
+set backup                                                      " Backup settings starts here
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set backupskip=/tmp/*,/private/tmp/*
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set writebackup
-set encoding=utf-8
-set fileencoding=utf-8
-set list
-set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:.
-" https://github.com/rakr/vim-one/issues/60
-set termguicolors     " enable true colors support
-"Credit joshdick
-"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+set writebackup                                                 " Backup settings  ends here
+set encoding=utf-8                                              " Encoding fix
+set fileencoding=utf-8                                          " Encoding fix
+set list                                                        " Show whitespaces and stuff
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:. " Sets the icons for list
+set termguicolors                                                 " Enable true colors
 
-if (empty($TMUX))
-  if (has("nvim"))
-  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-  endif
-  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-  if (has("termguicolors"))
-    set termguicolors
-  endif
-endif
-set background=dark
+set background=dark   " Enables the dark theme from Atom One theme
 colorscheme one
 
-
-" vim key settings
-let g:user_emmet_expandabbr_key='<C-e>'
 " vim  commands to execute each time you go to normal mode
-au CursorHold,CursorHoldI,InsertLeave * SyntasticCheck "checks for errors
-au BufWritePre * :%s/\s\+$//e "removes whitespaces
+au CursorHold,CursorHoldI,InsertLeave * SyntasticCheck          "checks for errors
+au BufWritePre * :%s/\s\+$//e                                   "Trim spaces
 au user Node if &filetype == "javascript" | setlocal expandtab | endif
 

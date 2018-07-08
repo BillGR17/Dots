@@ -6,7 +6,8 @@
 set $mod Mod4
 
 # start a terminal
-bindsym $mod+Return exec st
+
+bindsym $mod+Return exec xterm
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -209,7 +210,6 @@ bar {
 ######################
 #AUTOSTART ON STARTUP#
 ######################
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
 
 exec sleep 10s; i3-msg 'workspace 2; exec spotify'
 exec sleep 10s; i3-msg 'workspace 2; exec steam'

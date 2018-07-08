@@ -1,0 +1,73 @@
+XTerm.termName: xterm-256color
+
+XTerm.vt100.metaSendsEscape: true
+
+XTerm*faceName: Noto
+XTerm*faceSize: 11
+
+! History
+XTerm.vt100.saveLines: 100000
+
+
+XTerm*forceBoxChars: true
+XTerm*dynamicColors: true
+XTerm*visualBell: off
+XTerm*highlightSelection: true
+
+! Encoding
+XTerm*utf8: True
+XTerm*locale: True
+XTerm*utf8Title: True
+XTerm*renderFont: True
+XTerm*preeditType: Root
+XTerm*xftAntialias: true
+XTerm.vt100.locale: true
+
+! Trim trailing spaces
+XTerm*trimSelection: true
+
+
+! Copy & Paste Keys
+XTerm*VT100.Translations: #override \
+  Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
+  Ctrl Shift <Key>C:    copy-selection(CLIPBOARD)
+
+
+
+! special
+*.foreground:   #c5c8c6
+*.background:   #1d1f21
+*.cursorColor:  #c5c8c6
+
+! black
+*.color0:       #282a2e
+*.color8:       #373b41
+
+! red
+*.color1:       #a54242
+*.color9:       #cc6666
+
+! green
+*.color2:       #8c9440
+*.color10:      #b5bd68
+
+! yellow
+*.color3:       #de935f
+*.color11:      #f0c674
+
+! blue
+*.color4:       #5f819d
+*.color12:      #81a2be
+
+! magenta
+*.color5:       #85678f
+*.color13:      #b294bb
+
+! cyan
+*.color6:       #5e8d87
+*.color14:      #8abeb7
+
+! white
+*.color7:       #707880
+*.color15:      #c5c8c6
+
