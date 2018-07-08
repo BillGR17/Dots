@@ -36,6 +36,7 @@ zstyle ":completion:*:commands" rehash 1
 
 #yarn global modules doesnt work without yarn path
 export PATH=$PATH:$(yarn global bin)
+xset s off&&xset -dpms
 
 #prompt settings
 function loc() {
