@@ -1,3 +1,9 @@
+# pacman -S zsh-syntax-highlighting zsh-autosuggestions zsh-completions zsh-history-substring-search
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source  /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=10000
@@ -16,7 +22,8 @@ bindkey "\e[2~"   overwrite-mode
 bindkey "\e[3~"   delete-char
 bindkey "\e[H"    beginning-of-line
 bindkey "\e[F"    end-of-line
-
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 #Alias&Functions
 alias nr="sudosystemctl restart nginx"
 
@@ -45,8 +52,3 @@ function loc() {
 setopt PROMPT_SUBST
 PROMPT='%F{blue}%n%f %F{cyan}$(loc) %f'
 RPROMPT='[%F{yellow}%?%f]'
-
-# pacman -S zsh-syntax-highlighting zsh-autosuggestions zsh-completions zsh-history-substring-search
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source  /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh

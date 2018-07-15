@@ -154,7 +154,7 @@ workspace 10 output $s
 for_window [class="^feh"] floating enable
 for_window [class="^Steam"] floating enable
 for_window [class="^Thunderbird"] floating enable
-
+for_window [class="^Transmission"] float enable
 for_window [window_role="pop-up"] floating enable
 
 
@@ -195,7 +195,7 @@ bar {
   output $s
   tray_output none
   position bottom
-  status_command i3status
+
   font pango:Noto Sans 10
   height 18
   colors {
