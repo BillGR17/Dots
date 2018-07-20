@@ -19,7 +19,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'bling/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
   Plug 'valloric/MatchTagAlways'
-  Plug 'rakr/vim-one'
+  Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
 " vim nerdtree on start
@@ -60,7 +60,7 @@ let g:cpp_experimental_template_highlight = 1
 " airline config
 let laststatus=2
 let g:airline_powerline_fonts = 0                           " Use Powerline fonts to show beautiful symbols
-let g:airline_theme='one'                                   " Select 'murmur' theme as default one
+let g:airline_theme='dark'                                   " Select 'murmur' theme as default one
 let g:airline_inactive_collapse = 0                         " Do not collapse the status line while having multiple windows
 let g:airline#extensions#whitespace#enabled = 0             " Do not check for whitespaces
 let g:airline#extensions#tabline#enabled = 1                " Display tab bar with buffers
@@ -148,10 +148,9 @@ set encoding=utf-8                                              " Encoding fix
 set fileencoding=utf-8                                          " Encoding fix
 set list                                                        " Show whitespaces and stuff
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:. " Sets the icons for list
-set termguicolors                                                 " Enable true colors
 
-set background=dark   " Enables the dark theme from Atom One theme
-colorscheme one
+set background=dark
+colorscheme nord
 
 " vim  commands to execute each time you go to normal mode
 au CursorHold,CursorHoldI,InsertLeave * SyntasticCheck          "checks for errors
