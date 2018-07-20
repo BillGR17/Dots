@@ -27,10 +27,8 @@ bindkey '^[[B' history-substring-search-down
 #Alias&Functions
 alias nr="sudosystemctl restart nginx"
 
-#https://github.com/jwilm/alacritty/issues/684
-#meh
-alias vim="env TERM="" nvim"
-alias nvim="env TERM="" nvim"
+
+alias vim="nvim"
 
 alias npm="yarn"
 
