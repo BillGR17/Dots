@@ -32,10 +32,10 @@ void format(float bytes){
 
 int main(){
   system("ip route | awk '/^default/ { print $5 ; exit }'>/tmp/.net_con");
-  std::string toExec="cat /proc/net/dev | grep $(cat /tmp/.net_con) | awk '{print $2 \" \" $3}'";
+  std::string toExec="grep $(cat /tmp/.net_con)  /proc/net/dev | awk -F: '{print  $2}' | awk '{print $1\" \"$9}'";
   std::string bw=exec(toExec.c_str());
   std::string obw=exec("cat /tmp/.net_bw");
-  system("cat /proc/net/dev | grep $(cat /tmp/.net_con) | awk '{print $2 \" \" $3}'>/tmp/.net_bw&");
+  system("grep $(cat /tmp/.net_con)  /proc/net/dev | awk -F: '{print  $2}' | awk '{print $1\" \"$9}'>/tmp/.net_bw&");
   int down = std::stoll(bw.substr(0,bw.find(" "))) - std::stoll(obw.substr(0,obw.find(" ")));
   int up = std::stoll(bw.substr(bw.find(" "),bw.length())) - std::stoll(obw.substr(obw.find(" "),obw.length()));
   std::cout<<" ";
