@@ -60,7 +60,7 @@ let g:cpp_experimental_template_highlight = 1
 " airline config
 let laststatus=2
 let g:airline_powerline_fonts = 0                           " Use Powerline fonts to show beautiful symbols
-let g:airline_theme='dark'                                   " Select 'murmur' theme as default one
+let g:airline_theme='deus'                                   " Select 'murmur' theme as default one
 let g:airline_inactive_collapse = 0                         " Do not collapse the status line while having multiple windows
 let g:airline#extensions#whitespace#enabled = 0             " Do not check for whitespaces
 let g:airline#extensions#tabline#enabled = 1                " Display tab bar with buffers
