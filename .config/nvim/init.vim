@@ -2,8 +2,8 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin('~/.vim/plugged')
   Plug 'mustache/vim-mustache-handlebars'
   Plug 'scrooloose/nerdtree'
-  Plug 'tpope/vim-fugitive',
-  Plug 'w0rp/ale',
+  Plug 'tpope/vim-fugitive'
+  Plug 'w0rp/ale'
   Plug 'valloric/youcompleteme'
   Plug 'airblade/vim-gitgutter'
   Plug 'majutsushi/tagbar'
@@ -11,7 +11,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'mattn/emmet-vim'
   Plug 'ervandew/supertab'
   Plug 'vim-scripts/vim-stylus'
-  Plug 'jelera/vim-javascript-syntax'
+  Plug 'pangloss/vim-javascript'
   Plug 'townk/vim-autoclose'
   Plug 'moll/vim-node'
   Plug 'rip-rip/clang_complete'
@@ -48,6 +48,9 @@ let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
 let g:cpp_experimental_simple_template_highlight = 1
 let g:cpp_experimental_template_highlight = 1
+
+" vim javascript config
+let g:javascript_plugin_jsdoc = 0
 
 " airline config
 let laststatus=2
@@ -107,8 +110,11 @@ let g:AutoClosePreserveDotReg = 0
 " Emmet
 let g:user_emmet_expandabbr_key='<C-e>'
 
+"vim ale config
+let g:ale_open_list = 1
+
 " vim settings
-syntax enable
+syntax on
 filetype plugin indent on
 set pumheight=20                                                " Limit popup menu height
 set complete-=t                                                 " Do not search tag files when auto-completing
@@ -143,8 +149,9 @@ set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:. " Sets the ico
 set updatetime=100                                              " Sets Vims Update to 100 ms instead of 4 secs
 
 set background=dark
-colorscheme nord
+colorscheme  nord
 
 " vim  commands to execute each time you go to normal mode
 au BufWritePre * :%s/\s\+$//e                                   "Trim spaces
 au user Node if &filetype == "javascript" | setlocal expandtab | endif
+
