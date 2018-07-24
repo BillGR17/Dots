@@ -1,12 +1,12 @@
 set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin('~/.vim/plugged')
   Plug 'mustache/vim-mustache-handlebars'
-  Plug 'tpope/vim-fugitive'
   Plug 'scrooloose/nerdtree'
+  Plug 'tpope/vim-fugitive',
+  Plug 'w0rp/ale',
   Plug 'valloric/youcompleteme'
   Plug 'airblade/vim-gitgutter'
   Plug 'majutsushi/tagbar'
-  Plug 'scrooloose/syntastic'
   Plug 'SirVer/ultisnips'
   Plug 'mattn/emmet-vim'
   Plug 'ervandew/supertab'
@@ -32,14 +32,6 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-" javascript config
-let g:syntastic_javascript_checkers = ['eslint']            " install esling with sudo npm i -g eslint or from linux pacages
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-
-
 " c++ config
 let g:clang_use_library = 1                                 " Use libclang directly
 let g:clang_library_path ='/usr/lib64/libclang.so'          " Path to the libclang on the system
@@ -63,7 +55,7 @@ let g:airline_powerline_fonts = 0                           " Use Powerline font
 let g:airline_theme='deus'                                   " Select 'murmur' theme as default one
 let g:airline_inactive_collapse = 0                         " Do not collapse the status line while having multiple windows
 let g:airline#extensions#whitespace#enabled = 0             " Do not check for whitespaces
-let g:airline#extensions#tabline#enabled = 0                " Do not Display tab bar with buffers
+let g:airline#extensions#tabline#enabled = 0                " Display tab bar with buffers
 let g:airline#extensions#branch#enabled = 1                 " Enable Git client integration
 let g:airline#extensions#tagbar#enabled = 1                 " Enable Tagbar integration
 let g:airline#extensions#hunks#enabled = 1                  " Enable Git hunks integration
@@ -148,12 +140,11 @@ set encoding=utf-8                                              " Encoding fix
 set fileencoding=utf-8                                          " Encoding fix
 set list                                                        " Show whitespaces and stuff
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:. " Sets the icons for list
+set updatetime=100                                              " Sets Vims Update to 100 ms instead of 4 secs
 
 set background=dark
 colorscheme nord
 
 " vim  commands to execute each time you go to normal mode
-au CursorHold,CursorHoldI,InsertLeave * SyntasticCheck          "checks for errors
 au BufWritePre * :%s/\s\+$//e                                   "Trim spaces
 au user Node if &filetype == "javascript" | setlocal expandtab | endif
-
