@@ -11,7 +11,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'mattn/emmet-vim'
   Plug 'ervandew/supertab'
   Plug 'vim-scripts/vim-stylus'
-  Plug 'pangloss/vim-javascript'
   Plug 'townk/vim-autoclose'
   Plug 'moll/vim-node'
   Plug 'rip-rip/clang_complete'
@@ -19,7 +18,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'bling/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
   Plug 'valloric/MatchTagAlways'
-  Plug 'arcticicestudio/nord-vim'
+  Plug 'jacoborus/tender.vim'
 call plug#end()
 
 " vim nerdtree on start
@@ -48,9 +47,6 @@ let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
 let g:cpp_experimental_simple_template_highlight = 1
 let g:cpp_experimental_template_highlight = 1
-
-" vim javascript config
-let g:javascript_plugin_jsdoc = 0
 
 " airline config
 let laststatus=2
@@ -149,7 +145,7 @@ set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:. " Sets the ico
 set updatetime=100                                              " Sets Vims Update to 100 ms instead of 4 secs
 
 set background=dark
-colorscheme  nord
+colorscheme tender
 
 " vim  commands to execute each time you go to normal mode
 au BufWritePre * :%s/\s\+$//e                                   "Trim spaces
