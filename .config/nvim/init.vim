@@ -18,7 +18,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'bling/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
   Plug 'valloric/MatchTagAlways'
-  Plug 'jacoborus/tender.vim'
+  Plug 'cocopon/iceberg.vim'
 call plug#end()
 
 " vim nerdtree on start
@@ -145,7 +145,7 @@ set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:. " Sets the ico
 set updatetime=100                                              " Sets Vims Update to 100 ms instead of 4 secs
 
 set background=dark
-colorscheme tender
+colorscheme iceberg
 
 " vim  commands to execute each time you go to normal mode
 au BufWritePre * :%s/\s\+$//e                                   "Trim spaces
