@@ -216,7 +216,6 @@ exec sleep 10s; i3-msg 'workspace 2; exec steam'
 
 exec --no-startup-id nm-applet
 exec --no-startup-id dropbox
-exec --no-startup-id kdeconnect-indicator
 exec --no-startup-id parcellite
 exec --no-startup-id compton -b
 exec --no-startup-id feh --bg-fill ~/Pictures/br.jpg
