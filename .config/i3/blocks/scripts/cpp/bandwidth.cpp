@@ -38,9 +38,8 @@ int main(){
   system("grep $(cat /tmp/.net_con)  /proc/net/dev | awk -F: '{print  $2}' | awk '{print $1\" \"$9}'>/tmp/.net_bw&");
   int down = std::stoll(bw.substr(0,bw.find(" "))) - std::stoll(obw.substr(0,obw.find(" ")));
   int up = std::stoll(bw.substr(bw.find(" "),bw.length())) - std::stoll(obw.substr(obw.find(" "),obw.length()));
-  std::cout<<" ";
   format(down);
-  std::cout<<" ";
+  std::cout<<"  ";
   format(up);
   return 0;
 }
