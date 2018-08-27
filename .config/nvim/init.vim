@@ -19,6 +19,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'vim-airline/vim-airline-themes'
   Plug 'valloric/MatchTagAlways'
   Plug 'cocopon/iceberg.vim'
+  Plug 'lumiliet/vim-twig'
 call plug#end()
 
 " vim nerdtree on start
@@ -26,17 +27,14 @@ au vimenter * NERDTree
 au VimEnter * wincmd p "dont focus on nerdtree on open
 let NERDTreeShowHidden=1 "show hidden files
 
-" Recommended settings from syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+
 
 " c++ config
 let g:clang_use_library = 1                                 " Use libclang directly
 let g:clang_library_path ='/usr/lib64/libclang.so'          " Path to the libclang on the system
 let g:clang_complete_auto = 1                               " Run autocompletion immediatelly after ->, ., ::
 let g:clang_complete_copen = 1                              " Open quickfix window on error
-let g:clang_periodic_quickfix = 1                           " Turn-off periodic updating of quickfix window (g:ClangUpdateQuickFix() does the same)
+let g:clang_periodic_quickfix = 0                           " Turn-off periodic updating of quickfix window (g:ClangUpdateQuickFix() does the same)
 let g:clang_snippets = 1                                    " Enable function args autocompletion, template parameters, ...
 let g:clang_snippets_engine = 'ultisnips'                   " Use UltiSnips engine for function args autocompletion (provides mechanism to jump over to the next argument)
 let g:clang_conceal_snippets = 1                            " clang_complete engine related setting
@@ -81,6 +79,7 @@ let g:mta_filetypes = {
     \ 'xhtml' : 1,
     \ 'hbs' : 1,
     \ 'ejs' : 1,
+    \ 'twig' : 1,
     \ 'html.handlebars' : 1
     \}
 
@@ -143,7 +142,7 @@ set fileencoding=utf-8                                          " Encoding fix
 set list                                                        " Show whitespaces and stuff
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:. " Sets the icons for list
 set updatetime=100                                              " Sets Vims Update to 100 ms instead of 4 secs
-
+let skip_defaults_vim=1                                         " Removes all vim Default Configs
 set background=dark
 colorscheme iceberg
 
