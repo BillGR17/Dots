@@ -1,11 +1,11 @@
 #!/usr/bin/zsh
 if [ $1 ];then
-  res=$(ps cax|grep $1|awk '{print $NF}')
-  echo  "[$1]\n[Results]\n~~~~~~\n$res\n~~~~~~\n[KILL]?(?)! [Y/N]?"
+  res=$(ps afx|grep $1|grep -v "grep"|awk '{$1=$2=$3=$4=""; print $0}')
+  printf  "[$1]\n[Results]\n~~~~~~\n$res\n~~~~~~\n[KILL]?(?)! [Y/N]?"
   read -s r
   if [[ "$r" =~ ^([yY][eE][sS]|[yY])+$ ]];then
     echo ""
-    kill -9 $(ps cax|grep $1|awk '{print $1}')
+    kill -9 $(ps afx|grep -v "grep"|grep $1 |awk '{print $1}')
   fi
 else
   echo "No Input"
