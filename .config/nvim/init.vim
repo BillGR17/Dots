@@ -137,6 +137,8 @@ colorscheme iceberg
 
 " Tabs to spaces
 nmap <silent> <F5> BufWrite * :%s/\t/  /g
+" 4 spaces to 2
+nmap <silent> <F6> BufWrite * :%s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g
 
 
 " Vim  commands to execute each time you go to normal mode
