@@ -1,7 +1,7 @@
 let skip_defaults_vim=1                         " Removes all vim Default Configs
 set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin('~/.vim/plugged')
-  Plug 'mustac                         ehe/vim-mustache-handlebars'       " for hbs template engine
+  Plug 'mustache/vim-mustache-handlebars'       " for hbs template engine
   Plug 'lumiliet/vim-twig'                      " for twig template engine
   Plug 'vim-scripts/vim-stylus'                 " for stylus
   Plug 'valloric/MatchTagAlways'                " for showing mached tags html hbs twig
@@ -141,3 +141,4 @@ nmap <silent> <F5> BufWrite * :%s/\t/  /g
 
 " Vim  commands to execute each time you go to normal mode
 au BufWritePre * :%s/\s\+$//e                                   " Trim spaces
+
