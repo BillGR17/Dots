@@ -25,7 +25,7 @@ bindkey "\e[F"    end-of-line
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 #Alias&Functions
-alias nr="sudosystemctl restart nginx"
+alias nr="sudo systemctl restart nginx"
 
 
 alias vim="nvim"
@@ -33,7 +33,7 @@ alias vim="nvim"
 alias npm="yarn"
 
 fpath=( ~/.zshf "${fpath[@]}" )
-autoload k conf fr
+autoload k conf fr update_root_configs
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ":completion:*:commands" rehash 1
