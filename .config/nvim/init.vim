@@ -1,7 +1,7 @@
 let skip_defaults_vim=1                         " Removes all vim Default Configs
 set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin('~/.vim/plugged')
-  Plug 'mustache/vim-mustache-handlebars'       " for hbs template engine
+  Plug 'mustac                         ehe/vim-mustache-handlebars'       " for hbs template engine
   Plug 'lumiliet/vim-twig'                      " for twig template engine
   Plug 'vim-scripts/vim-stylus'                 " for stylus
   Plug 'valloric/MatchTagAlways'                " for showing mached tags html hbs twig
@@ -27,7 +27,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'bling/vim-airline'                      " for the status bar
   Plug 'vim-airline/vim-airline-themes'         " new themes for status bar
-  Plug 'cocopon/iceberg.vim'                    " theme for vim
+  Plug 'cocopon/iceberg.vim'                    " theme for  vim
 
 call plug#end()
 
@@ -133,7 +133,11 @@ set updatetime=100                                              " Sets Vims Upda
 set background=dark
 colorscheme iceberg
 
-" vim  commands to execute each time you go to normal mode
-au BufWritePre * :%s/\s\+$//e                                   " Trim spaces
-au BufWritePre * :%s/\t/  /g                                    " Tabs to spaces
+" Vim custom key commands
 
+" Tabs to spaces
+nmap <silent> <F5> BufWrite * :%s/\t/  /g
+
+
+" Vim  commands to execute each time you go to normal mode
+au BufWritePre * :%s/\s\+$//e                                   " Trim spaces
