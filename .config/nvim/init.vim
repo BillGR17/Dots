@@ -136,9 +136,9 @@ colorscheme iceberg
 " Vim custom key commands
 
 " Tabs to spaces
-nmap <silent> <F5> BufWrite * :%s/\t/  /g
+nnoremap <F5> :%s/\t/  /g<CR>
 " 4 spaces to 2
-nmap <silent> <F6> BufWrite * :%s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g
+nnoremap <F6> :%s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g<CR>
 
 
 " Vim  commands to execute each time you go to normal mode
