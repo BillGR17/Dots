@@ -1,55 +1,53 @@
+let skip_defaults_vim=1                         " Removes all vim Default Configs
 set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin('~/.vim/plugged')
-  Plug 'mustache/vim-mustache-handlebars'
-  Plug 'scrooloose/nerdtree'
-  Plug 'tpope/vim-fugitive'
-  Plug 'w0rp/ale'
-  Plug 'valloric/youcompleteme'
-  Plug 'airblade/vim-gitgutter'
-  Plug 'majutsushi/tagbar'
-  Plug 'SirVer/ultisnips'
-  Plug 'mattn/emmet-vim'
-  Plug 'ervandew/supertab'
-  Plug 'vim-scripts/vim-stylus'
-  Plug 'townk/vim-autoclose'
-  Plug 'moll/vim-node'
-  Plug 'rip-rip/clang_complete'
-  Plug 'octol/vim-cpp-enhanced-highlight'
-  Plug 'bling/vim-airline'
-  Plug 'vim-airline/vim-airline-themes'
-  Plug 'valloric/MatchTagAlways'
-  Plug 'cocopon/iceberg.vim'
-  Plug 'lumiliet/vim-twig'
+  Plug 'mustache/vim-mustache-handlebars'       " for hbs template engine
+  Plug 'lumiliet/vim-twig'                      " for twig template engine
+  Plug 'vim-scripts/vim-stylus'                 " for stylus
+  Plug 'valloric/MatchTagAlways'                " for showing mached tags html hbs twig
+  Plug 'rust-lang/rust.vim'                     " for rust lang
+  Plug 'jelera/vim-javascript-syntax'           " for better javascript syntax
+  Plug 'octol/vim-cpp-enhanced-highlight'       " for better c++ syntax
+
+  Plug 'tpope/vim-fugitive'                     " for git
+  Plug 'airblade/vim-gitgutter'                 " for git
+
+  Plug 'scrooloose/nerdtree'                    " Left sidebar with filemanagement
+
+  Plug 'w0rp/ale'                               " for Async linter
+
+  Plug 'Valloric/ycmd'                          " for autocompletion
+
+  Plug 'SirVer/ultisnips'                       " for snippets
+  Plug 'honza/vim-snippets'                     " ~~
+
+  Plug 'majutsushi/tagbar'                      " for quick look at functions
+  Plug 'townk/vim-autoclose'                    " autoclosing brackets and stuff
+  Plug 'mattn/emmet-vim'                        " emmet for vim
+
+  Plug 'bling/vim-airline'                      " for the status bar
+  Plug 'vim-airline/vim-airline-themes'         " new themes for status bar
+  Plug 'cocopon/iceberg.vim'                    " theme for vim
+
 call plug#end()
 
 " vim nerdtree on start
 au vimenter * NERDTree
-au VimEnter * wincmd p "dont focus on nerdtree on open
-let NERDTreeShowHidden=1 "show hidden files
+au VimEnter * wincmd p                          "dont focus on nerdtree on open
+let NERDTreeShowHidden=1                        "show hidden files
 
-
-
-" c++ config
-let g:clang_use_library = 1                                 " Use libclang directly
-let g:clang_library_path ='/usr/lib64/libclang.so'          " Path to the libclang on the system
-let g:clang_complete_auto = 1                               " Run autocompletion immediatelly after ->, ., ::
-let g:clang_complete_copen = 1                              " Open quickfix window on error
-let g:clang_periodic_quickfix = 0                           " Turn-off periodic updating of quickfix window (g:ClangUpdateQuickFix() does the same)
-let g:clang_snippets = 1                                    " Enable function args autocompletion, template parameters, ...
-let g:clang_snippets_engine = 'ultisnips'                   " Use UltiSnips engine for function args autocompletion (provides mechanism to jump over to the next argument)
-let g:clang_conceal_snippets = 1                            " clang_complete engine related setting
-
-
+" Cpp settings
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
 let g:cpp_experimental_simple_template_highlight = 1
-let g:cpp_experimental_template_highlight = 1
+let g:cpp_experimental_template_highlight = 0
+let g:cpp_concepts_highlight = 1
 
 " airline config
 let laststatus=2
 let g:airline_powerline_fonts = 0                           " Use Powerline fonts to show beautiful symbols
-let g:airline_theme='deus'                                   " Select 'murmur' theme as default one
+let g:airline_theme='deus'                                  " Select 'murmur' theme as default one
 let g:airline_inactive_collapse = 0                         " Do not collapse the status line while having multiple windows
 let g:airline#extensions#whitespace#enabled = 0             " Do not check for whitespaces
 let g:airline#extensions#tabline#enabled = 0                " Display tab bar with buffers
@@ -77,23 +75,16 @@ let g:airline_symbols.whitespace = 'Ξ'
 let g:mta_filetypes = {
     \ 'html' : 1,
     \ 'xhtml' : 1,
-    \ 'hbs' : 1,
     \ 'ejs' : 1,
     \ 'twig' : 1,
     \ 'html.handlebars' : 1
     \}
 
-" Snips config
+" Snippets
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-" supertab config
-let g:SuperTabDefaultCompletionType='<c-x><c-u>'            " 'user' defined default completion type
-let g:SuperTabDefaultCompletionType = 'context'             " 'context' defined default completion type
-let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-let g:SuperTabLongestHighlight=1
-let g:SuperTabLongestEnhanced=1
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsEditSplit="vertical"
 
 " vim gitgutter settings
 let g:gitgutter_realtime = 1
@@ -106,16 +97,13 @@ let g:AutoClosePreserveDotReg = 0
 let g:user_emmet_expandabbr_key='<C-e>'
 
 "vim ale config
-let g:ale_open_list = 1
+let g:ale_open_list = 1                                         " Opens the quickfix for more details on the warnings or errors
 
 " vim settings
 syntax on
 filetype plugin indent on
 set pumheight=20                                                " Limit popup menu height
-set complete-=t                                                 " Do not search tag files when auto-completing
-set complete-=i                                                 " Do not search include files when auto-completing
-set completeopt=longest,menuone                                 " Complete options (disable preview scratch window, longest removed to aways show menu)
-set pumheight=20                                                " Limit popup menu height
+set completeopt+=preview
 set concealcursor=inv                                           " Conceal in insert (i), normal (n) and visual (v) modes
 set conceallevel=0                                              " Hide concealed text completely unless replacement character is defined
 set mouse=a                                                     " Mouse Support
@@ -142,11 +130,10 @@ set fileencoding=utf-8                                          " Encoding fix
 set list                                                        " Show whitespaces and stuff
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:. " Sets the icons for list
 set updatetime=100                                              " Sets Vims Update to 100 ms instead of 4 secs
-let skip_defaults_vim=1                                         " Removes all vim Default Configs
 set background=dark
 colorscheme iceberg
 
 " vim  commands to execute each time you go to normal mode
-au BufWritePre * :%s/\s\+$//e                                   "Trim spaces
-au user Node if &filetype == "javascript" | setlocal expandtab | endif
+au BufWritePre * :%s/\s\+$//e                                   " Trim spaces
+au BufWritePre * :%s/\t/  /g                                    " Tabs to spaces
 
