@@ -1,3 +1,4 @@
+#mkdir ~/.zsh&&curl -L git.io/antigen > ~/.zsh/antigen.zsh
 source ~/.zsh/antigen.zsh
 
 antigen use oh-my-zsh
@@ -8,8 +9,6 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-completions
 
 antigen apply
-
-
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
