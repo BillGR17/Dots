@@ -51,14 +51,15 @@ function loc() {
 function _g_i_t_(){
   IFS=$'\n'
   if [ -d .git ]; then
-    for i in $(git diff --stat HEAD^ HEAD|awk 'END{print}'|tr "," "\n"); do
+    for i in $(git diff --stat|awk 'END{print}'|tr "," "\n"); do
       case $i in
         (*"file"*) _f=$(echo $i| sed 's/[^0-9]*//g') ;;
         (*"+"*) _in=$(echo $i| sed 's/[^0-9]*//g') ;;
         (*"-"*) _d=$(echo $i| sed 's/[^0-9]*//g') ;;
       esac
     done
-    echo "[%F{cyan}$_f%f%F{green}$_in%f%F{red}$_d%f]"
+    _un_=$(git status --porcelain|wc -l)
+    echo "[%F{cyan}$_f%f%F{grey}$_un_%f%F%F{green}$_in%f%F{red}$_d%f]"
   fi
   unset IFS
 }
