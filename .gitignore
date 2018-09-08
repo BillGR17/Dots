@@ -1,3 +1,6 @@
+# Ignore everything
+*
+# But Not all these
 !.Xresources
 !.autostart
 !.config/i3/blocks/i3blocks.conf
