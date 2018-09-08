@@ -195,7 +195,7 @@ bar {
   output $s
   tray_output none
   position bottom
-
+  status_command i3blocks -c ~/.config/i3/blocks/i3blockmon2.conf
   font pango:Noto Sans 10
   height 18
   colors {
