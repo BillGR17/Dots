@@ -60,5 +60,5 @@ function _g_i_t_(){
   unset IFS
 }
 setopt PROMPT_SUBST
-PROMPT='%F{blue}%n%f %F{cyan}$(loc) %f'
+PROMPT='%F{blue}%n%f%F{cyan}$(loc)%f%F{white}~%f'
 RPROMPT='[%F{yellow}%?%f]$(_g_i_t_)'
