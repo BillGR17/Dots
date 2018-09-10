@@ -58,7 +58,7 @@ function _g_i_t_(){
         (*"-"*) _d=$(echo $i| sed 's/[^0-9]*//g') ;;
       esac
     done
-    _un_=$(git status --porcelain|wc -l)
+    _un_=$(git status --porcelain|grep "??"|wc -l)
     echo "[%F{cyan}$_f%f%F{grey}$_un_%f%F%F{green}$_in%f%F{red}$_d%f]"
   fi
   unset IFS
