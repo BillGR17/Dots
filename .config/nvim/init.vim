@@ -76,7 +76,7 @@ let g:mta_filetypes = {
     \ 'html' : 1,
     \ 'xhtml' : 1,
     \ 'ejs' : 1,
-    \ 'twig' : 1,
+    \ 'html.twig' : 1,
     \ 'html.handlebars' : 1
     \}
 
