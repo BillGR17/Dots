@@ -2,7 +2,8 @@ XTerm.termName: xterm-256color
 
 XTerm.vt100.metaSendsEscape: true
 
-XTerm*faceName: Noto
+XTerm*faceName: 'Anonymous Pro'
+
 XTerm*faceSize: 11
 
 ! History
