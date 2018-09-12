@@ -40,23 +40,25 @@ zstyle ":completion:*:commands" rehash 1
 # yarn global modules doesnt work without yarn path
 export PATH=$PATH:$(yarn global bin)
 
-#prompt settings
+# This makes the location kinda like the one in fish shell
 function loc() {
-  echo -n ${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
+  echo ${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
 }
+# This makes the numbers with modified & untracked files & code insertions & code deletions
 function _g_i_t_(){
-  IFS=$'\n'
+  IFS=$'\n' # Array split is breakline instead of space
   if [ -d .git ]; then
+    out+=$(git status --porcelain|grep "??"|wc -l) #get all Untracked files
     for i in $(git diff --stat|awk 'END{print}'|tr "," "\n"); do
       case $i in
-        (*"file"*) _f=$(echo $i| sed 's/[^0-9]*//g') ;;
-        (*"+"*) _in=$(echo $i| sed 's/[^0-9]*//g') ;;
-        (*"-"*) _d=$(echo $i| sed 's/[^0-9]*//g') ;;
+        (*"file"*) out+="%F{cyan}$(echo $i| sed 's/[^0-9]*//g')%f";;
+        (*"+"*) out+="%F{green}$(echo $i| sed 's/[^0-9]*//g')%f";;
+        (*"-"*) out+="%F{red}$(echo $i| sed 's/[^0-9]*//g')%f";;
       esac
     done
-    _un_=$(git status --porcelain|grep "??"|wc -l)
-    echo "[%F{cyan}$_f%f%F{grey}$_un_%f%F%F{green}$_in%f%F{red}$_d%f]"
+    echo "[$out]"
   fi
+	unset out #No longer needed
   unset IFS
 }
 setopt PROMPT_SUBST
