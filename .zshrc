@@ -37,9 +37,13 @@ autoload k conf fr update_root_configs
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ":completion:*:commands" rehash 1
 
-# yarn global modules doesnt work without yarn path
+# Fix Paths
+# Yarn Path
 export PATH=$PATH:$(yarn global bin)
+# Go Lang Path
+export GOPATH=$HOME/.go
 
+# Prompt is set here
 # This makes the location kinda like the one in fish shell
 function loc() {
   echo ${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
