@@ -154,10 +154,15 @@ workspace 10 output $s
 
 #FLOAT WINDOWS ARE HERE
 for_window [class="^feh"] floating enable
+for_window [title="^sxiv"] floating enable
+
+for_window [title="^chrome-devtools"] floating enable
+
 for_window [class="^Steam"] floating enable
-for_window [class="^Thunderbird"] floating enable
+
 for_window [class="^Transmission"] float enable
 for_window [window_role="pop-up"] floating enable
+
 for_window [class="^vlc"] floating enable
 
 #####################
