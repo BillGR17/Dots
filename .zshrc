@@ -1,12 +1,11 @@
-# git clone https://github.com/zplug/zplug .zplug
-source ~/.zplug/init.zsh
-
-zplug zsh-users/zsh-history-substring-search
-zplug zsh-users/zsh-autosuggestions
-zplug zsh-users/zsh-syntax-highlighting
-zplug zsh-users/zsh-completions
-
-zplug load
+# mkdir ~/.antigen&&curl -L git.io/antigen > ~/.antigen/antigen.zsh
+source ~/.antigen/antigen.zsh
+antigen bundle git
+antigen bundle zsh-users/zsh-history-substring-search
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-completions
+antigen apply
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
