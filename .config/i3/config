@@ -6,7 +6,6 @@
 set $mod Mod4
 
 # start a terminal
-
 bindsym $mod+Return exec xterm
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -18,6 +17,9 @@ bindsym $mod+d exec dmenu_run
 # kill focused window
 bindsym $mod+Shift+q kill
 bindsym Mod1+F4   kill
+
+# force kill on select
+bindsym --release $mod+x exec xkill
 
 # change focus
 bindsym $mod+Left focus left
@@ -53,9 +55,6 @@ bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
-
-# focus the child container
-#bindsym $mod+d focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -107,11 +106,12 @@ bindsym $mod+r mode "resize"
 #Print Screen Stolen from reddit :)
 #https://www.reddit.com/r/i3wm/comments/8jugx9/keyboard_binding_for_scrot_s_is_not_working_got/dz2im83
 bindsym --release Print exec --no-startup-id import -silent -window root "$HOME/Pictures/ss-$(date +'%I-%M-%S_%d-%m-%y').png"
-bindsym --release Shift+Print exec --no-startup-id import -silent "$HOME/Pictures/ss--$(date +'%I-%M-%S_%d-%m-%y').png"
+bindsym --release Shift+Print exec --no-startup-id import -silent "$HOME/Pictures/ss-$(date +'%I-%M-%S_%d-%m-%y').png"
 
 # Media keys
-bindsym XF86AudioRaiseVolume exec "amixer -q sset Master,0 1+ unmute"
-bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 1- unmute"
+bindsym XF86AudioRaiseVolume exec "amixer -q sset Master 1%+ unmute"
+bindsym XF86AudioLowerVolume exec "amixer -q sset Master 1%- unmute"
+
 bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
 bindsym XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
 bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
@@ -123,13 +123,11 @@ bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer
 # WINDOW SETTINGS #
 ###################
 
-new_window pixel 1
+for_window [class="^.*"] border pixel 3
 smart_borders on
-gaps inner 1
-gaps outer 1
-for_window [class="^.*"] border pixel 0
-focus_follows_mouse no
-font pango:Noto Sans 0
+gaps inner 0
+gaps outer 0
+font pango: Anonymous Pro 10
 smart_gaps on
 focus_follows_mouse no
 mouse_warping none
@@ -170,50 +168,51 @@ for_window [class="^vlc"] floating enable
 #####################
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #0bb7c2 #0bb7c2 #ffffff #0d858c   #246e73
-client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
-client.unfocused        #333333 #222222 #888888 #292d2e   #222222
-client.urgent           #2f343a #900000 #ffffff #900000   #900000
-client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
-client.background       #333
+client.focused          #3b8f93 #84a0c6 #fff     #3b8f93   #246e73
+client.focused_inactive #246e73 #7087a5 #fff     #437b8e   #335f6d
+client.unfocused        #84a0c6 #84a0c6 #fff     #292d2e   #222222
+client.urgent           #993232 #7c3838 #fff     #7c3838   #7c3838
+client.placeholder      #84a0c6 #0c0c0c #fff     #84a0c6   #84a0c6
+client.background       #84a0c6
 
 
 ##############
 #BAR SETTINGS#
 ##############
 
-
 bar {
   output $p
   tray_output $p
   status_command i3blocks -c ~/.config/i3/blocks/i3blocks.conf
-  font pango:Noto Sans 10
+  font pango: Anonymous Pro 10
   height 20
   colors {
-      background #333333
-      statusline #0bb7c2
-      focused_workspace  #ffffff #0bb7c2
-      active_workspace   #ffffff #333333
-      inactive_workspace #888888 #222222
-      urgent_workspace   #ffffff #900000
+    background #161821
+    statusline #3b8f93
+    focused_workspace  #d2d4de #161821
+    active_workspace   #d2d4de #161821
+    inactive_workspace #888888 #222222
+    urgent_workspace   #993232 #84a0c6
   }
 }
+
 bar {
   output $s
   tray_output none
   position bottom
   status_command i3blocks -c ~/.config/i3/blocks/i3blockmon2.conf
-  font pango:Noto Sans 10
+  font pango: Anonymous Pro 10
   height 18
   colors {
-      background #333333
-      statusline #0bb7c2
-      focused_workspace  #ffffff #0bb7c2
-      active_workspace   #ffffff #333333
-      inactive_workspace #888888 #222222
-      urgent_workspace   #ffffff #900000
+    background #161821
+    statusline #3b8f93
+    focused_workspace  #d2d4de #161821
+    active_workspace   #d2d4de #161821
+    inactive_workspace #888888 #222222
+    urgent_workspace   #993232 #84a0c6
   }
 }
+
 ######################
 #AUTOSTART ON STARTUP#
 ######################
@@ -222,7 +221,6 @@ exec sleep 10s; i3-msg 'workspace 2; exec spotify'
 exec sleep 10s; i3-msg 'workspace 2; exec steam'
 
 exec --no-startup-id nm-applet
-exec --no-startup-id dropbox
 exec --no-startup-id parcellite
 exec --no-startup-id compton -CGb
 exec sh /home/awesomename/.autostart

@@ -5,7 +5,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'lumiliet/vim-twig'                      " for twig template engine
   Plug 'vim-scripts/vim-stylus'                 " for stylus
   Plug 'valloric/MatchTagAlways'                " for showing mached tags html hbs twig
-  Plug 'rust-lang/rust.vim'                     " for rust lang
   Plug 'jelera/vim-javascript-syntax'           " for better javascript syntax
   Plug 'octol/vim-cpp-enhanced-highlight'       " for better c++ syntax
 
@@ -25,7 +24,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'townk/vim-autoclose'                    " autoclosing brackets and stuff
   Plug 'mattn/emmet-vim'                        " emmet for vim
 
-  Plug 'bling/vim-airline'                      " for the status bar
+  Plug 'itchyny/lightline.vim'                  " for the status bar
   Plug 'vim-airline/vim-airline-themes'         " new themes for status bar
   Plug 'cocopon/iceberg.vim'                    " theme for  vim
 
@@ -44,32 +43,9 @@ let g:cpp_experimental_simple_template_highlight = 1
 let g:cpp_experimental_template_highlight = 0
 let g:cpp_concepts_highlight = 1
 
-" airline config
-let laststatus=2
-let g:airline_powerline_fonts = 0                           " Use Powerline fonts to show beautiful symbols
-let g:airline_theme='deus'                                  " Select 'murmur' theme as default one
-let g:airline_inactive_collapse = 0                         " Do not collapse the status line while having multiple windows
-let g:airline#extensions#whitespace#enabled = 0             " Do not check for whitespaces
-let g:airline#extensions#tabline#enabled = 0                " Display tab bar with buffers
-let g:airline#extensions#branch#enabled = 1                 " Enable Git client integration
-let g:airline#extensions#tagbar#enabled = 1                 " Enable Tagbar integration
-let g:airline#extensions#hunks#enabled = 1                  " Enable Git hunks integration
-" https://vi.stackexchange.com/a/3363
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_left_sep = '»'
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '«'
-let g:airline_right_sep = '◀'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.whitespace = 'Ξ'
+let g:lightline = {
+      \ 'colorscheme': 'iceberg',
+      \ }
 
 " highlight closing tag "
 let g:mta_filetypes = {
@@ -141,9 +117,12 @@ nmap <F5> :%s/\t/  /g<CR>
 nmap <F6> :%s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g<CR>
 
 " Save Project
-nmap <C-w> :w<CR>
-imap <C-w> <ESC> :w<CR>
+nmap <C-s> :w<CR>
+imap <C-s> <ESC> :w<CR>
 
+" Close Tab
+nmap <C-w> :q<CR>
+imap <C-w> <ESC> :q<CR>
 
 " Vim  commands to execute each time you go to normal mode
 au BufWritePre * :%s/\s\+$//e                                   " Trim spaces
