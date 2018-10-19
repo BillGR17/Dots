@@ -1,4 +1,6 @@
-# mkdir ~/.antigen&&curl -L git.io/antigen > ~/.antigen/antigen.zsh
+if [[ ! -e ~/.antigen ]];then
+  mkdir ~/.antigen&&curl -L git.io/antigen > ~/.antigen/antigen.zsh
+fi
 source ~/.antigen/antigen.zsh
 antigen bundle git
 antigen bundle zsh-users/zsh-history-substring-search
