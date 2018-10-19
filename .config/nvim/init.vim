@@ -4,7 +4,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   au VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin('~/.vim/plugged')
   Plug 'mustache/vim-mustache-handlebars'       " for hbs template engine
   Plug 'lumiliet/vim-twig'                      " for twig template engine
