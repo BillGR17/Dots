@@ -27,6 +27,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'majutsushi/tagbar'                      " for quick look at functions
   Plug 'townk/vim-autoclose'                    " autoclosing brackets and stuff
   Plug 'mattn/emmet-vim'                        " emmet for vim
+  Plug 'terryma/vim-multiple-cursors'           " Multiple curors
 
   Plug 'itchyny/lightline.vim'                  " for the status bar
   Plug 'vim-airline/vim-airline-themes'         " new themes for status bar
@@ -110,7 +111,7 @@ set fileencoding=utf-8                                          " Encoding fix
 set list                                                        " Show whitespaces and stuff
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:. " Sets the icons for list
 set updatetime=100                                              " Sets Vims Update to 100 ms instead of 4 secs
-set background=dark
+set termguicolors                                               " Enables 256 colors
 colorscheme iceberg
 
 " Vim custom key commands
