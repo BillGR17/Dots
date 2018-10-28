@@ -3,6 +3,7 @@
 # But Not all these
 !.Xresources
 !.autostart
+!.tmux.conf
 !.config/i3/blocks/i3blocks.conf
 !.config/i3/blocks/i3blockmon2.conf
 !.config/i3/blocks/scripts/active

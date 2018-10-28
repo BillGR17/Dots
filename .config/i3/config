@@ -1,3 +1,23 @@
+######################
+#AUTOSTART ON STARTUP#
+######################
+
+exec sleep 10s; i3-msg 'workspace 2; exec spotify'
+exec sleep 10s; i3-msg 'workspace 2; exec steam'
+
+exec --no-startup-id nm-applet
+exec --no-startup-id parcellite
+exec --no-startup-id compton -CGb
+exec sh /home/awesomename/.autostart
+exec --no-startup-id firefox
+
+#################################
+#LANGUAGE SWITCH LAYOUT#[en][gr]#
+################################################################################
+exec sleep 10s;setxkbmap -layout us,gr;setxkbmap -option 'grp:alt_shift_toggle'
+################################################################################
+#
+#
 #####################
 # KEYBOARD SETTINGS #
 #####################
@@ -6,7 +26,7 @@
 set $mod Mod4
 
 # start a terminal
-bindsym $mod+Return exec xterm
+bindsym $mod+Return exec xterm -e tmux
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -212,22 +232,3 @@ bar {
     urgent_workspace   #993232 #84a0c6
   }
 }
-
-######################
-#AUTOSTART ON STARTUP#
-######################
-
-exec sleep 10s; i3-msg 'workspace 2; exec spotify'
-exec sleep 10s; i3-msg 'workspace 2; exec steam'
-
-exec --no-startup-id nm-applet
-exec --no-startup-id parcellite
-exec --no-startup-id compton -CGb
-exec sh /home/awesomename/.autostart
-exec --no-startup-id firefox
-
-#################################
-#LANGUAGE SWITCH LAYOUT#[en][gr]#
-################################################################################
-exec sleep 10s;setxkbmap -layout us,gr;setxkbmap -option 'grp:alt_shift_toggle'
-################################################################################

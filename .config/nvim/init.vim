@@ -30,7 +30,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'terryma/vim-multiple-cursors'           " Multiple curors
 
   Plug 'itchyny/lightline.vim'                  " for the status bar
-  Plug 'vim-airline/vim-airline-themes'         " new themes for status bar
   Plug 'cocopon/iceberg.vim'                    " theme for  vim
 
 call plug#end()
