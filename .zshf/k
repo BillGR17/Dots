@@ -1,14 +1,16 @@
 #!/usr/bin/zsh
-
 # Fast kill -9  to one or more apps 
-
-if [ $1 ];then
-  res=$(ps afx|grep $1|grep -v "grep"|awk '{$1=$2=$3=$4=""; print $0}')
-  printf  "[$1]\n[Results]\n~~~~~~\n$res\n~~~~~~\n[KILL]?(?)! [Y/N]?"
-  read -s r
-  if [[ "$r" =~ ^([yY][eE][sS]|[yY])+$ ]];then
-    echo ""
-    kill -9 $(ps afx|grep -v "grep"|grep $1 |awk '{print $1}')
+if [ "$1" ];then
+  res=$(ps ax|grep $1|grep -v "grep"|awk '{$1=$2=$3=$4=""; print $0}')
+  if [ ! -z "$res" ];then
+    echo -e "[$1]\n[Results]\n~~~~~~\n$res\n~~~~~~\n[KILL]?(?)! [Y/N]?"
+    read -s r
+    if [[ "$r" =~ ^([yY][eE][sS]|[yY])+$ ]];then
+      echo ""
+      kill -9 $(ps ax|grep -v "grep"|grep $1 |awk '{print $1}')
+    fi
+  else
+    echo "No Process with name $1"
   fi
 else
   echo "No Input"
