@@ -17,11 +17,11 @@ setopt notify
 bindkey -e
 # End of lines configured by zsh-newuser-install
 
-# Key
+# Fix Keys
 bindkey "\e[2~"   overwrite-mode
 bindkey "\e[3~"   delete-char
-bindkey "\e[H"    beginning-of-line
-bindkey "\e[F"    end-of-line
+bindkey "${terminfo[khome]}" beginning-of-line
+bindkey "${terminfo[kend]}" end-of-line
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
