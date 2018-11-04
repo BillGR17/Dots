@@ -17,6 +17,7 @@
 !.config/i3/blocks/scripts/cpp/playerctl.cpp
 !.config/i3/blocks/scripts/cpp/updates.cpp
 !.config/i3/blocks/scripts/cpp/uptime.cpp
+!.config/i3/blocks/scripts/go/bandwidth.go
 !.config/i3/blocks/scripts/keystate
 !.config/i3/blocks/scripts/layout
 !.config/i3/blocks/scripts/memory
