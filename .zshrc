@@ -33,7 +33,7 @@ alias vim="nvim"
 alias npm="yarn"
 
 fpath=( ~/.zshf "${fpath[@]}" )
-autoload k conf fr update_root_configs
+autoload k conf fr
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ":completion:*:commands" rehash 1
