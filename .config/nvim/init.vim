@@ -82,14 +82,17 @@ let g:ale_open_list = 1                                         " Opens the quic
 " vim settings
 syntax on
 filetype plugin indent on
+set autoread                                                    " Auto refresh file on change from outside
 set pumheight=20                                                " Limit popup menu height
+set wildmenu                                                    " Visual autocomplete for command menu
+set wildmode=longest:full,full                                  " better wild menu
 set completeopt+=preview
 set concealcursor=inv                                           " Conceal in insert (i), normal (n) and visual (v) modes
 set conceallevel=0                                              " Hide concealed text completely unless replacement character is defined
 set mouse=a                                                     " Mouse Support
 set clipboard=unnamedplus                                       " Copy to Clipboard
 set autoindent                                                  " Does nothing more than copy the indentation from the previous line, when starting a new line.
-set smartindent                                                 " Atomatically inserts one extra level of indentation in some cases, and works for C-like files. fcs up stylus :)
+set smartindent                                                 " Automatically inserts one extra level of indentation in some cases, and works for C-like files. fcs up stylus :)
 set tabstop=2 shiftwidth=2 softtabstop=2 expandtab              " Tabs Settings
 set cursorcolumn cursorline                                     " Creates a cross around the cursor
 set number                                                      " Shows Line numbers on left
@@ -97,9 +100,9 @@ set showcmd                                                     " Show Command l
 set lazyredraw                                                  " Fixes render also faster render
 set ttyfast                                                     " Fixes ssh render `SOMETIMES`
 set wildmenu                                                    " Better Tab Completion For File Names
-set showmatch                                                   " Shows maching parethesis and stuff
+set showmatch                                                   " Shows matching parentheses and stuff
 set incsearch                                                   " Shows the next match while entering a search
-set hlsearch                                                    " Keeps the hightlight from search
+set hlsearch                                                    " Keeps the highlight from search
 set backup                                                      " Backup settings starts here
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set backupskip=/tmp/*,/private/tmp/*
@@ -107,11 +110,18 @@ set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set writebackup                                                 " Backup settings  ends here
 set encoding=utf-8                                              " Encoding fix
 set fileencoding=utf-8                                          " Encoding fix
-set list                                                        " Show whitespaces and stuff
+set list                                                        " Show whitespace and stuff
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:. " Sets the icons for list
 set updatetime=100                                              " Sets Vims Update to 100 ms instead of 4 secs
-set termguicolors                                               " Enables 256 colors
+set spell                                                       " Spell Check
+
+
+" Theme Settings
+set background=dark
 colorscheme iceberg
+set termguicolors                                               " enables terminal colors
+
+
 
 " Vim custom key commands
 
