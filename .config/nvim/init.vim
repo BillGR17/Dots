@@ -116,12 +116,10 @@ set tgc                                                         " enables termin
 " Vim custom key commands
 
 " Quick split with ctr + arrow
-nm <silent> <C-Right> :vs<CR>
-nm <silent> <C-Down> :sp<CR>
-nm <silent> <C-Up> :sp<CR>:wincmd R<CR>
-" wincmd t will go to nerdtree and push it to far left hopefully...
-nm <silent> <C-Left> :vs<CR>:wincmd r<CR>:wincmd t<CR>:wincmd r<CR>:wincmd r<CR>
-
+nm <silent> <C-Right> :vs<CR>:wincmd l<CR>
+nm <silent> <C-Down> :sp<CR>:wincmd j<CR>
+nm <silent> <C-Up> :sp<CR>:wincmd R<CR>wincmd k<CR>
+nm <silent> <C-Left> :vs<CR>
 " change window with alt + arrow
 nm <silent> <A-Up> :wincmd k<CR>
 nm <silent> <A-Down> :wincmd j<CR>
@@ -149,4 +147,3 @@ im <C-s> <ESC> :w<CR>
 
 " Vim  commands to execute each time you go to normal mode
 au BufWritePre * :%s/\s\+$//e                                   " Trim spaces
-
