@@ -25,6 +25,7 @@
 !.config/i3/blocks/scripts/updates
 !.config/i3/blocks/scripts/uptime
 !.config/i3/config
+!.config/compton/compton.conf
 !.config/nvim/init.vim
 !.config/ranger/rc.conf
 !.config/ranger/rifle.conf
