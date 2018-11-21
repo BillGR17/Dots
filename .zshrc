@@ -26,10 +26,7 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 # Alias&Functions
-alias nr="sudo systemctl restart nginx"
-
 alias vim="nvim"
-
 alias npm="yarn"
 
 fpath=( ~/.zshf "${fpath[@]}" )
