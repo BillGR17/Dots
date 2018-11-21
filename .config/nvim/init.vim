@@ -21,7 +21,7 @@ call plug#begin('~/.config/nvim/autoload')
   Plug 'valloric/MatchTagAlways'                              " for showing matched tags html hbs twig
   Plug 'tpope/vim-fugitive'                                   " for git
   Plug 'airblade/vim-gitgutter'                               " for git
-  Plug 'scrooloose/nerdtree'                                  " Left sidebar with filemanagement
+  Plug 'scrooloose/nerdtree'                                  " Left sidebar with file management
   Plug 'itchyny/lightline.vim'                                " for the status bar
   Plug 'cocopon/iceberg.vim'                                  " theme for vim
 call plug#end()
@@ -60,7 +60,7 @@ let g:gitgutter_eager = 0
 " Emmet
 let g:user_emmet_expandabbr_key='<C-e>'
 let g:user_emmet_install_global = 0
-autocmd FileType html,css,styl,hbs,html.handlebars,ejs,html.twig EmmetInstall
+au FileType html,css,styl,hbs,html.handlebars,ejs,html.twig EmmetInstall
 
 " deoplete
 call deoplete#enable()
@@ -110,8 +110,6 @@ set bg=dark
 colo iceberg
 set tgc                                                         " enables terminal colors
 
-
-
 " Vim custom key commands
 
 " Quick split with ctr + arrow
@@ -134,7 +132,8 @@ im < <><left>
 " inverse tab using shift-tab
 ino <S-Tab> <C-d>
 nn <S-Tab> <<
-
+" Trim whitespaces
+mm <F4> :%s/\s\+$//e<CR>
 " Tabs to spaces
 nm <F5> :%s/\t/  /g<CR>
 " 4 spaces to 2
@@ -143,6 +142,3 @@ nm <F6> :%s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g<CR>
 " Save Project
 nm <C-s> :w<CR>
 im <C-s> <ESC> :w<CR>
-
-" Vim  commands to execute each time you go to normal mode
-au BufWritePre * :%s/\s\+$//e                                   " Trim spaces
