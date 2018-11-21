@@ -133,7 +133,7 @@ im < <><left>
 ino <S-Tab> <C-d>
 nn <S-Tab> <<
 " Trim whitespaces
-mm <F4> :%s/\s\+$//e<CR>
+nm <F4> :%s/\s\+$//e<CR>
 " Tabs to spaces
 nm <F5> :%s/\t/  /g<CR>
 " 4 spaces to 2
