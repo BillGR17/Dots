@@ -69,7 +69,7 @@ func main(){
   //throw a msg on start
   fmt.Printf("Initialize...")
   //repeat every sec
-  for range time.Tick(time.Second * 1){
+  for{
     nn=netstats(w)
     //if first run dont show nothing and save
     //as old value
@@ -81,5 +81,6 @@ func main(){
       fmt.Printf(" %v  %v",d,u)
     }
     on=nn
+    time.Sleep(1*time.Second)
   }
 }
