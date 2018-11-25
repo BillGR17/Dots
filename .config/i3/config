@@ -105,7 +105,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to log out?' -b 'Logout' 'i3-msg exit'"
 
 # resize window
 mode "resize" {
@@ -213,7 +213,7 @@ bar {
     focused_workspace  #d2d4de #161821
     active_workspace   #d2d4de #161821
     inactive_workspace #888888 #222222
-    urgent_workspace   #993232 #84a0c6
+    urgent_workspace   #84a0c6 #993232
   }
 }
 
@@ -230,6 +230,6 @@ bar {
     focused_workspace  #d2d4de #161821
     active_workspace   #d2d4de #161821
     inactive_workspace #888888 #222222
-    urgent_workspace   #993232 #84a0c6
+    urgent_workspace   #84a0c6 #993232
   }
 }
