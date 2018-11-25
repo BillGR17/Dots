@@ -64,12 +64,12 @@ au FileType html,css,styl,hbs,html.handlebars,ejs,html.twig EmmetInstall
 call deoplete#enable()
 
 " neosnippet
-imap <expr><TAB> neosnippet#expandable_or_jumpable()?
- \ "\<Plug>(neosnippet_expand_or_jump)"
- \:pumvisible() ? "\<C-n>":"\<TAB>"
+im <expr><TAB> neosnippet#expandable_or_jumpable()?
+\"\<Plug>(neosnippet_expand_or_jump)"
+\:pumvisible() ? "\<C-n>":"\<TAB>"
 smap <expr><TAB> neosnippet#expandable_or_jumpable()?
- \ "\<Plug>(neosnippet_expand_or_jump)"
- \:"\<TAB>"
+\"\<Plug>(neosnippet_expand_or_jump)"
+\:"\<TAB>"
 
 if has('conceal')
   set cole=2 cocu=niv
@@ -124,5 +124,5 @@ nm <F6> :'<,'>s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g<CR>
 nm <C-s> :w<CR>
 im <C-s> <ESC> :w<CR>
 " Toggle Nerdtree
-nm <C-\> :NERDTreeToggle<CR>
-im <C-\> <ESC> :NERDTreeToggle<CR>
+nm <silent> <C-\> :NERDTreeToggle<CR>
+im <silent> <C-\> <ESC> :NERDTreeToggle<CR>
