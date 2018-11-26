@@ -5,7 +5,6 @@
 !.autostart
 !.tmux.conf
 !.config/i3/blocks/i3blocks.conf
-!.config/i3/blocks/i3blockmon2.conf
 !.config/i3/blocks/scripts/active
 !.config/i3/blocks/scripts/bandwidth
 !.config/i3/blocks/scripts/battery

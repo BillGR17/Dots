@@ -203,6 +203,7 @@ client.background       #84a0c6
 
 bar {
   output $p
+  output $s
   tray_output $p
   status_command i3blocks -c ~/.config/i3/blocks/i3blocks.conf
   font pango: Anonymous Pro 10
@@ -217,19 +218,3 @@ bar {
   }
 }
 
-bar {
-  output $s
-  tray_output none
-  position bottom
-  status_command i3blocks -c ~/.config/i3/blocks/i3blockmon2.conf
-  font pango: Anonymous Pro 10
-  height 18
-  colors {
-    background #161821
-    statusline #3b8f93
-    focused_workspace  #d2d4de #161821
-    active_workspace   #d2d4de #161821
-    inactive_workspace #888888 #222222
-    urgent_workspace   #84a0c6 #993232
-  }
-}
