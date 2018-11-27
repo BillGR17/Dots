@@ -38,12 +38,12 @@ let g:cpp_experimental_template_highlight=0
 let g:cpp_concepts_highlight=1
 
 " lightline
-let g:lightline = {
+let g:lightline={
 \ 'colorscheme':'iceberg',
-\ }
+\}
 
 " highlight closing tag "
-let g:mta_filetypes = {
+let g:mta_filetypes={
 \ 'html':1,
 \ 'xhtml':1,
 \ 'ejs':1,
@@ -83,7 +83,7 @@ let g:ale_open_list=1
 
 syntax on filetype plugin indent on
 set ar ph=20 wim=full mouse=a clipboard=unnamedplus si nu lz sm bk ut=100
-set cuc cul ts=2 shiftwidth=2 sts=2 et spell
+set cuc cul ts=2 shiftwidth=2 sts=2 et spell nowrap
 set list lcs=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:.
 
 " Greek keymap support & Encoding
@@ -114,6 +114,9 @@ im < <><left>
 " inverse tab using shift-tab
 ino <S-Tab> <C-d>
 nn <S-Tab> <<
+" tab on selection
+vm <Tab> :s/^/  /g<CR>
+vm <S-Tab> <<
 " Trim whitespaces
 nm <F4> :%s/\s\+$//e<CR>
 " Tabs to spaces
