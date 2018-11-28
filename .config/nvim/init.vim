@@ -83,7 +83,7 @@ let g:ale_open_list=1
 
 syntax on filetype plugin indent on
 set ar ph=20 wim=full mouse=a clipboard=unnamedplus si nu lz sm bk ut=100
-set cuc cul ts=2 shiftwidth=2 sts=2 et spell nowrap
+set cuc cul ts=2 shiftwidth=2 sts=2 et spell nowrap udf
 set list lcs=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:.
 
 " Greek keymap support & Encoding
