@@ -114,9 +114,11 @@ im < <><left>
 " inverse tab using shift-tab
 ino <S-Tab> <C-d>
 nn <S-Tab> <<
+" tab in Normal mode
+nn <Tab> >>
 " tab on selection
-vm <Tab> :s/^/  /g<CR>
-vm <S-Tab> <<
+vm <Tab> :s/^/  /g<CR>:nohls<CR>
+vm <S-Tab> <<<CR>:nohls<CR>
 " Trim whitespaces
 nm <F4> :%s/\s\+$//e<CR>
 " Tabs to spaces
