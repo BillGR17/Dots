@@ -1,4 +1,3 @@
-#!/bin/sh
 # Never Turn Off The Monitor's
 xset s off&&xset -dpms
 # Faster Key-press Repeat Rate
@@ -9,3 +8,9 @@ xdotool key Num_Lock
 xrandr --output DP-0 --primary --mode 2560x1440 --rate 144 --left-of HDMI-0 --output HDMI-0 --mode 1920x1080 --rate 60
 # Set background images for both monitors
 feh --bg-fill "$HOME/Pictures/br.jpg" --bg-fill "$HOME/Pictures/br2.jpg"
+# Use the xterm settings
+xrdb .Xresources
+# Start Audio Deamon
+pulseaudio -D
+#Start i3
+exec i3
