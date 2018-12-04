@@ -94,7 +94,7 @@ set bg=dark tgc
 colo iceberg
 
 " read stylus as css
-au BufRead *.styl set syntax=css
+au BufRead *.styl set syntax=css ft=css
 
 " Quick split with ctr + arrow
 nm <silent> <C-Right> :vs<CR>:wincmd l<CR>
