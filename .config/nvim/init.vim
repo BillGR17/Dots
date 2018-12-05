@@ -71,10 +71,6 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable()?
 \"\<Plug>(neosnippet_expand_or_jump)"
 \:"\<TAB>"
 
-if has('conceal')
-  set cole=2 cocu=niv
-endif
-
 let g:neosnippet#enable_completed_snippet=1
 let g:neosnippet#enable_snipmate_compatibility=1
 
@@ -120,14 +116,17 @@ nn <Tab> >>
 vm <Tab> :s/^/  /g<CR>:nohls<CR>
 vm <S-Tab> <<<CR>:nohls<CR>
 " Trim whitespaces
-nm <F4> :%s/\s\+$//e<CR>
+nm <F2> :%s/\s\+$//e<CR>
 " Tabs to spaces
-nm <F5> :%s/\t/  /g<CR>
+nm <F3> :%s/\t/  /g<CR>
 " 4 spaces to 2
-nm <F6> :'<,'>s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g<CR>
+nm <F4> :'<,'>s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g<CR>
+" Refresh Settings
+nm <silent> <F5> :so $MYVIMRC<CR>
 " Save Project
 nm <C-s> :w<CR>
 im <C-s> <ESC> :w<CR>
 " Toggle Nerdtree
 nm <silent> <C-\> :NERDTreeToggle<CR>
 im <silent> <C-\> <ESC> :NERDTreeToggle<CR>
+
