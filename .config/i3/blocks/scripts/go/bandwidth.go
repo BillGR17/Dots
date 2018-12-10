@@ -50,13 +50,13 @@ func netstats(w string) *NetBytes {
 func format(f float64) (string) {
   r:=""
   if f<1024 {
-    r=strconv.FormatFloat(f,'f',0,64)+" b"
+    r=strconv.FormatFloat(f,'f',0,64)+"b"
   }else if f<1048576 {
-    r=strconv.FormatFloat(f/1024,'f',0,64)+" kb"
+    r=strconv.FormatFloat(f/1024,'f',0,64)+"kb"
   }else if f<1073741824{
-    r=strconv.FormatFloat(f/1048576,'f',2,64)+" mb"
+    r=strconv.FormatFloat(f/1048576,'f',2,64)+"mb"
   }else{
-   r=strconv.FormatFloat(f/1073741824,'f',2,64)+" gb"
+   r=strconv.FormatFloat(f/1073741824,'f',2,64)+"gb"
   }
   return r
 }
@@ -78,7 +78,7 @@ func main(){
       //them then print them
       d=format(nn.down-on.down)
       u=format(nn.up-on.up)
-      fmt.Printf(" %v  %v",d,u)
+      fmt.Printf("D:%-4v U:%-4v",d,u)
     }
     on=nn
     time.Sleep(1*time.Second)
