@@ -11,6 +11,8 @@ feh --bg-fill "$HOME/Pictures/br.jpg" --bg-fill "$HOME/Pictures/br2.jpg"
 # Use the xterm settings
 xrdb .Xresources
 # Start Audio Deamon
+pulseaudio -k
 pulseaudio -D
+pulseaudio --start
 #Start i3
 exec i3

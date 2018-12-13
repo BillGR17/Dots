@@ -78,7 +78,7 @@ func main(){
       //them then print them
       d=format(nn.down-on.down)
       u=format(nn.up-on.up)
-      fmt.Printf("D:%-4v U:%-4v",d,u)
+      fmt.Printf("D:%6v U:%6v",d,u)
     }
     on=nn
     time.Sleep(1*time.Second)
