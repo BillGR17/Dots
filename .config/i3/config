@@ -186,14 +186,33 @@ for_window [class="^vlc"] floating enable
 #####################
 #COLORS ARE SET HERE#
 #####################
+# Nord theme colors
 
-# class                 border  backgr. text    indicator child_border
-client.focused          #3b8f93 #84a0c6 #fff     #3b8f93   #246e73
-client.focused_inactive #246e73 #7087a5 #fff     #437b8e   #335f6d
-client.unfocused        #84a0c6 #84a0c6 #fff     #292d2e   #222222
-client.urgent           #993232 #7c3838 #fff     #7c3838   #7c3838
-client.placeholder      #84a0c6 #0c0c0c #fff     #84a0c6   #84a0c6
-client.background       #84a0c6
+set $nord0   #2E3440
+set $nord1   #3B4252
+set $nord2   #434C5E
+set $nord3   #4C566A
+set $nord4   #D8DEE9
+set $nord5   #E5E9F0
+set $nord6   #ECEFF4
+set $nord7   #8FBCBB
+set $nord8   #88C0D0
+set $nord9   #81A1C1
+set $nord10  #5E81AC
+set $nord11  #BF616A
+set $nord12  #D08770
+set $nord13  #EBCB8B
+set $nord14  #A3BE8C
+set $nord15  #B48EAD
+
+
+# class                 border  back.   text    indicator child_border
+client.focused          $nord3  $nord0  $nord8  $nord7  $nord9
+client.focused_inactive $nord3  $nord0  $nord8  $nord8   $nord9
+client.unfocused        $nord4  $nord0  $nord8  $nord7   $nord9
+client.urgent           $nord11 $nord0  $nord8  $nord11 $nord11
+client.placeholder      $nord13 $nord0  $nord8  $nord11 $nord11
+client.background       $nord0
 
 
 ##############
@@ -205,15 +224,14 @@ bar {
   output $s
   tray_output $p
   status_command i3blocks -c ~/.config/i3/blocks/i3blocks.conf
-  font pango: Anonymous Pro 10
+  font pango: Roboto Mono 10
   height 20
   colors {
-    background #161821
-    statusline #3b8f93
-    focused_workspace  #d2d4de #161821
-    active_workspace   #d2d4de #161821
-    inactive_workspace #888888 #222222
-    urgent_workspace   #84a0c6 #993232
+    background $nord0
+    statusline $nord8
+    focused_workspace  $nord3  $nord8
+    active_workspace   $nord3  $nord8
+    inactive_workspace $nord8  $nord3
+    urgent_workspace   $nord3 $nord15
   }
 }
-
