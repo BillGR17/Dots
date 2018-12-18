@@ -24,7 +24,12 @@ call plug#begin('~/.config/nvim/autoload')
   Plug 'cocopon/iceberg.vim'
 call plug#end()
 
-" vim nerdtree on start
+" vim nerdtree on start or restore session
+if !empty(glob('.session.vim~'))
+  au VimEnter * so .session.vim~
+endif
+au VimLeavePre * NERDTreeClose
+au VimLeavePre * mks! .session.vim~
 au VimEnter * NERDTree
 au VimEnter * wincmd p
 let NERDTreeShowHidden=1
@@ -45,9 +50,7 @@ let g:lightline={
 " highlight closing tag "
 let g:mta_filetypes={
 \ 'html':1,
-\ 'xhtml':1,
 \ 'ejs':1,
-\ 'html.twig':1,
 \ 'html.handlebars':1
 \}
 
@@ -58,27 +61,26 @@ let g:gitgutter_eager=0
 " Emmet
 let g:user_emmet_expandabbr_key='<C-e>'
 let g:user_emmet_install_global=0
-au FileType html,css,styl,hbs,html.handlebars,ejs,html.twig EmmetInstall
+au FileType html,hbs,html.handlebars,ejs,html.twig EmmetInstall
 
 " deoplete
-call deoplete#enable()
+let g:deoplete#enable_at_startup=1
 
 " neosnippet
-im <expr><TAB> neosnippet#expandable_or_jumpable()?
-\"\<Plug>(neosnippet_expand_or_jump)"
-\:pumvisible() ? "\<C-n>":"\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable()?
-\"\<Plug>(neosnippet_expand_or_jump)"
-\:"\<TAB>"
+im <expr><TAB>
+\ pumvisible() ? "\<C-n>" :
+\ neosnippet#expandable_or_jumpable() ?
+\    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 let g:neosnippet#enable_completed_snippet=1
-let g:neosnippet#enable_snipmate_compatibility=1
 
 " vim ale config
 let g:ale_open_list=1
 
 syntax on filetype plugin indent on
-set ar ph=20 wim=full mouse=a clipboard=unnamedplus si nu lz sm bk ut=100
+set ar ph=20 wim=full mouse=a si nu lz sm bk ut=100
 set cuc cul ts=2 shiftwidth=2 sts=2 et spell nowrap udf
 set list lcs=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:.
 
@@ -114,13 +116,11 @@ nn <S-Tab> <<
 nn <Tab> >>
 " tab on selection
 vm <Tab> :s/^/  /g<CR>:nohls<CR>
-vm <S-Tab> <<<CR>:nohls<CR>
+vm <S-Tab> <<CR>
 " Trim whitespaces
 nm <F2> :%s/\s\+$//e<CR>
 " Tabs to spaces
 nm <F3> :%s/\t/  /g<CR>
-" 4 spaces to 2
-nm <F4> :'<,'>s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g<CR>
 " Refresh Settings
 nm <silent> <F5> :so $MYVIMRC<CR>
 " Save Project
@@ -129,4 +129,6 @@ im <C-s> <ESC> :w<CR>
 " Toggle Nerdtree
 nm <silent> <C-\> :NERDTreeToggle<CR>
 im <silent> <C-\> <ESC> :NERDTreeToggle<CR>
-
+" Fix Syntax
+nm <silent> <F12> :syntax sync fromstart<CR>
+im <silent> <F12> <ESC> :syntax sync fromstart<CR>
