@@ -21,15 +21,19 @@ call plug#begin('~/.config/nvim/autoload')
   Plug 'airblade/vim-gitgutter'
   Plug 'scrooloose/nerdtree'
   Plug 'itchyny/lightline.vim'
-  Plug 'arcticicestudio/nord-vim',
+  Plug 'arcticicestudio/nord-vim'
+  Plug 'chrisbra/Colorizer'
 call plug#end()
 
 " vim nerdtree on start or restore session
-if !empty(glob('.session.vim~'))
-  au VimEnter * if eval("@%") == ""|so .session.vim~ | endif
+if argc() == 0 
+  if !empty(glob('.session.vim~'))
+    au VimEnter * so .session.vim~
+  endif
+  au VimLeavePre * NERDTreeClose
+  au VimLeavePre * mks! .session.vim~
 endif
-au VimLeavePre * NERDTreeClose
-au VimLeavePre * if eval("@%") == "" | mks! .session.vim~ | endif
+
 au VimEnter * NERDTree
 au VimEnter * wincmd p
 let NERDTreeShowHidden=1
