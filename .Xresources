@@ -34,40 +34,59 @@ XTerm*VT100.Translations: #override \
   Ctrl Shift <Key>C:    copy-selection(CLIPBOARD)
 
 
+XTerm.termName: xterm-256color
 
-! special
-*.foreground:   #d2d4de
-*.background:   #161821
-*.cursorColor:  #d2d4de
+XTerm.vt100.metaSendsEscape: true
 
-! black
-*.color0:       #161821
-*.color8:       #6b7089
+XTerm*faceName: 'Roboto Mono'
+XTerm*faceSize: 11
 
-! red
-*.color1:       #e27878
-*.color9:       #e98989
+! History
+XTerm.vt100.saveLines: 100000
 
-! green
-*.color2:       #b4be82
-*.color10:      #c0ca8e
 
-! yellow
-*.color3:       #e2a478
-*.color11:      #e9b189
+XTerm*forceBoxChars: true
+XTerm*dynamicColors: true
+XTerm*visualBell: off
+XTerm*highlightSelection: true
 
-! blue
-*.color4:       #84a0c6
-*.color12:      #91acd1
+! Encoding
+!XTerm*utf8: True
+!XTerm*locale: True
+!XTerm*utf8Title: True
+!XTerm*renderFont: True
+!XTerm*preeditType: Root
+!XTerm*xftAntialias: true
+!XTerm.vt100.locale: true
 
-! magenta
-*.color5:       #a093c7
-*.color13:      #ada0d3
+! Trim trailing spaces
+XTerm*trimSelection: true
 
-! cyan
-*.color6:       #89b8c2
-*.color14:      #95c4ce
+! Copy & Paste Keys
+XTerm*VT100.Translations: #override \
+  Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
+  Ctrl Shift <Key>C:    copy-selection(CLIPBOARD)
 
-! white
-*.color7:       #c6c8d1
-*.color15:      #d2d4de
+*.foreground:   #D8DEE9
+*.background:   #2E3440
+*.cursorColor:  #D8DEE9
+*fading: 35
+*fadeColor: #4C566A
+
+*.color0: #3B4252
+*.color1: #BF616A
+*.color2: #A3BE8C
+*.color3: #EBCB8B
+*.color4: #81A1C1
+*.color5: #B48EAD
+*.color6: #88C0D0
+*.color7: #E5E9F0
+*.color8: #4C566A
+*.color9: #BF616A
+*.color10: #A3BE8C
+*.color11: #EBCB8B
+*.color12: #81A1C1
+*.color13: #B48EAD
+*.color14: #8FBCBB
+*.color15: #ECEFF4
+
