@@ -21,18 +21,23 @@ call plug#begin('~/.config/nvim/autoload')
   Plug 'airblade/vim-gitgutter'
   Plug 'scrooloose/nerdtree'
   Plug 'itchyny/lightline.vim'
-  Plug 'cocopon/iceberg.vim'
+  Plug 'arcticicestudio/nord-vim',
 call plug#end()
 
 " vim nerdtree on start or restore session
 if !empty(glob('.session.vim~'))
-  au VimEnter * so .session.vim~
+  au VimEnter * if eval("@%") == ""|so .session.vim~ | endif
 endif
 au VimLeavePre * NERDTreeClose
-au VimLeavePre * mks! .session.vim~
+au VimLeavePre * if eval("@%") == "" | mks! .session.vim~ | endif
 au VimEnter * NERDTree
 au VimEnter * wincmd p
 let NERDTreeShowHidden=1
+
+" lightline
+let g:lightline={
+\ 'colorscheme':'nord',
+\}
 
 " Cpp settings
 let g:cpp_class_scope_highlight=1
@@ -41,11 +46,6 @@ let g:cpp_class_decl_highlight=1
 let g:cpp_experimental_simple_template_highlight=1
 let g:cpp_experimental_template_highlight=0
 let g:cpp_concepts_highlight=1
-
-" lightline
-let g:lightline={
-\ 'colorscheme':'iceberg',
-\}
 
 " highlight closing tag "
 let g:mta_filetypes={
@@ -79,8 +79,8 @@ let g:neosnippet#enable_completed_snippet=1
 " vim ale config
 let g:ale_open_list=1
 
-syntax on filetype plugin indent on
-set ar ph=20 wim=full mouse=a si nu lz sm bk ut=100
+syn on
+set ph=20 wim=full mouse=a si nu lz sm bk ut=100
 set cuc cul ts=2 shiftwidth=2 sts=2 et spell nowrap udf
 set list lcs=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:.
 
@@ -88,8 +88,8 @@ set list lcs=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:.
 set fenc=utf-8 kmp=greek_utf-8 imi=0 ims=-1
 
 " Theme Settings
-set bg=dark tgc
-colo iceberg
+set tgc
+colo nord
 
 " read stylus as css
 au BufRead *.styl set syntax=css ft=css
@@ -117,7 +117,7 @@ nn <Tab> >>
 " tab on selection
 vm <Tab> :s/^/  /g<CR>:nohls<CR>
 vm <S-Tab> <<CR>
-" Trim whitespaces
+" Trim whitespace
 nm <F2> :%s/\s\+$//e<CR>
 " Tabs to spaces
 nm <F3> :%s/\t/  /g<CR>
