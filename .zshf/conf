@@ -1,16 +1,14 @@
-#!/usr/bin/zsh
-#There is a bug if you use this with zsh  the path is always ~/ so thats my way of fixing this...
-p="$PWD"
+#!/bin/bash
 if [[ $1 == "i3" ]];then
-  cd ~/.config/i3/&&nvim&&cd $p
+  cd ~/.config/i3/&&nvim config&&cd -
 elif [[ $1 == "ng" ]];then
-  cd /etc/nginx/&&sudo nvim nginx.conf&&cd $p
+  cd /etc/nginx/&&sudo nvim nginx.conf&&cd -
 elif [[ $1 == "ap" ]];then
-  cd /etc/httpd/conf/&&sudo nvim httpd.conf&&cd $p
+  cd /etc/httpd/conf/&&sudo nvim httpd.conf&&cd -
 elif [[ $1 == "vi" ]];then
-  cd ~/.config/nvim/&&nvim init.vim&&cd $p
+  cd ~/.config/nvim/&&nvim init.vim&&cd -
 elif [[ $1 == "ra" ]];then
-  cd ~/.config/ranger/&&nvim&&cd $p
+  cd ~/.config/ranger/&&nvim&&cd -
 elif [[ $1 == "tm" ]];then
   nvim ~/.tmux.conf
 elif [[ $1 == "zh" ]];then 
