@@ -25,10 +25,12 @@ call plug#begin('~/.config/nvim/autoload')
   Plug 'chrisbra/Colorizer'
 call plug#end()
 
+let NERDTreeShowHidden=1
 " vim nerdtree on start or restore session
 if argc() == 0 
   if !empty(glob('.session.vim~'))
-    au VimEnter * so .session.vim~
+     au VimEnter * so .session.vim~
+     au VimEnter * call timer_start(500, { tid -> execute('windo e|NERDTree')})
   endif
   au VimLeavePre * NERDTreeClose
   au VimLeavePre * mks! .session.vim~
@@ -36,7 +38,6 @@ endif
 
 au VimEnter * NERDTree
 au VimEnter * wincmd p
-let NERDTreeShowHidden=1
 
 " lightline
 let g:lightline={
@@ -54,7 +55,6 @@ let g:cpp_concepts_highlight=1
 " highlight closing tag "
 let g:mta_filetypes={
 \ 'html':1,
-\ 'ejs':1,
 \ 'html.handlebars':1
 \}
 
@@ -65,7 +65,7 @@ let g:gitgutter_eager=0
 " Emmet
 let g:user_emmet_expandabbr_key='<C-e>'
 let g:user_emmet_install_global=0
-au FileType html,hbs,html.handlebars,ejs,html.twig EmmetInstall
+au FileType html,hbs,html.handlebars, EmmetInstall
 
 " deoplete
 let g:deoplete#enable_at_startup=1
@@ -136,3 +136,6 @@ im <silent> <C-\> <ESC> :NERDTreeToggle<CR>
 " Fix Syntax
 nm <silent> <F12> :syntax sync fromstart<CR>
 im <silent> <F12> <ESC> :syntax sync fromstart<CR>
+" Show Collors
+nm <silent> <F11> :ColorHighlight<CR>
+im <silent> <F11> <ESC> :ColorHighlight<CR>
