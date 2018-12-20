@@ -17,7 +17,6 @@ call plug#begin('~/.config/nvim/autoload')
   Plug 'terryma/vim-multiple-cursors'
 " UI & Tools
   Plug 'valloric/MatchTagAlways'
-  Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
   Plug 'scrooloose/nerdtree'
   Plug 'itchyny/lightline.vim'
@@ -65,7 +64,7 @@ let g:gitgutter_eager=0
 " Emmet
 let g:user_emmet_expandabbr_key='<C-e>'
 let g:user_emmet_install_global=0
-au FileType html,hbs,html.handlebars, EmmetInstall
+au FileType html,html.handlebars EmmetInstall
 
 " deoplete
 let g:deoplete#enable_at_startup=1
