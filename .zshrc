@@ -29,9 +29,6 @@ bindkey '^[[B' history-substring-search-down
 alias vim="nvim"
 alias npm="yarn"
 
-fpath=( ~/.zshf "${fpath[@]}" )
-autoload -Uz k conf fr rootUpdate
-
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ":completion:*:commands" rehash 1
 
