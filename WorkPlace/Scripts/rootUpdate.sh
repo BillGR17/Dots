@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/bin/sh
 c_loc_=".config/"
 c_folders=(
   "i3"
