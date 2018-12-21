@@ -24,7 +24,6 @@ call plug#begin('~/.config/nvim/autoload')
   Plug 'chrisbra/Colorizer'
 call plug#end()
 
-let NERDTreeShowHidden=1
 " vim nerdtree on start or restore session
 if argc() == 0 
   if !empty(glob('.session.vim~'))
@@ -33,8 +32,10 @@ if argc() == 0
   endif
   au VimLeavePre * NERDTreeClose
   au VimLeavePre * mks! .session.vim~
+else
+  au VimEnter * call timer_start(500, { tid -> execute('NERDTreeFind|wincmd p')})
 endif
-
+let NERDTreeShowHidden=1
 au VimEnter * NERDTree
 au VimEnter * wincmd p
 
