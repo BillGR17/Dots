@@ -2,7 +2,7 @@ XTerm.termName: xterm-256color
 
 XTerm.vt100.metaSendsEscape: true
 
-XTerm*faceName: 'Anonymous Pro'
+XTerm*faceName: Inconsolata
 
 XTerm*faceSize: 11
 

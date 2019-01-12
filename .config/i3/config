@@ -147,7 +147,7 @@ for_window [class="^.*"] border pixel 3
 smart_borders on
 gaps inner 0
 gaps outer 0
-font pango: Anonymous Pro 10
+font pango: Inconsolata 10
 smart_gaps on
 focus_follows_mouse no
 mouse_warping none
@@ -224,7 +224,7 @@ bar {
   output $s
   tray_output $p
   status_command i3blocks -c ~/.config/i3/blocks/i3blocks.conf
-  font pango: Roboto Mono 10
+  font pango: Inconsolata 10
   height 20
   colors {
     background $nord0
