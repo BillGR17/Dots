@@ -2,12 +2,8 @@ XTerm.termName: xterm-256color
 
 XTerm.vt100.metaSendsEscape: true
 
-XTerm*faceName: Inconsolata
-
-XTerm*faceSize: 11
-
 ! History
-XTerm.vt100.saveLines: 100000
+xterm.vt100.saveLines: 100000
 
 
 XTerm*forceBoxChars: true
@@ -23,6 +19,12 @@ XTerm*renderFont: True
 XTerm*preeditType: Root
 XTerm*xftAntialias: true
 XTerm.vt100.locale: true
+
+XTerm.vt100.faceName: Hack:style=Regular:size=11
+XTerm.vt100.font: Hack:style=Regular:size=11
+XTerm.boldFont: Hack:style=Bold:size=11
+XTerm.italicFont: Hack:style=Italic:size=11
+
 
 ! Trim trailing spaces
 XTerm*trimSelection: true

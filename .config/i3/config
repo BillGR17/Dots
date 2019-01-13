@@ -6,6 +6,7 @@ exec sleep 10s; i3-msg 'workspace 2; exec spotify'
 exec sleep 10s; i3-msg 'workspace 2; exec steam'
 
 exec --no-startup-id nm-applet
+exec --no-startup-id discord
 exec --no-startup-id parcellite
 exec --no-startup-id compton -config ~/.config/compton/compton.conf
 exec --no-startup-id firefox
@@ -147,7 +148,7 @@ for_window [class="^.*"] border pixel 3
 smart_borders on
 gaps inner 0
 gaps outer 0
-font pango: Inconsolata 10
+font pango: Hack 10
 smart_gaps on
 focus_follows_mouse no
 mouse_warping none
@@ -224,7 +225,7 @@ bar {
   output $s
   tray_output $p
   status_command i3blocks -c ~/.config/i3/blocks/i3blocks.conf
-  font pango: Inconsolata 10
+  font pango: Hack 10
   height 20
   colors {
     background $nord0
