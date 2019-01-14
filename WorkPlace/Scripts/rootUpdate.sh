@@ -19,7 +19,6 @@ if id -u $1 > /dev/null 2>&1 && [ ! -z "$1" ] ;then
   for i in "${c_files[@]}";do
     sudo cp -v /home/$1/$i /root/$i
   done
-  sudo cp -TRv /home/$1/.zshf /root/.zshf
 else
   echo Wrong User
 fi
