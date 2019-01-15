@@ -10,9 +10,5 @@ xrandr --output DP-0 --primary --mode 2560x1440 --rate 144 --left-of HDMI-0 --ou
 feh --bg-fill "$HOME/Pictures/br.jpg" --bg-fill "$HOME/Pictures/br2.jpg"
 # Use the xterm settings
 xrdb .Xresources
-# Start Audio Deamon
-pulseaudio -k
-pulseaudio -D
-pulseaudio --start
 #Start i3
 exec i3
