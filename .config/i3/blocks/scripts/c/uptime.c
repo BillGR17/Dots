@@ -1,11 +1,13 @@
 #include <sys/sysinfo.h>
 #include <stdio.h>
+struct sysinfo info;
 int main(){
-  struct sysinfo info;
+  int uptime,h,m,s;
   sysinfo(&info);
-  int uptime=info.uptime,h=0,m=0,s=0;
+  uptime=info.uptime;
   h=uptime/3600;
   m=(uptime%3600)/60;
   s=(uptime%60)%60;
-  printf("%d:%d:%d\n", h,m,s);
+  printf("%02d:%02d:%02d", h,m,s);
+  return 0;
 }
