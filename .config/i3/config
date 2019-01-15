@@ -177,8 +177,6 @@ for_window [title="^sxiv"] floating enable
 
 for_window [title="^chrome-devtools"] floating enable
 
-for_window [class="^Steam"] floating enable
-
 for_window [class="^Transmission"] float enable
 for_window [window_role="pop-up"] floating enable
 
@@ -230,8 +228,8 @@ bar {
   colors {
     background $nord0
     statusline $nord8
-    focused_workspace  $nord3  $nord8
-    active_workspace   $nord3  $nord8
+    focused_workspace  $nord3  $nord7
+    active_workspace   $nord1  $nord8
     inactive_workspace $nord8  $nord3
     urgent_workspace   $nord3 $nord15
   }
