@@ -2,12 +2,14 @@
 # Fast kill -9 for one or more apps
 if [ "$1" ];then
   IFS=$'\n'
-  res=($(ps ax|grep --color=always $1|grep -v "grep"|awk '{$2=$3=$4="";print $0}'))
+  res=( $(pgrep $1) )
   if [ ! -z "$res" ];then
-   for ((i=1;i<=${#res[@]};i++));do
-     res[$i]="$(echo $res[$i]|awk '{print $1}') $(pmap -x $(echo $res[$i]|awk '{print $1}')|grep 'total kB'|awk '$3 ~/[0-9\.]/ { $3 = int($3 / 1024) "mb"} {print $3}') $(echo $res[$i]|awk '{$1="";print $0}')"
+    echo -e "[$1]\n[Results]\n~~~~~~\n"
+    for ((i=0;i<${#res[@]};i++));do
+      cat /proc/${res[$i]}/cmdline
+      echo -e " "$(pmap -x ${res[$i]}|tail -1|awk '$3 ~/[0-9\.]/ { $3 = int($3 / 1024)"mb"} {print $3}')
    done
-    echo -e "[$1]\n[Results]\n~~~~~~\n$(echo "$res"|awk '{$1="";print $0}')\n~~~~~~\n[KILL]?(?)! [Y/N]?"
+    echo -e "\n~~~~~~\n[KILL]?(?)! [Y/N]?"
     read -s r
     if [[ "$r" =~ ^([yY][eE][sS]|[yY])+$ ]];then
       echo ""
