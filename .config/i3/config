@@ -144,9 +144,9 @@ bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer
 # WINDOW SETTINGS #
 ###################
 
-for_window [class="^.*"] border pixel 3
 smart_borders on
-gaps inner 0
+new_window pixel 2
+gaps inner 5
 gaps outer 0
 font pango: Hack 10
 smart_gaps on
@@ -206,10 +206,10 @@ set $nord15  #B48EAD
 
 
 # class                 border  back.   text    indicator child_border
-client.focused          $nord3  $nord0  $nord8  $nord7  $nord9
-client.focused_inactive $nord3  $nord0  $nord8  $nord8   $nord9
-client.unfocused        $nord4  $nord0  $nord8  $nord7   $nord9
-client.urgent           $nord11 $nord0  $nord8  $nord11 $nord11
+client.focused          $nord3  $nord0  $nord8  $nord7  $nord8
+client.focused_inactive $nord3  $nord0  $nord7  $nord8   $nord9
+client.unfocused        $nord4  $nord0  $nord4  $nord9   $nord6
+client.urgent           $nord11 $nord0  $nord11  $nord11 $nord11
 client.placeholder      $nord13 $nord0  $nord8  $nord11 $nord11
 client.background       $nord0
 
