@@ -24,20 +24,17 @@ call plug#begin('~/.config/nvim/autoload')
   Plug 'chrisbra/Colorizer'
 call plug#end()
 
-" vim nerdtree on start or restore session
 if argc() == 0 
   if !empty(glob('.session.vim~'))
      au VimEnter * so .session.vim~
-     au VimEnter * call timer_start(500, { tid -> execute('windo e|NERDTree')})
+     au VimEnter * call timer_start(500, { tid -> execute('tabdo windo e|tabdo NERDTree|wincmd p')})
   endif
-  au VimLeavePre * NERDTreeClose
+  au VimLeavePre * tabdo NERDTreeClose 
   au VimLeavePre * mks! .session.vim~
 else
-  au VimEnter * call timer_start(500, { tid -> execute('NERDTreeFind|wincmd p')})
+  au VimEnter * call timer_start(500, { tid -> execute('NERDTree|NERDTreeFind|wincmd p')})
 endif
 let NERDTreeShowHidden=1
-au VimEnter * NERDTree
-au VimEnter * wincmd p
 
 " lightline
 let g:lightline={
