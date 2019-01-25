@@ -6,7 +6,7 @@ const char *exec(const char *x){
   char b[128],*r=malloc(256*sizeof(*r));
   FILE *cmd=popen(x,"r");
   if (cmd == NULL){
-    perror("Error while opening the file.\n");
+    perror("Error while running the command.\n");
     exit(2);
   }
   while(fgets(b,128,cmd)){
