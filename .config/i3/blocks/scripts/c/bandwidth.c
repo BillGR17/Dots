@@ -34,7 +34,7 @@ int main(){
   while(1){
     d=grep(e,1);u=grep(e,9);
     if(_d>0){
-      printf("D:%.2fmb U:%.2fmb",(float)(d-_d)/1024/1024,(float)(u-_u)/1024/1024);
+      printf(":%.2fmb :%.2fmb",(float)(d-_d)/1024/1024,(float)(u-_u)/1024/1024);
       fflush(stdout);
     }else{
       printf("Initializing...");
