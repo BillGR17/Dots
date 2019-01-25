@@ -32,14 +32,12 @@ if argc() == 0
   au VimLeavePre * tabdo NERDTreeClose 
   au VimLeavePre * mks! .session.vim~
 else
-  au VimEnter * call timer_start(500, { tid -> execute('NERDTree|NERDTreeFind|wincmd p')})
+  au VimEnter * call timer_start(500, { tid -> execute('NERDTree|wincmd p|NERDTreeFind|wincmd p')})
 endif
 let NERDTreeShowHidden=1
 
 " lightline
-let g:lightline={
-\ 'colorscheme':'nord',
-\}
+let g:lightline={'colorscheme':'nord'}
 
 " Cpp settings
 let g:cpp_class_scope_highlight=1
@@ -50,10 +48,7 @@ let g:cpp_experimental_template_highlight=0
 let g:cpp_concepts_highlight=1
 
 " highlight closing tag "
-let g:mta_filetypes={
-\ 'html':1,
-\ 'html.handlebars':1
-\}
+let g:mta_filetypes={'html':1,'html.handlebars':1}
 
 " vim gitgutter settings
 let g:gitgutter_realtime=1
