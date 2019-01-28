@@ -3,11 +3,8 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
   au VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 call plug#begin('~/.config/nvim/autoload')
-" Better Lang support
-  Plug 'mustache/vim-mustache-handlebars'
 " Better Lang Syntax
-  Plug 'jelera/vim-javascript-syntax'
-  Plug 'octol/vim-cpp-enhanced-highlight'
+  Plug 'sheerun/vim-polyglot'
 " Tools
   Plug 'w0rp/ale'
   Plug 'Shougo/deoplete.nvim',{'do':':UpdateRemotePlugins'}
@@ -38,14 +35,6 @@ let NERDTreeShowHidden=1
 
 " lightline
 let g:lightline={'colorscheme':'nord'}
-
-" Cpp settings
-let g:cpp_class_scope_highlight=1
-let g:cpp_member_variable_highlight=1
-let g:cpp_class_decl_highlight=1
-let g:cpp_experimental_simple_template_highlight=1
-let g:cpp_experimental_template_highlight=0
-let g:cpp_concepts_highlight=1
 
 " highlight closing tag "
 let g:mta_filetypes={'html':1,'html.handlebars':1}
@@ -87,8 +76,6 @@ set fenc=utf-8 kmp=greek_utf-8 imi=0 ims=-1
 set tgc
 colo nord
 
-" read stylus as css
-au BufRead *.styl set syntax=css ft=css
 
 " Quick split with ctr + arrow
 nm <silent> <C-Right> :vs<CR>:wincmd l<CR>
