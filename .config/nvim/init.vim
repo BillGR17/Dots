@@ -24,12 +24,13 @@ call plug#end()
 if argc() == 0 
   if !empty(glob('.session.vim~'))
      au VimEnter * so .session.vim~
-     au VimEnter * call timer_start(500, { tid -> execute('tabdo windo e|tabdo NERDTree|wincmd p')})
-  endif
-  au VimLeavePre * tabdo NERDTreeClose 
-  au VimLeavePre * mks! .session.vim~
+     au VimEnter * call timer_start(500, { tid -> execute('set nocf|tabdo windo e|tabdo NERDTree|wincmd p|set cf')})
+   else
+    au VimEnter * set nocf|NERDTree|NERDTreeFind|wincmd p|set cf
+   endif
+  au VimLeavePre * tabdo NERDTreeClose|mks! .session.vim~
 else
-  au VimEnter * call timer_start(500, { tid -> execute('NERDTree|wincmd p|NERDTreeFind|wincmd p')})
+  au VimEnter * call timer_start(500, { tid -> execute('NERDTree|NERDTreeFind|wincmd p')})
 endif
 let NERDTreeShowHidden=1
 
@@ -76,7 +77,6 @@ set fenc=utf-8 kmp=greek_utf-8 imi=0 ims=-1
 set tgc
 colo nord
 
-
 " Quick split with ctr + arrow
 nm <silent> <C-Right> :vs<CR>:wincmd l<CR>
 nm <silent> <C-Down> :sp<CR>:wincmd j<CR>
@@ -98,8 +98,8 @@ nn <S-Tab> <<
 " tab in Normal mode
 nn <Tab> >>
 " tab on selection
-vm <Tab> :s/^/  /g<CR>:nohls<CR>
-vm <S-Tab> <<CR>
+vm <Tab> :s/^/  /g<CR>:nohls<CR>gv
+vm <S-Tab> <gv
 " Trim whitespace
 nm <F2> :%s/\s\+$//e<CR>
 " Tabs to spaces
