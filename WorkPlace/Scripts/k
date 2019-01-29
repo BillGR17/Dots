@@ -12,8 +12,7 @@ if [ "$1" ];then
     echo -e "\n~~~~~~\n[KILL]?(?)! [Y/N]?"
     read -s r
     if [[ "$r" =~ ^([yY][eE][sS]|[yY])+$ ]];then
-      echo ""
-      kill -9 $(echo "$res"|awk '{print $1}')
+      kill -9 ${res[@]}
     fi
   else
     echo "No Process with name $1"
