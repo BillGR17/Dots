@@ -23,14 +23,13 @@ call plug#end()
 
 if argc() == 0 
   if !empty(glob('.session.vim~'))
-     au VimEnter * so .session.vim~
-     au VimEnter * call timer_start(500, { tid -> execute('set nocf|tabdo windo e|tabdo NERDTree|wincmd p|set cf')})
+     au VimEnter * so .session.vim~|call timer_start(500, { tid -> execute('sil! tabdo windo e|sil! tabdo NERDTree|wincmd p')})
    else
-    au VimEnter * set nocf|NERDTree|NERDTreeFind|wincmd p|set cf
+    au VimEnter * NERDTree|NERDTreeFind|wincmd p
    endif
   au VimLeavePre * tabdo NERDTreeClose|mks! .session.vim~
 else
-  au VimEnter * call timer_start(500, { tid -> execute('NERDTree|NERDTreeFind|wincmd p')})
+  au VimEnter * NERDTree|wincmd p|NERDTreeFind|wincmd p
 endif
 let NERDTreeShowHidden=1
 
