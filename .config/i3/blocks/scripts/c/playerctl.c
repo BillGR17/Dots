@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-const char *exec(const char *x){
+char *exec(const char *x){
   char b[128],*r=malloc(256*sizeof(*r));
   FILE *cmd=popen(x,"r");
   if (cmd == NULL){
@@ -26,10 +26,10 @@ int main(){
   char s[60];
   strcpy(s,x);
   strcat(s," status");
-  const char *status=exec(s);
+  char *status=exec(s);
   if(strcmp(status,"No players found")!=0){
     strcat(x," metadata --format '{{ artist }} ~ {{ title }}'");
-    const char *info=exec(x);
+    char *info=exec(x);
     if(strstr(status,"Playing")!=NULL){
       printf(" %s\n",info);
       fflush(stdout);
@@ -37,6 +37,8 @@ int main(){
       printf(" %s\n",info);
       fflush(stdout);
     }
+    free(info);
   }
+  free(status);
   return 0;
 }
