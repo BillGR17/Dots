@@ -11,7 +11,7 @@ long int grep(char *x){
   }
   while(fgets(ln,60,fp)){
     if(strstr(ln,x)!=0){
-      sscanf(ln,"%*[^0123456789]%d",&r);
+      sscanf(ln,"%*[^0123456789]%ld",&r);
     }
   }
   fclose(fp);
