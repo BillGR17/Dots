@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-const char *exec(const char *x){
+char *exec(const char *x){
   char b[128],*r=malloc(256*sizeof(*r));
   FILE *cmd=popen(x,"r");
   if (cmd == NULL){
@@ -23,10 +23,12 @@ int main(){
   }
   char cmd[200];
   sprintf(cmd,"upower -e|grep %s|head -1",e);
-  const char *battery=exec(cmd);
+  char *battery=exec(cmd);
   sprintf(cmd,"upower -i %s|grep time|awk '{print $4 substr($5,1,3)}'",battery);
-  const char *time=exec(cmd);
+  free(battery);
+  char *time=exec(cmd);
   printf("%s",time);
   fflush(stdout);
+  free(time);
   return 0;
 }
