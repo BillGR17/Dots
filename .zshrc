@@ -57,7 +57,7 @@ function _g_i_t_(){
     done
     echo "[$out]"
   fi
-	unset out #No longer needed
+  unset out #No longer needed
   unset IFS
 }
 setopt PROMPT_SUBST
