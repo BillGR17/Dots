@@ -3,29 +3,72 @@
 #include <pwd.h>
 #include <stdlib.h>
 #include <string.h>
-
-void cp(char *user,char *file){
+#include <sys/types.h>
+#include <dirent.h>
+#include <errno.h>
+#include <sys/stat.h>
+void deleteEnd (char* myStr){
+  char *del = &myStr[strlen(myStr)];
+  while (del > myStr && *del != '/')
+    del--;
+  if (*del== '/')
+    *del= '\0';
+  return;
+}
+void cp(char *u,char *r){
   FILE *uf,*rf;
   char buf[255];
-  char f[50];
-  sprintf(f,"/home/%s/%s",user,file);
-  puts(f);
-  uf=fopen(f,"r");
+  printf("%s -> %s\n",u,r);
+  uf=fopen(u,"r");
   if(uf==NULL){
     perror("Couldn't read user file");
     exit(3);
   }
-  sprintf(f,"/root/%s",file);
-  rf=fopen(f,"w+");
+  rf=fopen(r,"w+");
+  if(errno==2){
+    char dir[500];
+    sprintf(dir,"%s",r);
+    deleteEnd(dir);
+    mkdir(dir,700);
+    rf=fopen(r,"w+");
+  }
   if(rf==NULL){
     perror("Couldn't write root file");
-    exit(3);
+    exit(4);
   }
   while(fgets (buf, 255, uf)!=NULL ) {
     fputs(buf,rf);
   }
   fclose(rf);
   fclose(uf);
+}
+int isFolder(const char *path) {
+  struct stat buf;
+  stat(path, &buf);
+  return S_ISDIR(buf.st_mode);
+}
+void cp_dir(char *fu,char *fr){
+  DIR *dir;
+  struct dirent *ent;
+  if((dir=opendir(fu)) != NULL){
+    while((ent=readdir(dir))!= NULL){
+      if(strcmp(ent->d_name,".")!=0&&strcmp(ent->d_name,"..")!=0&&strcmp(ent->d_name,"..")!=0&&strstr(ent->d_name,"~")==NULL){
+        char c[500],r[500];
+        sprintf(c,"%s/%s",fu,ent->d_name);
+        sprintf(r,"%s/%s",fr,ent->d_name);
+        if(isFolder(c)){
+          mkdir(r,700);
+          cp_dir(c,r);
+        }else{
+          cp(c,r);
+        }
+      }
+    }
+    closedir (dir);
+  }else{
+    perror("Couldn't readdir");
+    exit(5);
+  }
 }
 int main(int argc, char *argv[]){
   if(argc==2){
@@ -36,10 +79,13 @@ int main(int argc, char *argv[]){
       char *files[4]={".zshrc",".tmux.conf",".Xresources",".xinitrc"};
       char *folders[4]={"i3","nvim","ranger","compton"};
       for(int i=0;i<4;i++){
-        cp(argv[1],files[i]);
-        char c[128];
-        sprintf(c,"cp -TRv /home/%s/.config/%s /root/.config/%s",argv[1],folders[i],folders[i]);
-        system(c);
+        char u[128],r[128];
+        sprintf(u,"/home/%s/%s",argv[1],files[i]);
+        sprintf(r,"/root/%s",files[i]);
+        cp(u,r);
+        sprintf(u,"/home/%s/.config/%s",argv[1],folders[i]);
+        sprintf(r,"/root/.config/%s",folders[i]);
+        cp_dir(u,r);
       }
     }
   }else{
