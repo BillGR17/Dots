@@ -8,11 +8,10 @@
 #include <errno.h>
 #include <sys/stat.h>
 void deleteEnd (char* myStr){
-  char *del = &myStr[strlen(myStr)];
-  while (del > myStr && *del != '/')
-    del--;
-  if (*del== '/')
-    *del= '\0';
+  char *lastslash;
+  if ((lastslash=strrchr(myStr, '/'))){
+    *lastslash = '\0';
+  }
   return;
 }
 void cp(char *u,char *r){
@@ -24,17 +23,22 @@ void cp(char *u,char *r){
     perror("Couldn't read user file");
     exit(3);
   }
-  rf=fopen(r,"w+");
-  if(errno==2){
-    char dir[500];
-    sprintf(dir,"%s",r);
-    deleteEnd(dir);
-    mkdir(dir,700);
+  int retry=0;
+  while(retry<2){
     rf=fopen(r,"w+");
-  }
-  if(rf==NULL){
-    perror("Couldn't write root file");
-    exit(4);
+    if(errno==2){
+      retry++;
+      errno=0;
+      char dir[500];
+      sprintf(dir,"%s",r);
+      deleteEnd(dir);
+      mkdir(dir,700);
+    }else if(rf==NULL){
+      perror("Couldn't write root file");
+      exit(4);
+    }else{
+      break;
+    }
   }
   while(fgets (buf, 255, uf)!=NULL ) {
     fputs(buf,rf);
@@ -52,7 +56,7 @@ void cp_dir(char *fu,char *fr){
   struct dirent *ent;
   if((dir=opendir(fu)) != NULL){
     while((ent=readdir(dir))!= NULL){
-      if(strcmp(ent->d_name,".")!=0&&strcmp(ent->d_name,"..")!=0&&strcmp(ent->d_name,"..")!=0&&strstr(ent->d_name,"~")==NULL){
+      if(strcmp(ent->d_name,".")!=0&&strcmp(ent->d_name,"..")!=0&&strstr(ent->d_name,"~")==NULL){
         char c[500],r[500];
         sprintf(c,"%s/%s",fu,ent->d_name);
         sprintf(r,"%s/%s",fr,ent->d_name);
@@ -70,6 +74,7 @@ void cp_dir(char *fu,char *fr){
     exit(5);
   }
 }
+
 int main(int argc, char *argv[]){
   if(argc==2){
     if(getpwnam(argv[1])==NULL||strcmp(argv[1],"root")==0){
