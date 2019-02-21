@@ -16,7 +16,7 @@ void deleteEnd (char* myStr){
 }
 void cp(char *u,char *r){
   FILE *uf,*rf;
-  char buf[255];
+  char buf[4096];
   printf("%s -> %s\n",u,r);
   uf=fopen(u,"r");
   if(uf==NULL){
@@ -40,7 +40,7 @@ void cp(char *u,char *r){
       break;
     }
   }
-  while(fgets (buf, 255, uf)!=NULL ) {
+  while(fgets (buf,sizeof(buf), uf)!=NULL ) {
     fputs(buf,rf);
   }
   fclose(rf);
@@ -53,8 +53,8 @@ int isFolder(const char *path) {
 }
 void cp_dir(char *fu,char *fr){
   DIR *dir;
-  struct dirent *ent;
   if((dir=opendir(fu)) != NULL){
+    struct dirent *ent;
     while((ent=readdir(dir))!= NULL){
       if(strcmp(ent->d_name,".")!=0&&strcmp(ent->d_name,"..")!=0&&strstr(ent->d_name,"~")==NULL){
         char c[500],r[500];
