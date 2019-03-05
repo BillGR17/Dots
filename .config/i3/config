@@ -177,6 +177,8 @@ for_window [title="^sxiv"] floating enable
 
 for_window [title="^chrome-devtools"] floating enable
 
+for_window [title="Shutdown PC"] floating enable
+
 for_window [class="^Transmission"] float enable
 for_window [window_role="pop-up"] floating enable
 
