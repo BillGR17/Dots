@@ -6,8 +6,7 @@ if [ "$1" ];then
   if [ ! -z "$res" ];then
     echo -e "[$1]\n[Results]\n~~~~~~\n"
     for ((i=0;i<${#res[@]};i++));do
-      cat /proc/${res[$i]}/cmdline
-      echo -e " "$(pmap -x ${res[$i]}|tail -1|awk '$3 ~/[0-9\.]/ { $3 = int($3 / 1024)"mb"} {print $3}')
+      echo -e $(pmap ${res[$i]}|head -n 1|awk '{print $1$2}') $(pmap ${res[$i]}|tail -1|awk '$1=int($2/1024)"mb"{print $1}')
     done
     echo -e "\n~~~~~~\n[KILL]?(?)! [Y/N]?"
     read -s r
