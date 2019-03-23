@@ -6,7 +6,6 @@ exec sleep 10s; i3-msg 'workspace 2; exec spotify'
 exec sleep 10s; i3-msg 'workspace 2; exec steam'
 
 exec --no-startup-id nm-applet
-exec --no-startup-id discord
 exec --no-startup-id parcellite
 exec --no-startup-id compton -config ~/.config/compton/compton.conf
 exec --no-startup-id firefox
