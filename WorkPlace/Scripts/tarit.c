@@ -23,10 +23,10 @@ int main(int arg,char *argv[]){
   };
   char exclude[PATH_MAX];
   for(int i=0;i<sizeof(toexclude)/sizeof(char*);i++){
-    sprintf(exclude+strlen(exclude),"'%s',",toexclude[i]);
+    sprintf(exclude+strlen(exclude),"'%s',\0",toexclude[i]);
   }
   for(int i=1;i<arg;i++){
-    sprintf(exclude+strlen(exclude),"'%s',",argv[i]);
+    sprintf(exclude+strlen(exclude),"'%s',\0",argv[i]);
   }
   char exec[PATH_MAX];
   exclude[strlen(exclude)-1]='\0';
