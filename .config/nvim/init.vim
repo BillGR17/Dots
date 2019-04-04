@@ -91,6 +91,13 @@ im ( ()<left>
 im [ []<left>
 im { {}<left>
 im < <><left>
+" Quick move line
+nm <S-Up> :m-2<CR>
+nm <S-Down> :m+<CR>
+im <S-Up> <Esc>:m .-2<CR>==gi
+im <S-Down> <Esc>:m .+1<CR>==gi
+vm <S-Up> :m '<-2<CR>gv=gv
+vm <S-Down> :m '>+1<CR>gv=gv
 " inverse tab using shift-tab
 ino <S-Tab> <C-d>
 nn <S-Tab> <<
