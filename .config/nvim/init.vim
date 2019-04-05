@@ -5,7 +5,7 @@ endif
 call plug#begin('~/.config/nvim/autoload')
 " Better Lang Syntax
   Plug 'sheerun/vim-polyglot'
-" Tools
+  " Tools
   Plug 'w0rp/ale'
   Plug 'Shougo/deoplete.nvim',{'do':':UpdateRemotePlugins'}
   Plug 'Shougo/neosnippet'
@@ -20,18 +20,29 @@ call plug#begin('~/.config/nvim/autoload')
   Plug 'arcticicestudio/nord-vim'
   Plug 'chrisbra/Colorizer'
 call plug#end()
-
-if argc() == 0 
+if argc() == 0
   if !empty(glob('.session.vim~'))
-     au VimEnter * so .session.vim~|call timer_start(500, { tid -> execute('sil! tabdo windo e|sil! tabdo NERDTree|wincmd p')})
+     au VimEnter * so .session.vim~|call timer_start(500, { tid -> execute('sil! tabdo windo e|sil! tabdo NERDTreeFind|wincmd p')})
    else
-    au VimEnter * NERDTree|NERDTreeFind|wincmd p
+    au VimEnter * NERDTree|wincmd p
    endif
   au VimLeavePre * tabdo NERDTreeClose|mks! .session.vim~
 else
-  au VimEnter * NERDTree|wincmd p|NERDTreeFind|wincmd p
+  if filereadable(argv()[0])
+    au VimEnter * NERDTreeFind|wincmd p
+  else
+    au VimEnter * NERDTree|wincmd p
+  endif
 endif
 let NERDTreeShowHidden=1
+let NERDTreeMapOpenInTab='<ENTER>'
+
+let g:polyglot_disabled = ['styl']
+
+" read stylus as css 
+au BufRead *.styl set syntax=css ft=css
+" disable ale on hbs
+au BufEnter *.hbs ALEDisable
 
 " lightline
 let g:lightline={'colorscheme':'nord'}
@@ -59,13 +70,12 @@ im <expr><TAB>
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
-let g:neosnippet#enable_completed_snippet=1
 
 " vim ale config
 let g:ale_open_list=1
 
 syn on
-set ph=20 wim=full mouse=a si nu lz sm bk ut=100 title
+set ph=20 wim=full mouse=a si nu lz sm bk ut=100 title ssop-=blank,options,buffer
 set cuc cul ts=2 shiftwidth=2 sts=2 et spell nowrap udf
 set list lcs=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:.
 
@@ -86,11 +96,6 @@ nm <silent> <A-Up> :wincmd k<CR>
 nm <silent> <A-Down> :wincmd j<CR>
 nm <silent> <A-Left> :wincmd h<CR>
 nm <silent> <A-Right> :wincmd l<CR>
-" auto close brackets
-im ( ()<left>
-im [ []<left>
-im { {}<left>
-im < <><left>
 " Quick move line
 nm <S-Up> :m-2<CR>
 nm <S-Down> :m+<CR>
@@ -98,6 +103,11 @@ im <S-Up> <Esc>:m .-2<CR>==gi
 im <S-Down> <Esc>:m .+1<CR>==gi
 vm <S-Up> :m '<-2<CR>gv=gv
 vm <S-Down> :m '>+1<CR>gv=gv
+" auto close brackets
+im ( ()<left>
+im [ []<left>
+im { {}<left>
+im < <><left>
 " inverse tab using shift-tab
 ino <S-Tab> <C-d>
 nn <S-Tab> <<
