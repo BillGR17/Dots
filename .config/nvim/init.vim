@@ -86,6 +86,9 @@ set fenc=utf-8 kmp=greek_utf-8 imi=0 ims=-1
 set tgc
 colo nord
 
+" Remove empty whitespace
+au FileType c,cpp,go,html,hbs,css,styl,sass,js,jsx au BufWritePre <buffer> %s/\s\+$//e
+
 " Quick split with ctr + arrow
 nm <silent> <C-Right> :vs<CR>:wincmd l<CR>
 nm <silent> <C-Down> :sp<CR>:wincmd j<CR>
