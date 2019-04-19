@@ -30,7 +30,7 @@ int main(int arg,char *argv[]){
   }
   char exec[PATH_MAX];
   exclude[strlen(exclude)-1]='\0';
-  sprintf(exec,"tar --exclude={%s} -cvf %s/t.tar.gz -C %s .",exclude,pwd,pwd);
+  sprintf(exec,"tar --exclude={%s} -cvf '%s/t.tar.gz' -C '%s' .",exclude,pwd,pwd);
   system(exec);
   return 0;
 }
