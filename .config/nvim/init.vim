@@ -1,7 +1,7 @@
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  sil !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   au VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+en
 call plug#begin('~/.config/nvim/autoload')
   " Better Lang Syntax
   Plug 'sheerun/vim-polyglot'
@@ -23,17 +23,17 @@ call plug#end()
 if argc() == 0
   if !empty(glob('.session.vim~'))
      au VimEnter * so .session.vim~|call timer_start(500, { tid -> execute('sil! tabdo windo e|sil! tabdo NERDTreeFind|wincmd p')})
-   else
+   el
     au VimEnter * NERDTree|wincmd p
-   endif
+  en
   au VimLeavePre * tabdo NERDTreeClose|mks! .session.vim~
-else
+el
   if filereadable(argv()[0])
     au VimEnter * NERDTreeFind|wincmd p
-  else
+  el
     au VimEnter * NERDTree|wincmd p
-  endif
-endif
+  en
+en
 let NERDTreeShowHidden=1
 let NERDTreeMapOpenInTab='<ENTER>'
 
@@ -74,10 +74,10 @@ let g:ale_open_list=1
 let g:ale_pattern_options = {
 \   '.*\.hbs$': {'ale_enabled': 0},
 \}
-augroup CloseLoclistWindowGroup
+aug CloseLoclistWindowGroup
   au!
-  au QuitPre * if empty(&buftype) | lclose | endif
-augroup END
+  au QuitPre * if empty(&buftype) | lcl | en
+aug END
 
 syn on
 set ph=20 wim=full mouse=a si nu lz sm bk ut=100 title ssop-=blank,options,buffer
