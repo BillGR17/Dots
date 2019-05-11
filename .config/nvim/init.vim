@@ -46,7 +46,7 @@ au BufRead *.styl set syntax=css ft=css
 let g:lightline={'colorscheme':'nord'}
 
 " highlight closing tag "
-let g:mta_filetypes={'html':1,'html.handlebars':1}
+let g:mta_filetypes={'html':1,'html.handlebars':1,'php':1}
 
 " vim gitgutter settings
 let g:gitgutter_realtime=1
@@ -55,7 +55,7 @@ let g:gitgutter_eager=0
 " Emmet
 let g:user_emmet_expandabbr_key='<C-e>'
 let g:user_emmet_install_global=0
-au FileType html,html.handlebars EmmetInstall
+au FileType html,html.handlebars,php EmmetInstall
 
 " deoplete
 let g:deoplete#enable_at_startup=1
