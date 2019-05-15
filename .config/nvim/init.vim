@@ -20,20 +20,16 @@ call plug#begin('~/.config/nvim/autoload')
   Plug 'arcticicestudio/nord-vim'
   Plug 'chrisbra/Colorizer'
 call plug#end()
+" load or create session if Vim doesn't have any arguments
 if argc() == 0
   if !empty(glob('.session.vim~'))
-     au VimEnter * so .session.vim~|call timer_start(500, { tid -> execute('sil! tabdo windo e|sil! tabdo NERDTreeFind|wincmd p')})
-   el
-    au VimEnter * NERDTree|wincmd p
+     au VimEnter * so .session.vim~
   en
   au VimLeavePre * tabdo NERDTreeClose|mks! .session.vim~
-el
-  if filereadable(argv()[0])
-    au VimEnter * NERDTreeFind|wincmd p
-  el
-    au VimEnter * NERDTree|wincmd p
-  en
 en
+
+au VimEnter * NERDTree|windo NERDTreeFind|wincmd p
+
 let NERDTreeShowHidden=1
 let NERDTreeMapOpenInTab='<ENTER>'
 
@@ -80,7 +76,7 @@ aug CloseLoclistWindowGroup
 aug END
 
 syn on
-set ph=20 wim=full mouse=a si nu lz sm bk ut=100 title ssop-=blank,options,buffer
+set ph=20 wim=full mouse=a si nu lz sm ut=100 title ssop-=blank,options,buffer
 set cot-=preview cuc cul ts=2 shiftwidth=2 sts=2 et spell nowrap udf 
 set list lcs=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:.
 
@@ -137,8 +133,7 @@ im <C-s> <ESC> :w<CR>
 nm <silent> <C-\> :NERDTreeToggle<CR>
 im <silent> <C-\> <ESC> :NERDTreeToggle<CR>
 " Fix Syntax
-nm <silent> <F12> :syntax sync fromstart<CR>
-im <silent> <F12> <ESC> :syntax sync fromstart<CR>
+nm <silent> <F12> :NERDTreeClose <bar> :windo e! <bar> :NERDTreeFind<CR>
 " Show Collors
 nm <silent> <F11> :ColorHighlight<CR>
 im <silent> <F11> <ESC> :ColorHighlight<CR>
