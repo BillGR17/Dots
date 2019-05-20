@@ -88,7 +88,25 @@ set tgc
 colo nord
 
 " Remove empty whitespace
-au FileType c,cpp,go,html,hbs,css,styl,sass,js,jsx au BufWritePre <buffer> %s/\s\+$//e
+au FileType c,cpp,go,css,sass au BufWritePre <buffer> %s/\s\+$//e
+
+" this function saves cursor position and executes beautify
+fu B_C(_file)
+  "current position
+  let _c_c=getpos(".")
+  if a:_file=="js"
+    sil! exe "%!js-beautify -s 2"| w
+  el a:_file=="ht"
+    sil! exe "%!js-beautify -s 2 --type html"| w
+  en
+  "move to current position after done executing
+  call setpos('.',_c_c)
+endf
+" if js-beautify exist beautify code on every save
+if executable("js-beautify")
+  au FileType javascript.jsx au! BufWritePost * call B_C("js")
+  au FileType html,html.handlebars au! BufWritePost * call B_C("ht")
+en
 
 " Quick split with ctr + arrow
 nm <silent> <C-A-Right> :vs<CR>:wincmd l<CR>
@@ -133,7 +151,7 @@ im <C-s> <ESC> :w<CR>
 nm <silent> <C-\> :NERDTreeToggle<CR>
 im <silent> <C-\> <ESC> :NERDTreeToggle<CR>
 " Fix Syntax
-nm <silent> <F12> :NERDTreeClose <bar> :windo e! <bar> :NERDTreeFind<CR>
+nm <silent> <F12> :NERDTreeClose <bar> :windo e! <bar> :NERDTreeFind <bar> :wincmd p<CR>
 " Show Collors
 nm <silent> <F11> :ColorHighlight<CR>
 im <silent> <F11> <ESC> :ColorHighlight<CR>
