@@ -96,7 +96,7 @@ fu B_C(_file)
   let _c_c=getpos(".")
   if a:_file=="js"
     sil! exe "%!js-beautify -s 2"| w
-  el a:_file=="ht"
+  elsei a:_file=="ht"
     sil! exe "%!js-beautify -s 2 --type html"| w
   en
   "move to current position after done executing
@@ -104,8 +104,8 @@ fu B_C(_file)
 endf
 " if js-beautify exist beautify code on every save
 if executable("js-beautify")
-  au FileType javascript.jsx au! BufWritePost * call B_C("js")
-  au FileType html,html.handlebars au! BufWritePost * call B_C("ht")
+  au FileType javascript.jsx au BufWritePost *.js,*.json call B_C("js")
+  au FileType html,html.handlebars au BufWritePost *.html,*.hbs call B_C("ht")
 en
 
 " Quick split with ctr + arrow
