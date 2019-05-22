@@ -25,10 +25,18 @@ if argc() == 0
   if !empty(glob('.session.vim~'))
      au VimEnter * so .session.vim~
   en
-  au VimLeavePre * tabdo NERDTreeClose|mks! .session.vim~
+  au VimLeavePre * tabdo NERDTreeClose|if empty(&buftype) | mks! .session.vim~ | en
 en
-
-au VimEnter * NERDTree|windo NERDTreeFind|wincmd p
+fu Nerd_tog()
+  NERDTreeToggle
+  wincmd p
+  " if file exist in the disk then NERDTreeFind will find it
+  if filereadable(expand(@%)) != 0
+    NERDTreeFind
+    wincmd p
+  en
+endf
+au VimEnter * call Nerd_tog()
 
 let NERDTreeShowHidden=1
 let NERDTreeMapOpenInTab='<ENTER>'
@@ -67,9 +75,7 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 
 " vim ale config
 let g:ale_open_list=1
-let g:ale_pattern_options = {
-\   '.*\.hbs$': {'ale_enabled': 0},
-\}
+let g:ale_pattern_options = {'.*\.hbs$': {'ale_enabled': 0}}
 aug CloseLoclistWindowGroup
   au!
   au QuitPre * if empty(&buftype) | lcl | en
@@ -90,22 +96,22 @@ colo nord
 " Remove empty whitespace
 au FileType c,cpp,go,css,sass au BufWritePre <buffer> %s/\s\+$//e
 
-" this function saves cursor position and executes beautify
+" this function saves cursor position and executes beautify and deletes empty lines
 fu B_C(_file)
   "current position
   let _c_c=getpos(".")
   if a:_file=="js"
-    sil! exe "%!js-beautify -s 2"| w
+    sil! exe "%!js-beautify -s 2"|sil! g/^$/d
   elsei a:_file=="ht"
-    sil! exe "%!js-beautify -s 2 --type html"| w
+    sil! exe "%!js-beautify -s 2 --type html"|sil! g/^$/d
   en
   "move to current position after done executing
   call setpos('.',_c_c)
 endf
 " if js-beautify exist beautify code on every save
 if executable("js-beautify")
-  au FileType javascript.jsx au BufWritePost *.js,*.json call B_C("js")
-  au FileType html,html.handlebars au BufWritePost *.html,*.hbs call B_C("ht")
+  au FileType javascript.jsx au BufWritePre *.js,*.json call B_C("js")
+  au FileType html,html.handlebars au BufWritePre *.html,*.hbs call B_C("ht")
 en
 
 " Quick split with ctr + arrow
@@ -142,8 +148,6 @@ vm <S-Tab> <gv
 nm <F2> :%s/\s\+$//e<CR>
 " Tabs to spaces
 nm <F3> :%s/\t/  /g<CR>
-" Refresh Settings
-nm <silent> <F5> :so $MYVIMRC<CR>
 " Save Project
 nm <C-s> :w<CR>
 im <C-s> <ESC> :w<CR>
