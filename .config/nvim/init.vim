@@ -101,12 +101,13 @@ fu B_C(_file)
   "current position
   let _c_c=getpos(".")
   if a:_file=="js"
-    sil! exe "%!js-beautify -s 2"|sil! g/^$/d
+    undoj|sil! exe "%!js-beautify -s 2"|sil! g/^$/d
   elsei a:_file=="ht"
-    sil! exe "%!js-beautify -s 2 --type html"|sil! g/^$/d
+    undoj|sil! exe "%!js-beautify -s 2 --type html"|sil! g/^$/d
   en
   "move to current position after done executing
   call setpos('.',_c_c)
+  unl _c_c
 endf
 " if js-beautify exist beautify code on every save
 if executable("js-beautify")
