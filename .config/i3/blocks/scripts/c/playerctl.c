@@ -27,7 +27,7 @@ int main(){
   strcpy(s,x);
   strcat(s," status");
   char *status=exec(s);
-  if(strcmp(status,"No players found")!=0){
+  if(strstr(status,"No players found")!=NULL){
     strcat(x," metadata --format '{{ artist }} ~ {{ title }}'");
     char *info=exec(x);
     if(strstr(status,"Playing")!=NULL){
@@ -38,6 +38,9 @@ int main(){
       fflush(stdout);
     }
     free(info);
+  }else{
+    printf("\n");
+    fflush(stdout);
   }
   free(status);
   return 0;
