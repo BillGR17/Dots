@@ -1,19 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-char *exec(const char *x){
-  char b[128],*r=malloc(256*sizeof(*r));
+void exec(char *x,int s){
+  char b[128];
   FILE *cmd=popen(x,"r");
   if (cmd == NULL){
     perror("Error while running the command.\n");
     exit(2);
   }
+  //clear the command
+  //and store only the popen output
+  memset(x,0,sizeof(x));
   while(fgets(b,128,cmd)){
-    strcpy(r,strtok(b,"\n"));
+    strncat(x,b,s);
   }
   pclose(cmd);
-  return r;
 }
 
 int main(){
@@ -21,27 +22,27 @@ int main(){
   if(e==NULL){
     exit(1);
   }
-  char x[60]="playerctl -p ";
-  strcat(x,e);
-  char s[60];
-  strcpy(s,x);
-  strcat(s," status");
-  char *status=exec(s);
-  if(strstr(status,"No players found")!=NULL){
-    strcat(x," metadata --format '{{ artist }} ~ {{ title }}'");
-    char *info=exec(x);
-    if(strstr(status,"Playing")!=NULL){
-      printf(" %s\n",info);
+  //playerctl -l has some weird delay and causes a lot of problems
+  //this checks if the player exists in dbus
+  char x[4098]="dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames";
+  exec(x,sizeof(x));
+  if(strstr(x,e)!=NULL){
+    char s[128];
+    sprintf(s,"playerctl -p %s status",e);
+    exec(s,sizeof(s));
+    char i[128];
+    sprintf(i,"playerctl -p %s metadata --format '{{ artist }} ~ {{ title }}'",e);
+    exec(i,sizeof(i));
+    if(strstr(s,"Playing")!=NULL){
+      printf(" %s\n",i);
       fflush(stdout);
-    }else if(strstr(status,"Paused")!=NULL){
-      printf(" %s\n",info);
+    }else if(strstr(s,"Paused")!=NULL){
+      printf(" %s\n",i);
       fflush(stdout);
     }
-    free(info);
   }else{
-    printf("\n");
+    puts("");
     fflush(stdout);
   }
-  free(status);
   return 0;
 }
