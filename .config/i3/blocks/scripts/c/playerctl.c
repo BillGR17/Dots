@@ -10,7 +10,7 @@ void exec(char *x,int s){
   }
   //clear the command
   //and store only the popen output
-  memset(x,0,sizeof(x));
+  memset(x,0,(char)sizeof(x));
   while(fgets(b,128,cmd)){
     strncat(x,b,s);
   }
@@ -35,14 +35,12 @@ int main(){
     exec(i,sizeof(i));
     if(strstr(s,"Playing")!=NULL){
       printf(" %s\n",i);
-      fflush(stdout);
     }else if(strstr(s,"Paused")!=NULL){
       printf(" %s\n",i);
-      fflush(stdout);
     }
   }else{
     puts("");
-    fflush(stdout);
   }
+  fflush(stdout);
   return 0;
 }
