@@ -27,14 +27,18 @@ int main(int arg,char *argv[]){
     "t.tar.gz"
   };
   char exclude[PATH_MAX];
-  for(int i=0;i<sizeof(toexclude)/sizeof(char*);i++){
-    sprintf(exclude+strlen(exclude),"'%s',\0",toexclude[i]);
-  }
+  int size=sizeof(toexclude)/sizeof(char*);
   for(int i=1;i<arg;i++){
-    sprintf(exclude+strlen(exclude),"'%s',\0",argv[i]);
+    sprintf(exclude+strlen(exclude),"'%s',",argv[i]);
+  }
+  for(int i=0;i<size;i++){
+    if(i+1==size){
+      sprintf(exclude+strlen(exclude),"'%s'",toexclude[i]);
+    }else{
+      sprintf(exclude+strlen(exclude),"'%s',",toexclude[i]);
+    }
   }
   char exec[PATH_MAX];
-  exclude[strlen(exclude)-1]='\0';
   sprintf(exec,"tar --exclude={%s} -cvf '%s/t.tar.gz' -C '%s' .",exclude,pwd,pwd);
   system(exec);
   return 0;
