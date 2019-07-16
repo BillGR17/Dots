@@ -27,14 +27,11 @@ bindkey '^[[B' history-substring-search-down
 
 # Alias&Functions
 alias vim="nvim"
-alias npm="yarn"
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ":completion:*:commands" rehash 1
 
 # Fix Paths
-# Yarn Path
-export PATH=$PATH:$(yarn global bin)
 # Go Lang Path
 export GOPATH=$HOME/.go
 
