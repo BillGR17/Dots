@@ -1,6 +1,3 @@
-
-// THIS NEEDS MORE WORK! DO NOT USE IT WITHOUT CHANING THE CODE!!!
-
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -50,7 +47,7 @@ void GetDate(char *Date,int size){
   struct tm * timeinfo;
   time ( &rawtime );
   timeinfo = localtime (&rawtime);
-  strftime(Date,size, "DATE: %a, %d %b %Y %H:%M:%S +1100", timeinfo);
+  strftime(Date,size, "DATE: %a, %d %b %Y %H:%M:%S +0300", timeinfo);
 }
 
 void sendMail(char *alert,long int status){
@@ -101,7 +98,6 @@ int checkPage(int err){
     if(curl_easy_perform(curl) == CURLE_OK){
       long http_code=0;
       curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-      printf("%li\n",http_code);
       if(http_code>399&&err==0) {
         err=1;
         sendMail("Website is Down",http_code);
