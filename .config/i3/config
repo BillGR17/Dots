@@ -124,9 +124,9 @@ bindsym $mod+r mode "resize"
 
 #Print Screen Stolen from reddit :)
 #https://www.reddit.com/r/i3wm/comments/8jugx9/keyboard_binding_for_scrot_s_is_not_working_got/dz2im83
-bindsym --release Print exec --no-startup-id import -silent -window import -window $(xprop -root _NET_ACTIVE_WINDOW|cut -d ' ' -f 5) "$HOME/Pictures/$(xprop -id $(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5) WM_NAME | awk -F '\"' '{print $2}')_$(ls ~/Pictures/\"$(xprop -id $(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5) WM_NAME | awk -F '\"' '{print $2}')\"_*|wc -l).jpg"
-bindsym --release Ctrl+Shift+Print exec --no-startup-id import -silent -window root "$HOME/Pictures/$(xprop -id $(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5) WM_NAME | awk -F '\"' '{print $2}')_$(ls ~/Pictures/\"$(xprop -id $(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5) WM_NAME | awk -F '\"' '{print $2}')\"_*|wc -l).jpg"
-bindsym --release Shift+Print exec --no-startup-id import -silent "$HOME/Pictures/$(xprop -id $(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5) WM_NAME | awk -F '\"' '{print $2}')_$(ls ~/Pictures/\"$(xprop -id $(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5) WM_NAME | awk -F '\"' '{print $2}')\"_*|wc -l).jpg"
+bindsym --release Print exec --no-startup-id import -silent -window $(xprop -root _NET_ACTIVE_WINDOW|cut -d ' ' -f 5|tail) "$HOME/Pictures/$($HOME/.config/i3/blocks/scripts/active)_$(ls -l $HOME/Pictures/|grep -Fc "$($HOME/.config/i3/blocks/scripts/active)").jpg"
+bindsym --release Ctrl+Shift+Print exec --no-startup-id import -silent -window root "$HOME/Pictures/$($HOME/.config/i3/blocks/scripts/active)_$(ls -l $HOME/Pictures/|grep -Fc "$($HOME/.config/i3/blocks/scripts/active)").jpg"
+bindsym --release Shift+Print exec --no-startup-id import -silent "$HOME/Pictures/$($HOME/.config/i3/blocks/scripts/active)_$(ls -l $HOME/Pictures/|grep -Fc "$($HOME/.config/i3/blocks/scripts/active)").jpg"
 
 # Media keys
 bindsym XF86AudioRaiseVolume exec "amixer -q sset Master 1%+ unmute"
