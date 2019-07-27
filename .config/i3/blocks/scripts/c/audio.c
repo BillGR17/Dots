@@ -17,6 +17,6 @@ int main(){
       system("amixer -q sset Master 1%- unmute");
       break;
   }
-  system("if [[ $(amixer get Master|grep -Fc \"[off]\") == 0 ]];then echo -e ' '$(amixer get Master|grep -E -o '[0-9]{1,3}?%'|head -1);else echo -e ' 0';fi");
+  system("if [[ $(amixer get Master|grep -Fc \"[off]\") == 0 ]];then echo -e ' '$(amixer get Master|grep -E -o '[0-9]{1,3}?%'|head -1);else echo -e ' Muted';fi");
   return 0;
 }
