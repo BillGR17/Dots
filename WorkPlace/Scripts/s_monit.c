@@ -47,7 +47,7 @@ void GetDate(char *Date,int size){
   struct tm * timeinfo;
   time ( &rawtime );
   timeinfo = localtime (&rawtime);
-  strftime(Date,size, "DATE: %a, %d %b %Y %H:%M:%S +0300", timeinfo);
+  strftime(Date,size, "DATE: %a, %d %b %Y %H:%M:%S %z", timeinfo);
 }
 
 void sendMail(char *alert,long int status){
