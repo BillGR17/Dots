@@ -50,7 +50,7 @@ void GetDate(char *Date,int size){
   strftime(Date,size, "DATE: %a, %d %b %Y %H:%M:%S %z", timeinfo);
 }
 
-void sendMail(char *alert,long int status){
+void sendMail(char *alert,long int status,double t){
   CURL *curl = curl_easy_init();
   if(curl) {
     struct upload_status upload_ctx;
@@ -66,7 +66,14 @@ void sendMail(char *alert,long int status){
     strncpy(payload_text[3],buffer,100);
     payload_text[4]="\r\n";
     payload_text[5]=malloc(sizeof(buffer)*sizeof(char));
-    sprintf(buffer,"The Site returns code status :%li\r\n",status);
+    if(t!=0){
+      int h = ((double)t / 3600);
+      int m = ((double)t -(3600*h))/60;
+      int s = ((double)t -(3600*h)-(m*60));
+      sprintf(buffer,"The Site is back online after: %.2d:%.2d:%.2d\r\n",h,m,s);
+    }else{
+      sprintf(buffer,"The Site returns code status : %li\r\n",status);
+    }
     strncpy(payload_text[5],buffer,100);
     payload_text[6]="\r\n";
     struct curl_slist *recipients = NULL;
@@ -89,8 +96,14 @@ void sendMail(char *alert,long int status){
     free(payload_text[5]);
   }
 }
+int err;
+time_t s_t, e_t;
 
-int checkPage(int err){
+void setErr(int val){
+  err=val;
+}
+
+void checkPage(int err){
   CURL *curl = curl_easy_init();
   if(curl) {
     curl_easy_setopt(curl, CURLOPT_URL,F_WEBSITE);
@@ -99,22 +112,23 @@ int checkPage(int err){
       long http_code=0;
       curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
       if(http_code>399&&err==0) {
-        err=1;
-        sendMail("Website is Down",http_code);
+        setErr(1);
+        time(&s_t);
+        sendMail("Website is Down",http_code,0);
       }
       if(http_code<400&&err==1){
-        err=0;
-        sendMail("Website is Up",http_code);
+        setErr(0);
+        time(&e_t);
+        sendMail("Website is Up",http_code,(double)difftime(e_t, s_t));
       }
     }
     curl_easy_cleanup(curl);
   }
-  return err;
 }
+
 int main(void){
-  int err=0;
   while(1){
-    err=checkPage(err);
+    checkPage(err);
     sleep(1);
   }
   return 0;
