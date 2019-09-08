@@ -97,29 +97,29 @@ colo nord
 au FileType c,cpp,go,css,sass au BufWritePre <buffer> %s/\s\+$//e
 
 " this function saves cursor position and executes beautify and deletes empty lines
-fu B_C(_file)¬
+fu B_C(_file)
   " current position¬
-  let _c_c=getpos(" ")¬
-  if a:_file=="js"¬
-    sil! undoj|sil! exe "%!js-beautify -s 2"|sil! g/^$/d¬
-  elsei a:_file=="ht"¬
-    sil! undoj|sil! exe "%!js-beautify -s 2 --type html"|sil! g/^$/d¬
-  elsei a:_file=="c"¬
-    sil! undoj|sil! exe "%!clang-format --style=file"|sil! g/^$/d¬
-  en¬
+  let _c_c=getpos(".")
+  if a:_file=="js"
+    sil! undoj|sil! exe "%!js-beautify -s 2"|sil! g/^$/d
+  elsei a:_file=="ht"
+    sil! undoj|sil! exe "%!js-beautify -s 2 --type html"|sil! g/^$/d
+  elsei a:_file=="c"
+    sil! undoj|sil! exe "%!clang-format --style=file"|sil! g/^$/d
+  en
   " move to current position after done executing¬
-  call setpos(' ',_c_c)¬
-  unl _c_c¬
-endf¬
+  call setpos(".",_c_c)
+  unl _c_c
+endf
 " if js-beautify exist beautify code on every save¬
-if executable("js-beautify")¬
-  au FileType javascript jsx au BufWritePre * js,* json call B_C("js")¬
-  au FileType html,html handlebars au BufWritePre * html,* hbs call B_C("ht")¬
-en¬
+if executable("js-beautify")
+  au FileType javascript.jsx au BufWritePre *.js,*.json call B_C("js")
+  au FileType html,html.handlebars au BufWritePre *.html,*.hbs call B_C("ht")
+en
 " if clang-format exist beautify code on every save¬
-if executable("clang-format")¬
-  au FileType c,cpp au BufWritePre * c,* cpp call B_C("c")¬
-en¬
+if executable("clang-format")
+  au FileType c,cpp au BufWritePre *.c,*.cpp call B_C("c")
+en
 
 " Quick split with ctr + arrow
 nm <silent> <C-A-Right> :vs<CR>:wincmd l<CR>

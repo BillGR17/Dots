@@ -1,23 +1,22 @@
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
+#include <curl/curl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
-#include <curl/curl.h>
-//hide all response text
-size_t write_data(void *buffer, size_t size, size_t nmemb, void *userp){
+#include <unistd.h>
+// hide all response text
+size_t write_data(void* buffer, size_t size, size_t nmemb, void* userp) {
   return size * nmemb;
 }
-//Put all the info here
-#define WEBSITE "example.com" //the protocol is used on F_WEBSITE
-#define F_WEBSITE "https://" WEBSITE //Protocol Only!
-#define N_FROM_ADDR "no-reply@emai.com"//enter the senders email
-#define FROM_ADDR "<"N_FROM_ADDR ">"//ignore this
-#define ADDR_PASS "pass"//The senders Password
-#define TO_ADDR "<receiver@email.com>"//Enter the Receiver email with < >
+// Put all the info here
+#define WEBSITE "example.com"           // the protocol is used on F_WEBSITE
+#define F_WEBSITE "https://" WEBSITE    // Protocol Only!
+#define N_FROM_ADDR "no-reply@emai.com" // enter the senders email
+#define FROM_ADDR "<" N_FROM_ADDR ">"   // ignore this
+#define ADDR_PASS "pass"                // The senders Password
+#define TO_ADDR "<receiver@email.com>"  // Enter the Receiver email with < >
 #define SMTP_SERVER "smtp://mail.examplesmtp.com:587"
-char *payload_text[768];
+char* payload_text[768];
 struct upload_status {
   int lines_read;
 };
