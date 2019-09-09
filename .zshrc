@@ -32,9 +32,10 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ":completion:*:commands" rehash 1
 
 # Fix Paths
+# NPM path
+export PATH=$HOME/.npm-packages/bin:$PATH
 # Go Lang Path
 export GOPATH=$HOME/.go
-
 # Prompt is set here
 # This makes the location kinda like the one in fish shell
 function loc() {

@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
   int screen = XDefaultScreen(d);
   w = RootWindow(d, screen);
   w = get_long_perty("_NET_ACTIVE_WINDOW");
-  printf("%s", get_string_perty("_NET_WM_NAME"));
+  printf("%s\n", get_string_perty("_NET_WM_NAME"));
   fflush(stdout);
   XCloseDisplay(d);
   return 0;

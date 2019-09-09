@@ -1,8 +1,8 @@
-#include <X11/XKBlib.h>
-#include <X11/extensions/XKBrules.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <X11/XKBlib.h>
+#include <X11/extensions/XKBrules.h>
 int main() {
   Display* dpy = XOpenDisplay(NULL);
   if (dpy == NULL) {

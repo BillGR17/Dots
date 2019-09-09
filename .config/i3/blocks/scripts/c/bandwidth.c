@@ -25,10 +25,10 @@ int main() {
     d = readf(td);
     u = readf(tu);
     if (_d > 0) {
-      printf(":%.2fmb :%.2fmb", (float)(d - _d) / 1024 / 1024, (float)(u - _u) / 1024 / 1024);
+      printf(":%.2fmb :%.2fmb\n", (float)(d - _d) / 1024 / 1024, (float)(u - _u) / 1024 / 1024);
       fflush(stdout);
     } else {
-      printf("Initializing...");
+      printf("Initializing...\n");
       fflush(stdout);
     }
     _u = u;
