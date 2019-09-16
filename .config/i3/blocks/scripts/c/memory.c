@@ -16,7 +16,7 @@ long int grep(char* x) {
   return r;
 }
 int main() {
-  printf("%.2fgb %.2fgb",
+  printf("%.2fgb %.2fgb\n",
          (float)(grep("MemTotal") - grep("MemAvailable")) / 1024 / 1024,
          (float)grep("MemTotal") / 1024 / 1024);
   return 0;

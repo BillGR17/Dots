@@ -21,7 +21,7 @@ int main() {
   sprintf(cmd, "upower -i %s|grep time|awk '{print $4 substr($5,1,3)}'", battery);
   free(battery);
   char* time = exec(cmd);
-  printf("%s", time);
+  printf("%s\n", time);
   fflush(stdout);
   free(time);
   return 0;
