@@ -61,6 +61,8 @@ ForEachMacros:
   - BOOST_FOREACH
 IncludeBlocks:   Preserve
 IncludeCategories:
+  - Regex:           '<(X11|boost|catch2)\/([A-Za-z0-9.\/-_])+>'
+    Priority:        4
   - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
     Priority:        2
   - Regex:           '^(<|"(gtest|gmock|isl|json)/)'
