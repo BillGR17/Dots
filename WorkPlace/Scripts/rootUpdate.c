@@ -5,11 +5,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
-#include <sys/types.h>
 void deleteEnd(char* myStr) {
   char* lastslash;
   if ((lastslash = strrchr(myStr, '/'))) { *lastslash = '\0'; }
   return;
+}
+int isExecutable(const char* path) {
+  struct stat buf;
+  return stat(path, &buf) == 0 && buf.st_mode & S_IXUSR ? 1 : 0;
+}
+int isFolder(const char* path) {
+  struct stat buf;
+  stat(path, &buf);
+  return S_ISDIR(buf.st_mode);
 }
 void cp(char* u, char* r) {
   FILE *uf, *rf;
@@ -40,11 +48,10 @@ void cp(char* u, char* r) {
   while (fgets(buf, sizeof(buf), uf) != NULL) { fputs(buf, rf); }
   fclose(rf);
   fclose(uf);
-}
-int isFolder(const char* path) {
-  struct stat buf;
-  stat(path, &buf);
-  return S_ISDIR(buf.st_mode);
+  if (isExecutable(u)) {
+    puts("Marked as Executable");
+    chmod(r, S_IRWXU);
+  }
 }
 void cp_dir(char* fu, char* fr) {
   DIR* dir;
