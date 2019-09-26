@@ -5,6 +5,8 @@ const c_b = "\x1b[34m"; //blue
 const c_m = "\x1b[35m"; //magenta
 const c_c = "\x1b[36m"; //cyan
 const c_r = "\x1b[0m"; //reset
+//all arguments
+const arg = process.argv;
 //return digit number
 function toDigit(n, p) {
   if (!p) {
@@ -24,7 +26,7 @@ function date() {
 }
 //check IP
 function check() {
-  dns.lookup(process.argv[2], (e, r) => {
+  dns.lookup(arg[2], (e, r) => {
     if (e) {
       console.err(e);
     } else {
@@ -32,14 +34,13 @@ function check() {
     }
   });
 }
-const arg = process.argv;
 //check if a domain on arg2
 if (arg[2]&&arg[2].match(new RegExp(/^((?:(?:(?:\w[\.\-\+]?)*)\w)+)((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/))) {
-  console.info(c_m + "CHECKING:" + c_c + process.argv[2].toUpperCase() + c_r);
+  console.info(c_m + "CHECKING:" + c_c + arg[2].toUpperCase() + c_r);
   //init
   check();
   //if arg 3 is number then change the refresh rate 
-  const refresh = (process.argv[3] && !isNaN(parseInt(process.argv[3]))) ? process.argv[3] : 1000;
+  const refresh = (arg[3] && !isNaN(parseInt(arg[3]))) ? arg[3] : 1000;
   setInterval(check, refresh);
 } else {
   //throw help
