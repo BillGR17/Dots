@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+const dns = require("dns");
+//Terminal colors
+const c_b = "\x1b[34m"; //blue
+const c_m = "\x1b[35m"; //magenta
+const c_c = "\x1b[36m"; //cyan
+const c_r = "\x1b[0m"; //reset
+//return digit number
+function toDigit(n, p) {
+  if (!p) {
+    p = 2;
+  } //convert to 2 digit by default
+  let d = new Array(p + 1).join("0");
+  return (d + n).slice(-p);
+}
+//returns full date
+function date() {
+  let t = new Date(),
+    h = toDigit(t.getHours()),
+    m = toDigit(t.getMinutes()),
+    s = toDigit(t.getSeconds()),
+    ms = toDigit(t.getMilliseconds(), 3);
+  return c_b + t.getDate() + "/" + t.getMonth() + "/" + t.getFullYear() + c_c + h + ":" + m + ":" + s + ":" + ms + c_r;
+}
+//check IP
+function check() {
+  dns.lookup(process.argv[2], (e, r) => {
+    if (e) {
+      console.err(e);
+    } else {
+      console.log(date() + c_m + r + c_r);
+    }
+  });
+}
+const arg = process.argv;
+//check if a domain on arg2
+if (arg[2]&&arg[2].match(new RegExp(/^((?:(?:(?:\w[\.\-\+]?)*)\w)+)((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/))) {
+  console.info(c_m + "CHECKING:" + c_c + process.argv[2].toUpperCase() + c_r);
+  //init
+  check();
+  //if arg 3 is number then change the refresh rate 
+  const refresh = (process.argv[3] && !isNaN(parseInt(process.argv[3]))) ? process.argv[3] : 1000;
+  setInterval(check, refresh);
+} else {
+  //throw help
+  console.log("Domain Checker v0.1\nHow to use:\n" + c_c + "[executable]" + c_m + " [url]" + c_b + " [refresh rate(ms) Default 1 sec]\n" + c_c + arg[1].split("/").pop() + c_m + " www.example.com" + c_b + " 500" + c_r);
+}
