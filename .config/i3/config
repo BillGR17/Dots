@@ -2,14 +2,14 @@
 #AUTOSTART ON STARTUP#
 ######################
 
-exec sleep 10s; i3-msg 'workspace 2; exec spotify'
-exec sleep 10s; i3-msg 'workspace 2; exec steam'
-
 exec --no-startup-id nm-applet
 exec --no-startup-id parcellite
 exec --no-startup-id compton --config ~/.config/compton/compton.conf
 exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
+
 exec --no-startup-id firefox
+exec --no-startup-id spotify
+exec --no-startup-id steam
 
 #################################
 #LANGUAGE SWITCH LAYOUT#[en][gr]#
@@ -139,7 +139,6 @@ bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer
 bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
 bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
 
-
 ###################
 # WINDOW SETTINGS #
 ###################
@@ -175,14 +174,24 @@ workspace 10 output $s
 for_window [class="^feh"] floating enable
 for_window [title="^sxiv"] floating enable
 
-for_window [title="^chrome-devtools"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
 
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+
+for_window [title="^chrome-devtools"] floating enable
 for_window [title="Shutdown PC"] floating enable
 
 for_window [class="^Transmission"] float enable
 for_window [window_role="pop-up"] floating enable
 
 for_window [class="^vlc"] floating enable
+
+assign [class="(?i)spotify"] 2
+assign [class="(?i)steam"] 0
 
 #####################
 #COLORS ARE SET HERE#
@@ -206,7 +215,6 @@ set $nord13  #EBCB8B
 set $nord14  #A3BE8C
 set $nord15  #B48EAD
 
-
 # class                 border  back.   text    indicator child_border
 client.focused          $nord3  $nord0  $nord8  $nord7  $nord8
 client.focused_inactive $nord3  $nord0  $nord7  $nord8   $nord9
@@ -214,7 +222,6 @@ client.unfocused        $nord4  $nord0  $nord4  $nord9   $nord6
 client.urgent           $nord11 $nord0  $nord11  $nord11 $nord11
 client.placeholder      $nord13 $nord0  $nord8  $nord11 $nord11
 client.background       $nord0
-
 
 ##############
 #BAR SETTINGS#
