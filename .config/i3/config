@@ -190,9 +190,8 @@ for_window [window_role="pop-up"] floating enable
 
 for_window [class="^vlc"] floating enable
 
-assign [class="(?i)spotify"] 2
 assign [class="(?i)steam"] 0
-
+for_window [class="Spotify"] move to workspace 2
 #####################
 #COLORS ARE SET HERE#
 #####################
