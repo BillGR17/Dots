@@ -9,9 +9,7 @@ const c_r = "\x1b[0m"; //reset
 const arg = process.argv;
 //return digit number
 function toDigit(n, p) {
-  if (!p) {
-    p = 2;
-  } //convert to 2 digit by default
+  p = (p) ? p : 2; //convert to 2 digit by default
   let d = new Array(p + 1).join("0");
   return (d + n).slice(-p);
 }
