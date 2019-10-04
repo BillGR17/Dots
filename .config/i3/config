@@ -215,12 +215,12 @@ set $nord14  #A3BE8C
 set $nord15  #B48EAD
 
 # class                 border  back.   text    indicator child_border
-client.focused          $nord3  $nord0  $nord8  $nord7  $nord8
-client.focused_inactive $nord3  $nord0  $nord7  $nord8   $nord9
-client.unfocused        $nord4  $nord0  $nord4  $nord9   $nord6
-client.urgent           $nord11 $nord0  $nord11  $nord11 $nord11
-client.placeholder      $nord13 $nord0  $nord8  $nord11 $nord11
-client.background       $nord0
+client.focused          $nord3  $nord0  $nord8  $nord7    $nord8
+client.focused_inactive $nord3  $nord0  $nord7  $nord8    $nord9
+client.unfocused        $nord1  $nord0  $nord10 $nord9    $nord3
+client.urgent           $nord11 $nord0  $nord11 $nord11   $nord11
+client.placeholder      $nord13 $nord0  $nord8  $nord11   $nord11
+client.background       $nord1
 
 ##############
 #BAR SETTINGS#
@@ -234,11 +234,11 @@ bar {
   font pango: Hack 10
   height 20
   colors {
-    background $nord0
-    statusline $nord8
-    focused_workspace  $nord3  $nord7
-    active_workspace   $nord1  $nord8
-    inactive_workspace $nord8  $nord3
-    urgent_workspace   $nord3 $nord15
+    background         $nord0
+    statusline         $nord8
+    focused_workspace  $nord0  $nord8
+    active_workspace   $nord7  $nord3
+    inactive_workspace $nord8  $nord0
+    urgent_workspace   $nord0  $nord11
   }
 }
