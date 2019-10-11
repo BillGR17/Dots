@@ -33,7 +33,7 @@ void rn(char* oldname) {
   char n[500];
   snprintf(n, sizeof(n), "%.*d%s", digit, number, file_ext(oldname));
   if (access(n, F_OK) != -1) {
-    fprintf(stderr, "Cant rename %s file with same name exist\n", oldname);
+    fprintf(stderr, "Cant rename %s to %s file with same name exist\n", oldname, n);
   } else {
     printf("%s", oldname);
     rename(oldname, n);
