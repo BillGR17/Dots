@@ -33,7 +33,7 @@ zstyle ":completion:*:commands" rehash 1
 
 #Fix Env
 export GPG_TTY=$(tty)
-export EDITOR=NVIM
+export EDITOR=nvim
 export VISUAL="$EDITOR"
 
 # Fix Paths
