@@ -6,10 +6,9 @@ call plug#begin('~/.config/nvim/autoload')
   " Better Lang Syntax
   Plug 'sheerun/vim-polyglot'
   " Tools
-  Plug 'w0rp/ale'
+  Plug 'dense-analysis/ale'
   Plug 'Shougo/deoplete.nvim',{'do':':UpdateRemotePlugins'}
-  Plug 'Shougo/neosnippet'
-  Plug 'Shougo/neosnippet-snippets'
+  Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
   Plug 'mattn/emmet-vim'
   Plug 'terryma/vim-multiple-cursors'
   " UI & Tools
@@ -23,7 +22,7 @@ call plug#end()
 " load or create session if Vim doesn't have any arguments
 if argc() == 0
   if !empty(glob('.session.vim~'))
-     au VimEnter * so .session.vim~
+     au VimEnter * so .session.vim~|echo delete('.session.vim~')
   en
   au VimLeavePre * tabdo NERDTreeClose|if empty(&buftype) | mks! .session.vim~ | en
 en
@@ -64,17 +63,12 @@ au FileType html,html.handlebars,php EmmetInstall
 " deoplete
 let g:deoplete#enable_at_startup=1
 
-" neosnippet
-im <expr><TAB>
-\ pumvisible() ? "\<C-n>" :
-\ neosnippet#expandable_or_jumpable() ?
-\  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-
 " vim ale config
 let g:ale_open_list=1
+let g:ale_linters = {
+\  'c': ['clang'],
+\  'javascript': ['eslint']
+\}
 let g:ale_pattern_options = {'.*\.hbs$': {'ale_enabled': 0}}
 aug CloseLoclistWindowGroup
   au!
@@ -117,7 +111,7 @@ fu B_C(_file)
 endf
 " if js-beautify exist beautify code on every save¬
 if executable("js-beautify")
-  au FileType javascript.jsx au BufWrite *.js,*.json call B_C("js")
+  au FileType javascript.jsx,json,javascript au BufWrite *.js,*.json call B_C("js")
   au FileType html,html.handlebars au BufWrite *.html,*.hbs call B_C("ht")
   au FileType css au BufWritePre *.css call B_C("cs")
 en
@@ -125,7 +119,8 @@ en
 if executable("clang-format")
   au FileType c,cpp au BufWritePre *.c,*.cpp call B_C("c")
 en
-
+" completions
+im <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " Quick split with ctr + arrow
 nm <silent> <C-A-Right> :vs<CR>:wincmd l<CR>
 nm <silent> <C-A-Down> :sp<CR>:wincmd j<CR>
