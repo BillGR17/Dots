@@ -31,6 +31,11 @@ alias vim="nvim"
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ":completion:*:commands" rehash 1
 
+#Fix Env
+export GPG_TTY=$(tty)
+export EDITOR=NVIM
+export VISUAL="$EDITOR"
+
 # Fix Paths
 # NPM path
 export PATH=$HOME/.npm-packages/bin:$PATH
