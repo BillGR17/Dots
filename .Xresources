@@ -5,7 +5,6 @@ XTerm.vt100.metaSendsEscape: true
 ! History
 xterm.vt100.saveLines: 100000
 
-
 XTerm*forceBoxChars: true
 XTerm*dynamicColors: true
 XTerm*visualBell: off
@@ -20,54 +19,25 @@ XTerm*preeditType: Root
 XTerm*xftAntialias: true
 XTerm.vt100.locale: true
 
+XTerm*faceName: Hack:style=Regular:size=11
 XTerm.vt100.faceName: Hack:style=Regular:size=11
 XTerm.vt100.font: Hack:style=Regular:size=11
 XTerm.boldFont: Hack:style=Bold:size=11
 XTerm.italicFont: Hack:style=Italic:size=11
 
-
 ! Trim trailing spaces
 XTerm*trimSelection: true
-
 
 ! Copy & Paste Keys
 XTerm*VT100.Translations: #override \
   Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
   Ctrl Shift <Key>C:    copy-selection(CLIPBOARD)
 
-
-XTerm.termName: xterm-256color
-
-XTerm.vt100.metaSendsEscape: true
-
-XTerm*faceName: 'Roboto Mono'
-XTerm*faceSize: 11
-
-! History
-XTerm.vt100.saveLines: 100000
-
-
+! Colors
 XTerm*forceBoxChars: true
 XTerm*dynamicColors: true
 XTerm*visualBell: off
 XTerm*highlightSelection: true
-
-! Encoding
-!XTerm*utf8: True
-!XTerm*locale: True
-!XTerm*utf8Title: True
-!XTerm*renderFont: True
-!XTerm*preeditType: Root
-!XTerm*xftAntialias: true
-!XTerm.vt100.locale: true
-
-! Trim trailing spaces
-XTerm*trimSelection: true
-
-! Copy & Paste Keys
-XTerm*VT100.Translations: #override \
-  Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
-  Ctrl Shift <Key>C:    copy-selection(CLIPBOARD)
 
 *.foreground:   #D8DEE9
 *.background:   #2E3440
@@ -91,4 +61,3 @@ XTerm*VT100.Translations: #override \
 *.color13: #B48EAD
 *.color14: #8FBCBB
 *.color15: #ECEFF4
-
