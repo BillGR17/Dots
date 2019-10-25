@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 char h[] = "Specify What you need to "
-           "confing\n[ng=nginx]\n[ap=apache]\n[i3=i3wm]\n[vi=nvim]\n[ra=ranger]\n[tm=tmux]\n[zh=zsh]\n[xr=xterm]\n";
+           "confing\n[ng=nginx]\n[ap=apache]\n[i3=i3wm]\n[vi=nvim]\n[ra=ranger]\n[tm=tmux]\n[zh=zsh]\n[xr=xterm]\n[co="
+           "compton]\n[du=dunst]";
 void exec(char x[]) {
   char c[100];
   sprintf(c, "nvim %s", x);
@@ -19,6 +20,10 @@ void list(char s[]) {
     exec("/etc/nginx/nginx.conf&&systemctl restart nginx.service");
   } else if (strcmp(s, "ap") == 0) {
     exec("/etc/httpd/conf/httpd.conf&&systemctl restart httpd.service");
+  } else if (strcmp(s, "co") == 0) {
+    exec("~/.config/compton/compton.conf");
+  } else if (strcmp(s, "du") == 0) {
+    exec("~/.config/dunst/dunstrc");
   } else if (strcmp(s, "tm") == 0) {
     exec("~/.tmux.conf");
   } else if (strcmp(s, "zh") == 0) {
