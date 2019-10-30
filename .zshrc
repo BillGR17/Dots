@@ -48,21 +48,12 @@ function loc() {
 }
 # This makes the numbers with modified & untracked files & code insertions & code deletions
 function _g_i_t_(){
-  IFS=$'\n' # Array split is breakline instead of space
   if [ -d .git ]; then
-    out+=$(git status --porcelain|grep "??"|wc -l) #get all Untracked files
-    for i in $(git diff --stat|awk 'END{print}'|tr "," "\n"); do
-      case $i in
-        (*"file"*) out+="%F{cyan}$(echo $i| sed 's/[^0-9]*//g')%f";;
-        (*"+"*) out+="%F{green}$(echo $i| sed 's/[^0-9]*//g')%f";;
-        (*"-"*) out+="%F{red}$(echo $i| sed 's/[^0-9]*//g')%f";;
-      esac
-    done
-    echo "[$out]"
+    echo -n "["$(git status --porcelain|grep "??"|wc -l)
+    git diff --stat|tail -n 1|sed 's/[^0-9]*/ /g'|awk '{print"%F{cyan}"$1"%f%F{green}"$2"%F{red}"$3"%f]"}'
   fi
-  unset out #No longer needed
-  unset IFS
 }
 setopt PROMPT_SUBST
-PROMPT='%F{blue}%n%f%F{cyan}$(loc)%f%F{white}~%f'
+
+PROMPT='%F{blue}%n@%m%f%F{cyan}$(loc)%f%F{white}~%f'
 RPROMPT='[%F{yellow}%?%f]$(_g_i_t_)'
