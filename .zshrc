@@ -17,13 +17,13 @@ setopt notify
 bindkey -e
 # End of lines configured by zsh-newuser-install
 
-# Fix Keys
-bindkey "\e[2~"   overwrite-mode
-bindkey "\e[3~"   delete-char
-bindkey "${terminfo[khome]}" beginning-of-line
-bindkey "${terminfo[kend]}" end-of-line
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
+# use 'showkey -a' and fix if there are any issue with these keys
+bindkey "^[[2~"   overwrite-mode
+bindkey "^[[3~"   delete-char
+bindkey "^[[1~"   beginning-of-line
+bindkey "^[[4~"   end-of-line
+bindkey '^[[A'    history-substring-search-up
+bindkey '^[[B'    history-substring-search-down
 
 # Alias&Functions
 alias vim="nvim"
