@@ -1,6 +1,7 @@
 if ! type "antibody" > /dev/null; then
-  curl -sfL git.io/antibody |sudo sh -s - -b /usr/local/bin
+  curl -sfL git.io/antibody|sudo sh -s - -b /usr/local/bin
 fi
+
 source <(antibody init)
 
 antibody bundle zsh-users/zsh-history-substring-search
@@ -11,6 +12,7 @@ antibody bundle zsh-users/zsh-completions
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
+
 setopt notify
 bindkey -e
 
@@ -24,11 +26,14 @@ bindkey "^[[A"    history-substring-search-up
 bindkey "^[[B"    history-substring-search-down
 
 # Auto suggestions
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+autoload -U compinit && compinit
+zstyle ":completion:*" matcher-list "m:{a-z}={A-Za-z}"
 zstyle ":completion:*:commands" rehash 1
 
 # Alias&Functions
 alias vim="nvim"
+alias ls="ls --color=tty"
+alias grep="grep --color=auto"
 
 # Set Environment Variables
 export GPG_TTY=$(tty)
@@ -46,15 +51,17 @@ export GOPATH=$HOME/.go
 function loc() {
   echo ${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
 }
-
 # This makes the numbers with modified & untracked files & code insertions & code deletions
 function _GIT_(){
   if [ -d .git ]; then
-    echo -n "["$(git status --porcelain|grep "??"|wc -l)
-    git diff --stat|tail -n 1|sed 's/[^0-9]*/ /g'|awk '{print"%F{cyan}"$1"%f%F{green}"$2"%F{red}"$3"%f]"}'
+    echo -n "["
+    echo -n "%F{cyan}"$(git branch 2> /dev/null|sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/' -e 's/[a-z]/\U&/g')"%f"
+    echo -n $(git status --porcelain|grep "??"|wc -l)
+    echo -n $(git diff --stat|tail -n 1|sed 's/[^0-9]*/ /g'|awk '{print"%F{cyan}"$1"%f%F{green}"$2"%F{red}"$3"%f"}')
+    echo -n "]"
   fi
 }
 setopt PROMPT_SUBST
 
-PROMPT='%F{blue}%n@%m%f%F{cyan}$(loc)%f%F{white}~%f'
+PROMPT='%F{018}%K{150}%n@%M~$(loc)%k%f%F{150}%B❱➤%b%f '
 RPROMPT='[%F{yellow}%?%f]$(_GIT_)'
