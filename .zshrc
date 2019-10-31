@@ -63,5 +63,5 @@ function _GIT_(){
 }
 setopt PROMPT_SUBST
 
-PROMPT='%F{018}%K{150}%n@%M~$(loc)%k%f%F{150}%B❱➤%b%f '
+PROMPT='%F{018}%K{150}%n@%M%B~$(loc) %k%f%F{150}❱➤%f%b '
 RPROMPT='[%F{yellow}%?%f]$(_GIT_)'
