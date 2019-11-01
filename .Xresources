@@ -34,11 +34,6 @@ XTerm*VT100.Translations: #override \
   Ctrl Shift <Key>C:    copy-selection(CLIPBOARD)
 
 ! Colors
-XTerm*forceBoxChars: true
-XTerm*dynamicColors: true
-XTerm*visualBell: off
-XTerm*highlightSelection: true
-
 *.foreground: #d8dee9
 *.background: #2e3440
 *.cursorcolor: #d8dee9
