@@ -2,11 +2,16 @@
 # Fast kill -9 for one or more apps
 if [ "$1" ];then
   IFS=$'\n'
-  res=( $(pgrep $1) )
+  res=( $(pgrep -a $1) )
   if [ ! -z "$res" ];then
     echo -e "[$1]\n[Results]\n~~~~~~\n"
     for ((i=0;i<${#res[@]};i++));do
-      echo -e $(pmap ${res[$i]}|head -n 1|awk '{print $1$2}') $(pmap ${res[$i]}|tail -1|awk '$1=int($2/1024)"mb"{print $1}')
+      _n=$(echo -n ${res[i]}|awk '{$1=""; print }')
+      res[$i]=$(echo -n ${res[$i]}|cut -d " " -f1)
+      _mem=$(pmap ${res[$i]}|tail -1|awk '{$1=int($2/1024);print $1}')
+      printf "[%5d] %5dmb \e[32m%s\e[0m\n" ${res[$i]} $_mem $_n
+      unset _n
+      unset _mem
     done
     echo -e "\n~~~~~~\n[KILL]?(?)! [Y/N]?"
     read -s r
