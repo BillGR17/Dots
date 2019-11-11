@@ -34,7 +34,11 @@ zstyle ":completion:*:commands" rehash 1
 alias vim="nvim"
 alias ls="ls --color=tty"
 alias grep="grep --color=auto"
-
+# just add the state you want to check execute like this [ssmonit ESTABLISHED]
+alias ssmonit="watch -n 1 \"ss -tuap state \""
+alias psmine="ps -fH -u $(whoami)"
+alias df="df -h"
+alias trn="tr ' ' '\n'"
 # Set Environment Variables
 export GPG_TTY=$(tty)
 export EDITOR=nvim
