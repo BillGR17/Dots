@@ -51,10 +51,6 @@ export PATH=$HOME/.npm-packages/bin:$PATH
 export GOPATH=$HOME/.go
 
 # Prompt is set here
-# This makes the location kinda like the one in fish shell
-function loc() {
-  echo ${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
-}
 # This makes the numbers with modified & untracked files & code insertions & code deletions
 function _GIT_(){
   if [ -d .git ]; then
@@ -67,5 +63,5 @@ function _GIT_(){
 }
 setopt PROMPT_SUBST
 
-PROMPT='%F{236}%K{012}%n@%M%B$(loc) %k%f%F{012}❱➤%f%b '
+PROMPT='%F{236}%K{012}%n@%M%B%~ %f%b%k%f%B%F{012}❱➤%f%b ' 
 RPROMPT='[%F{yellow}%?%f]$(_GIT_)'
