@@ -163,6 +163,6 @@ nm <silent> <C-\> :NERDTreeToggle<CR>
 im <silent> <C-\> <ESC> :NERDTreeToggle<CR>
 " Fix Syntax
 nm <silent> <F12> :NERDTreeClose <bar> :windo e! <bar> :NERDTreeFind <bar> :wincmd p<CR>
-" Show Collors
+" Show Colors
 nm <silent> <F11> :ColorHighlight<CR>
 im <silent> <F11> <ESC> :ColorHighlight<CR>
