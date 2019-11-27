@@ -49,7 +49,12 @@ au BufRead *.styl set syntax=css ft=css
 let g:lightline={'colorscheme':'nord'}
 
 " highlight closing tag "
-let g:mta_filetypes={'html':1,'html.handlebars':1,'php':1}
+let g:mta_filetypes={
+  \'html':1,
+  \'html.handlebars':1,
+  \'html.twig':1,
+  \'php':1
+\}
 
 " vim gitgutter settings
 let g:gitgutter_realtime=1
@@ -58,7 +63,7 @@ let g:gitgutter_eager=0
 " Emmet
 let g:user_emmet_expandabbr_key='<C-e>'
 let g:user_emmet_install_global=0
-au FileType html,html.handlebars,php EmmetInstall
+au FileType html,html.*,php EmmetInstall
 
 " deoplete
 let g:deoplete#enable_at_startup=1
@@ -66,8 +71,8 @@ let g:deoplete#enable_at_startup=1
 " vim ale config
 let g:ale_open_list=1
 let g:ale_linters = {
-\  'c': ['clang'],
-\  'javascript': ['eslint']
+  \'c': ['clang'],
+  \'javascript': ['eslint']
 \}
 let g:ale_pattern_options = {'.*\.hbs$': {'ale_enabled': 0}}
 aug CloseLoclistWindowGroup
