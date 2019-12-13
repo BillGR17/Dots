@@ -1,0 +1,194 @@
+#!/usr/bin/env node
+const http = require("http"),
+  https = require("https");
+let domain; //Saves the user's URL
+//check if URL is correct
+//its only used once for the user URL
+//but it can be used on clean function...
+function validURL(str) {
+  var pattern = new RegExp("^(https|http):\\/\\/" + // protocol
+    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+    "((\\d{1,3}\\.){3}\\d{1,3}))" + // or IP (v4) address
+    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+    "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+    "(\\#[-a-z\\d_]*)?$", "i"); // fragment locator
+  return !!pattern.test(str);
+}
+//Used to check the URL the user provided
+function verifyLink(link) {
+  return new Promise((res, rej) => {
+    if (validURL(link)) {
+      res(link);
+    } else {
+      rej(`${link} is not a valid URL`);
+    }
+  });
+}
+//returns status code from link
+function checkLink(link) {
+  return new Promise((res, rej) => {
+    const go = (link.startsWith("https")) ? https : http;
+    go.get(link, (_res) => {
+      res(_res.statusCode);
+    }).on("error", (err) => {
+      rej(err);
+    });
+  });
+}
+//First things first
+//check the URL the user has entered
+//then either throw an error or continue
+async function checkArg() {
+  let d = null;
+  await verifyLink(process.argv[2]).then(async (link) => {
+    await checkLink(link).then((status) => {
+      if (status == 200) {
+        d = link;
+      } else {
+        console.log("The provided URL Must Return [200] but returns [" + status + "]");
+      }
+    });
+  }).catch((err) => {
+    console.error(err + "\nPlease provide a URL like 'http://example.com'");
+  });
+  return d;
+}
+//removes the href | src
+//ignores links with #
+//removes ../ from links
+function clean(urls) {
+  return new Promise((res) => {
+    let links = [];
+    urls.forEach(function(i) {
+      i = i.replace(/^(href=|src=)/g, "");
+      i = (i.endsWith("\"") || i.endsWith("'")) ? i.slice(0, -1) : i;
+      i = (i.startsWith("\"") || i.startsWith("'")) ? i.substr(1) : i;
+      i = (i.startsWith("../")) ? i.split("../").pop() : i;
+      if (!i.startsWith("#") && !i.startsWith("/#"))
+        links.push(i);
+    });
+    res(links);
+  });
+}
+//contains list of protocols
+//angular useless links
+function nonolist(url) {
+  return (url) ? !url.substr(0, 10).match("http://|https://|mailto:|data:|tel:|ftp://|file://|news://|telnet://|gopher://|nntp://|{%") : undefined;
+}
+//checks each link
+//if it doesn't have / at the beginning
+//if it starts with hosts name it will remove it
+//else if it starts with a long list of protocols
+function removeUnwantedLinks(links) {
+  return new Promise((res) => {
+    let stored = [];
+    if (links) {
+      links.forEach((i) => {
+        if (!i.startsWith("/") && nonolist(i)) {
+          stored.push("/" + i);
+        } else if (i.startsWith(domain)) {
+          let fixed = i.replace(domain, "");
+          if (!stored.includes(fixed) || !links.includes(fixed)) {
+            stored.push(fixed);
+          }
+        } else if (nonolist(i)) {
+          stored.push(i);
+        }
+      });
+    }
+    res(stored);
+  });
+}
+//returns status code from link
+function getLinks(link) {
+  return new Promise((res) => {
+    //its better to never return rejections
+    //just send undefined and log the error
+    //some servers block multiple connections....
+    const go = (link.startsWith("https")) ? https : http;
+    go.get(link, async (_res) => {
+      if (_res.statusCode == 200 && _res.headers["content-type"].indexOf("text/html") !== -1) {
+        _res.setEncoding("utf-8");
+        let data;
+        _res.on("data", (buf) => {
+          data += buf;
+        });
+        _res.on("end", async () => {
+          let url = [];
+          if (data) {
+            //get all matching href links and src links
+            url.push.apply(url, Array.from(new Set(data.match(/href="(.*?)"/g))));
+            url.push.apply(url, Array.from(new Set(data.match(/src="(.*?)"/g))));
+            //remove the src and href
+            url = Array.from(await clean(new Set(url))).sort();
+            url = await removeUnwantedLinks(url);
+          }
+          res(url);
+        });
+      } else {
+        res(undefined);
+      }
+    }).on("error", (err) => {
+      console.error(err);
+      res(undefined);
+    });
+  });
+}
+function hasVisited(visited, link) {
+  return visited.some((x) => {
+    return x.link === link;
+  });
+}
+async function go(list) {
+  let visited = [];
+  let total;
+  for (let i = 0; i < list.length; i++) {
+    total = list.length;
+    if (!hasVisited(visited, list[i])) {
+      let status;
+      await checkLink(domain, list[i]).then(code => {
+        status = code;
+      }).catch((err) => {
+        status = null;
+        console.log(err);
+      });
+      //the decodeURIComponent does not decode everything correctly...
+      //but I'm too lazy to fix the missing characters so.. ...this will have to do
+      console.log("[\x1b[34m" + status + "\x1b[0m]\x1b[44m " + (i + 1) + "/\x1b[30m" + total + " \x1b[0m\x1b[36m" + domain + "\x1b[0m\x1b[34m" + decodeURIComponent(list[i] + "\x1b[0m"));
+      visited.push({
+        link: list[i],
+        status: status
+      });
+      //temporarily store current page links
+      //and then check if they are already visited
+      let tmp = await getLinks(domain + list[i]);
+      if (tmp) {
+        for (let x of tmp) {
+          if (!list.includes(x) && !hasVisited(visited, x)) {
+            list.push(x);
+          }
+        }
+      }
+    }
+  }
+  return visited;
+}
+async function main() {
+  domain = await checkArg();
+  if (domain) {
+    //if user provided / at the end of the URL remove it!
+    domain = (domain.endsWith("/")) ? domain.slice(0, -1) : domain;
+    let visited = await go(await getLinks(domain));
+    //grab everything that doesn't have status code 200 and show it
+    let err = visited.filter(obj => obj.status !== 200);
+    if (err.length) {
+      console.error(`\x1b[31m[${err.length}] Sites that did not return 200 are listed here\x1b[0m`);
+      err.forEach((x) => {
+        console.error(`Link: "${domain}${x.link}" Status: ${x.status}`);
+      });
+    } else {
+      console.error("\x1b[31mLucky bastard!\x1b[0m");
+    }
+  }
+}
+main();
