@@ -134,39 +134,31 @@ function getLinks(link) {
     });
   });
 }
-function hasVisited(visited, link) {
-  return visited.some((x) => {
-    return x.link === link;
-  });
-}
 async function go(list) {
   let visited = [];
   let total;
   for (let i = 0; i < list.length; i++) {
     total = list.length;
-    if (!hasVisited(visited, list[i])) {
-      let status;
-      await checkLink(domain, list[i]).then(code => {
-        status = code;
-      }).catch((err) => {
-        status = null;
-        console.log(err);
-      });
-      //the decodeURIComponent does not decode everything correctly...
-      //but I'm too lazy to fix the missing characters so.. ...this will have to do
-      console.log("[\x1b[34m" + status + "\x1b[0m]\x1b[44m " + (i + 1) + "/\x1b[30m" + total + " \x1b[0m\x1b[36m" + domain + "\x1b[0m\x1b[34m" + decodeURIComponent(list[i] + "\x1b[0m"));
-      visited.push({
-        link: list[i],
-        status: status
-      });
-      //temporarily store current page links
-      //and then check if they are already visited
-      let tmp = await getLinks(domain + list[i]);
-      if (tmp) {
-        for (let x of tmp) {
-          if (!list.includes(x) && !hasVisited(visited, x)) {
-            list.push(x);
-          }
+    let status = null;
+    await checkLink(domain + list[i]).then(code => {
+      status = code;
+    }).catch((err) => {
+      console.log(err);
+    });
+    //the decodeURIComponent does not decode everything correctly...
+    //but I'm too lazy to fix the missing characters so.. ...this will have to do
+    console.log("[\x1b[34m" + status + "\x1b[0m] " + (i + 1) + "\x1b[36m/\x1b[34m" + total + " \x1b[0m\x1b[36m" + domain + "\x1b[0m\x1b[34m" + decodeURIComponent(list[i] + "\x1b[0m"));
+    visited.push({
+      link: list[i],
+      status: status
+    });
+    //temporarily store current page links
+    //and then check if they are already visited
+    let tmp = await getLinks(domain + list[i]);
+    if (tmp) {
+      for (let x of tmp) {
+        if (!list.includes(x)) {
+          list.push(x);
         }
       }
     }
