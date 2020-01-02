@@ -1,0 +1,90 @@
+#!/usr/bin/env node
+/*****************************************************
+ * Very unsafe DO NOT USE as is                      *
+ * I only added it so i can insert multiple items    *
+ * for one website that isnt complicated enough      *
+ * it may break and completely destroy you json file *
+ *****************************************************/
+const fs = require("fs"),
+  readline = require("readline");
+const target = process.argv[2];
+const print = (...items) => {
+  console.log(...items);
+};
+const cmd = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+//read file and return json parse
+//bare bones error handling...
+const readFile = (file) => {
+  return new Promise((res, rej) => {
+    fs.readFile(file, (err, txt) => {
+      if (err) {
+        rej(err);
+      } else {
+        res(JSON.parse(txt.toString()));
+      }
+    });
+  });
+};
+const askUser = (key) => {
+  return new Promise((res) => {
+    cmd.question("Enter Value for [" + key + "]\n", (data) => {
+      if (data.toString() === ".exit") {
+        print("Closing...");
+        cmd.close();
+        process.exit(0);
+      }
+      res(data);
+    });
+  });
+};
+//check last json typeof
+//only checks for number and boolean types
+const checkType = (o_data, data) => {
+  let r = null;
+  switch (typeof o_data) {
+    default:
+      r = data.toString();
+      break;
+    case "number":
+      r = parseInt(data);
+      break;
+    case "boolean":
+      r = (data === "true");
+      break;
+  }
+  return (r) ? r : o_data;
+};
+async function main(f) {
+  //get last item from file
+  let lf = f.pop();
+  print("Creating new model from the first array in [" + target + "]...");
+  print(lf);
+  //get all objects keys from the last item
+  let keys = Object.keys(lf);
+  //store new data on tmp
+  let tmp = {};
+  for (let i = 0; i < keys.length; i++) {
+    tmp[keys[i]] = checkType(lf[keys[i]], await askUser(keys[i]));
+  }
+  f.push(tmp);
+  fs.writeFileSync(target, JSON.stringify(f));
+  main(f); //start all over
+}
+const init = async () => {
+  await print("\x1b[34mPress .exit to terminate the process.\x1b[0m");
+  let f = await readFile(target).catch((err) => {
+    print(err);
+  });
+  if (f) {
+    //create a copy just to be save...
+    await fs.copyFileSync(target, "old_" + target);
+    await main(f);
+  } else {
+    cmd.close();
+    process.exit(1);
+  }
+};
+init();
