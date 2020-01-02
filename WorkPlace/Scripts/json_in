@@ -59,7 +59,7 @@ const checkType = (o_data, data) => {
 };
 async function main(f) {
   //get last item from file
-  let lf = f.pop();
+  let lf = f[f.length - 1];
   print("Creating new model from the first array in [" + target + "]...");
   print(lf);
   //get all objects keys from the last item
