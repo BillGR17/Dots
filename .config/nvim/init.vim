@@ -74,7 +74,10 @@ let g:ale_linters = {
   \'c': ['clang'],
   \'javascript': ['eslint']
 \}
-let g:ale_pattern_options = {'.*\.hbs$': {'ale_enabled': 0}}
+let g:ale_pattern_options = {
+  \'.*\.hbs$': {'ale_enabled': 0},
+  \'.*\.handlebars$': {'ale_enabled': 0}
+\}
 aug CloseLoclistWindowGroup
   au!
   au QuitPre * if empty(&buftype) | lcl | en
@@ -117,7 +120,7 @@ endf
 " if js-beautify exist beautify code on every save¬
 if executable("js-beautify")
   au FileType javascript.jsx,json,javascript au BufWrite *.js,*.json call B_C("js")
-  au FileType html,html.handlebars au BufWrite *.html,*.hbs call B_C("ht")
+  au FileType html,html.handlebars au BufWrite *.html,*.hbs,*.handlebars call B_C("ht")
   au FileType css au BufWritePre *.css call B_C("cs")
 en
 " if clang-format exist beautify code on every save¬
