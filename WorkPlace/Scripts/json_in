@@ -6,8 +6,9 @@
  * it may break and completely destroy you json file *
  *****************************************************/
 const fs = require("fs"),
+  path= require("path"),
   readline = require("readline");
-const target = process.argv[2];
+const target = path.join(process.cwd(), process.argv[2]);
 const print = (...items) => {
   console.log(...items);
 };
@@ -80,7 +81,7 @@ const init = async () => {
   });
   if (f) {
     //create a copy just to be save...
-    await fs.copyFileSync(target, "old_" + target);
+    await fs.copyFileSync(target, target+"_");
     await main(f);
   } else {
     cmd.close();
