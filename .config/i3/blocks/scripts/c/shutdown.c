@@ -17,7 +17,7 @@ void onError(char* t, int c) {
 void button(char* txt, int x, int y, void (*func)()) {
   int xx = w_w / 2;
   XDrawRectangle(d, w, gc, x, y, xx, w_h);
-  XDrawString(d, w, gc, x + 3, y + w_h / 2, txt, strlen(txt));
+  XDrawString(d, w, gc, x - ((XTextWidth(f, txt, strlen(txt)) - xx) / 2), y + w_h / 2, txt, strlen(txt));
   int r_x, r_y, wm_x, wm_y;
   Window r_w, r_c;
   unsigned int m;

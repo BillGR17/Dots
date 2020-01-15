@@ -9,7 +9,7 @@ exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
 
 exec --no-startup-id firefox
 exec --no-startup-id spotify
-exec --no-startup-id steam
+exec --no-startup-id steam-native
 
 #################################
 #LANGUAGE SWITCH LAYOUT#[en][gr]#
