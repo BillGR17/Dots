@@ -24,7 +24,7 @@ if argc() == 0
   if !empty(glob('.session.vim~'))
      au VimEnter * so .session.vim~|echo delete('.session.vim~')
   en
-  au VimLeavePre * tabdo NERDTreeClose|if empty(&buftype) | mks! .session.vim~ | en
+  au VimLeavePre * tabdo NERDTreeClose|if empty(&buftype)|mks! .session.vim~|en
 en
 fu Nerd_tog()
   NERDTreeToggle
@@ -37,12 +37,13 @@ fu Nerd_tog()
 endf
 au VimEnter * call Nerd_tog()
 
+let NERDTreeIgnore=[]
 let NERDTreeShowHidden=1
 let NERDTreeMapOpenInTab='<ENTER>'
 
-let g:polyglot_disabled = ['styl']
+let g:polyglot_disabled=['styl']
 
-" read stylus as css 
+" read stylus as css
 au BufRead *.styl set syntax=css ft=css
 
 " lightline
@@ -85,7 +86,7 @@ aug END
 
 syn on
 set ph=20 wim=full mouse=a si nu lz sm ut=100 title ssop-=blank,options,buffer
-set cot-=preview cuc cul ts=2 shiftwidth=2 sts=2 et spell nowrap udf 
+set cot-=preview cuc cul ts=2 shiftwidth=2 sts=2 et spell nowrap udf
 set list lcs=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:.
 
 " Greek keymap support & Encoding
@@ -120,7 +121,7 @@ endf
 " if js-beautify exist beautify code on every save¬
 if executable("js-beautify")
   au FileType javascript.jsx,json,javascript au BufWrite *.js,*.json call B_C("js")
-  au FileType html,html.handlebars au BufWrite *.html,*.hbs,*.handlebars call B_C("ht")
+  au FileType html,html.handlebars au BufWrite *.html,*.hbs,*.handlebars,*.twig call B_C("ht")
   au FileType css au BufWritePre *.css call B_C("cs")
 en
 " if clang-format exist beautify code on every save¬
@@ -167,8 +168,8 @@ nm <F3> :%s/\t/  /g<CR>
 nm <C-s> :w<CR>
 im <C-s> <ESC> :w<CR>
 " Toggle Nerdtree
-nm <silent> <C-\> :NERDTreeToggle<CR>
-im <silent> <C-\> <ESC> :NERDTreeToggle<CR>
+nm <silent> <C-\> :call Nerd_tog()<CR>
+im <silent> <C-\> <ESC> :call Nerd_tog()<CR>
 " Fix Syntax
 nm <silent> <F12> :NERDTreeClose <bar> :windo e! <bar> :NERDTreeFind <bar> :wincmd p<CR>
 " Show Colors
