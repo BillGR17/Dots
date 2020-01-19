@@ -153,8 +153,8 @@ focus_follows_mouse no
 mouse_warping none
 
 #Marking primary & secondary screens
-set $p DP-0
-set $s HDMI-0
+set $p eDP-1-1
+set $s eDP-1-1
 
 #PRIMARY SCREEN WORKPLACE
 workspace 1 output $p
