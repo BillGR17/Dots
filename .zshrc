@@ -1,3 +1,4 @@
+# Download and install antibody if it doesn't exist
 if ! type "antibody" > /dev/null; then
   curl -sfL git.io/antibody|sudo sh -s - -b /usr/local/bin
 fi
@@ -17,7 +18,7 @@ setopt notify
 bindkey -e
 
 # Set Keyboard Shortcuts
-# Use 'showkey -a' and fix if there are any issue with these keys
+# Use 'showkey -a' if there is any issue with these keys
 bindkey "^[[2~"   overwrite-mode
 bindkey "^[[3~"   delete-char
 bindkey "^[[1~"   beginning-of-line
@@ -30,7 +31,9 @@ autoload -U compinit && compinit
 zstyle ":completion:*" matcher-list "m:{a-z}={A-Za-z}"
 zstyle ":completion:*:commands" rehash 1
 
-# Alias&Functions
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
+# Alias & Functions
 alias vim="nvim"
 alias ls="ls --color=tty"
 alias grep="grep --color=auto"
@@ -40,7 +43,9 @@ alias psmine="ps -fH -u $(whoami)"
 alias df="df -h"
 alias trn="tr ' ' '\n'"
 # Set Environment Variables
+# To fix git gpg
 export GPG_TTY=$(tty)
+# To set nvim as default editor
 export EDITOR=nvim
 export VISUAL="$EDITOR"
 
@@ -63,5 +68,5 @@ function _GIT_(){
 }
 setopt PROMPT_SUBST
 
-PROMPT='%F{236}%K{012}%n@%M%B%~ %f%b%k%f%B%F{012}❱➤%f%b ' 
+PROMPT='%F{236}%K{012}%n@%M%B%~ %f%b%k%f%B%F{012}❱➤%f%b '
 RPROMPT='[%F{yellow}%?%f]$(_GIT_)'
