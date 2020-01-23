@@ -1,7 +1,7 @@
 # Never Turn Off The Monitor's
 xset s off&&xset -dpms
 # Faster Key-press Repeat Rate
-xset r rate 250 60
+xset r rate 250 90
 # Turns the Num-lock on
 xdotool key Num_Lock
 # Set resolutions primary and refresh rate
