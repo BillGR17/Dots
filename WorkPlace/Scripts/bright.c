@@ -47,8 +47,6 @@ void args(int argc, char* argv[]) {
     switch (opt) {
       case 'c': strncpy(card, optarg, sizeof(card)); break;
       case 'd': dec = 1; break;
-      default:
-        puts("Usage: bright -c \"intel_backlight\" -d\n If you want to increase you only need to type the card name\n");
     }
   }
 }
@@ -56,6 +54,7 @@ int main(int argc, char* argv[]) {
   args(argc, argv);
   if (strlen(card) == 0) {
     fprintf(stderr, "All you had to do was to provide the god damn card!\n");
+    puts("Usage: bright -c \"intel_backlight\" -d\nIf you want to increase you only need to type the card name\n");
     exit(1);
   }
   // get max brightness path
@@ -70,8 +69,6 @@ int main(int argc, char* argv[]) {
   // get current brightness
   char c_b[128];
   readFile(p_c, c_b, sizeof(c_b));
-  // get&store current percentage of brightness
-  int c_b_p = atof(c_b) / atof(m_b) * 100;
   // calculate the 5 percentage of brightness
   int c_b_p_5 = ((double)5 / (double)100) * atof(m_b);
   // now read button events and increase or decrease the brightness by 5%
@@ -85,7 +82,5 @@ int main(int argc, char* argv[]) {
     if (x <= 0) { x = 1; }
     writeFile(p_c, x);
   }
-  c_b_p = x / atof(m_b) * 100;
-  printf("%d%%\n", c_b_p);
   return 0;
 }
