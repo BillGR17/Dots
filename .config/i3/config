@@ -138,6 +138,8 @@ bindsym XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer
 bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
 bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
 bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+bindsym XF86MonBrightnessUp exec "bright -c intel_backlight"
+bindsym XF86MonBrightnessDown exec "bright -c intel_backlight -d"
 
 ###################
 # WINDOW SETTINGS #
@@ -151,24 +153,6 @@ font pango: Hack 10
 smart_gaps on
 focus_follows_mouse no
 mouse_warping none
-
-#Marking primary & secondary screens
-set $p eDP-1-1
-set $s eDP-1-1
-
-#PRIMARY SCREEN WORKPLACE
-workspace 1 output $p
-workspace 3 output $p
-workspace 5 output $p
-workspace 7 output $p
-workspace 9 output $p
-
-#SECONDARY SCREEN WORKPLACE
-workspace 2 output $s
-workspace 4 output $s
-workspace 6 output $s
-workspace 8 output $s
-workspace 10 output $s
 
 #FLOAT WINDOWS ARE HERE
 for_window [class="^feh"] floating enable
@@ -227,9 +211,6 @@ client.background       $nord1
 ##############
 
 bar {
-  output $p
-  output $s
-  tray_output $p
   status_command i3blocks -c ~/.config/i3/blocks/i3blocks.conf
   font pango: Hack 10
   height 20
