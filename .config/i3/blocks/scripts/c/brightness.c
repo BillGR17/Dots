@@ -47,8 +47,8 @@ int main(void) {
   readFile(p_c, c_b, sizeof(c_b));
   // get&store current percentage of brightness
   int c_b_p = atof(c_b) / atof(m_b) * 100;
-  // calculate the 5 percentage of brightness
-  int c_b_p_5 = ((double)5 / (double)100) * atof(m_b);
+  // calculate the 1 percentage of brightness
+  int c_b_p_n = ((double)1 / (double)100) * atof(m_b);
   // now read button events and increase or decrease the brightness by 5%
   char* e_b = getenv("BLOCK_BUTTON");
   // store
@@ -57,12 +57,12 @@ int main(void) {
     int m = atoi(e_b);
     switch (m) {
       case 4:
-        x += c_b_p_5;
+        x += c_b_p_n;
         if (x > atoi(m_b)) { x = atoi(m_b); }
         writeFile(p_c, x);
         break;
       case 5:
-        x -= c_b_p_5;
+        x -= c_b_p_n;
         if (x <= 0) { x = 1; }
         writeFile(p_c, x);
         break;
