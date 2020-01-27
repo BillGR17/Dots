@@ -17,20 +17,22 @@ char dec = 0;
 // to change
 // the brightness
 int percentage = 1;
-void readFile(char* e, double r) {
+int readFile(char* e) {
   FILE* f = fopen(e, "r");
   char buf[128];
+  double r;
   if (f == NULL) {
     fprintf(stderr, "Could not open file %s\n", e);
     exit(2);
   }
   if (fgets(buf, sizeof(buf), f) != NULL) {
-    r = atof(buf);
+    r = atoi(buf);
   } else {
     puts("Could not find shit in file\n");
     exit(3);
   }
   fclose(f);
+  return r;
 }
 void writeFile(char* e, int x) {
   FILE* f = fopen(e, "w+");
@@ -75,13 +77,11 @@ int main(int argc, char* argv[]) {
   char p_c[128];
   sprintf(p_c, "/sys/class/backlight/%s/brightness", card);
   // get max brightness
-  double m_b = 0;
-  readFile(p_m, m_b);
+  double m_b = readFile(p_m);
   // get current brightness
-  double c_b = 0;
-  readFile(p_c, c_b);
+  double c_b = readFile(p_c);
   // calculate the percentage of brightness
-  int c_b_p_n = ((double)percentage / (double)100) * m_b;
+  double c_b_p_n = ((double)percentage / (double)100) * m_b;
   // now read button events and increase or decrease the brightness
   if (!dec) {
     c_b += c_b_p_n;
