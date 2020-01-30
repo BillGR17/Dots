@@ -6,7 +6,7 @@
  * it may break and completely destroy you json file *
  *****************************************************/
 const fs = require("fs"),
-  path= require("path"),
+  path = require("path"),
   readline = require("readline");
 const target = path.join(process.cwd(), process.argv[2]);
 const print = (...items) => {
@@ -45,18 +45,20 @@ const askUser = (key) => {
 //only checks for number and boolean types
 const checkType = (o_data, data) => {
   let r = null;
-  switch (typeof o_data) {
-    default:
-      r = data.toString();
-      break;
-    case "number":
-      r = parseInt(data);
-      break;
-    case "boolean":
-      r = (data === "true");
-      break;
+  if (data !== "null") {
+    switch (typeof o_data) {
+      default:
+        r =(data!="")? data.toString():o_data;
+        break;
+      case "number":
+        r =(data!="")? parseInt(data):o_data;
+        break;
+      case "boolean":
+        r =(data!="")? (data === "true"):o_data;
+        break;
+    }
   }
-  return (r) ? r : o_data;
+  return r;
 };
 async function main(f) {
   //get last item from file
@@ -81,7 +83,7 @@ const init = async () => {
   });
   if (f) {
     //create a copy just to be save...
-    await fs.copyFileSync(target, target+"_");
+    await fs.copyFileSync(target, target + "_");
     await main(f);
   } else {
     cmd.close();
@@ -89,3 +91,4 @@ const init = async () => {
   }
 };
 init();
+

@@ -1,6 +1,15 @@
 #!/usr/bin/env node
 const http = require("http"),
-  https = require("https");
+  https = require("https"),
+  ifaces = require("os").networkInterfaces();
+let localhost;
+Object.keys(ifaces).forEach(dev => {
+  ifaces[dev].filter(details => {
+    if (details.family === "IPv4" && details.internal === false) {
+      localhost = details.address;
+    }
+  });
+});
 let domain; //Saves the user's URL
 //check if URL is correct
 //its only used once for the user URL
@@ -34,6 +43,13 @@ function checkLink(link) {
       rej(err);
     });
   });
+}
+//ignore insecure certificate
+function unsafe() {
+  //if its a localhost ignore certificate
+  if (process.argv[2].indexOf(localhost) !== -1 || process.argv[2].indexOf("localhost") !== -1 || process.argv[2].indexOf("127.0.0.1") !== -1) {
+    process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+  }
 }
 //First things first
 //check the URL the user has entered
@@ -166,6 +182,8 @@ async function go(list) {
   return visited;
 }
 async function main() {
+  //if local ignore certificate
+  unsafe();
   domain = await checkArg();
   if (domain) {
     //if user provided / at the end of the URL remove it!
