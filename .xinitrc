@@ -8,6 +8,8 @@ xset r rate 250 90
 xdotool key Num_Lock
 # Set resolutions primary and refresh rate
 xrandr --output eDP-1-1 --primary --mode 1920x1080 --rate 60
+# Set msi keyboard led
+msi-led -m normal -c left,sky,low -c middle,sky,low -c right,sky,low
 # Use the xterm settings
 xrdb .Xresources
 #Start i3
