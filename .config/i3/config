@@ -6,18 +6,12 @@ exec --no-startup-id nm-applet
 exec --no-startup-id parcellite
 exec --no-startup-id picom --config ~/.config/picom/pi.conf
 exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
+exec --no-startup-id hsetroot -solid "#3B4252"
 
 exec --no-startup-id firefox
 exec --no-startup-id spotify
 exec --no-startup-id steam-native
 
-#################################
-#LANGUAGE SWITCH LAYOUT#[en][gr]#
-################################################################################
-exec sleep 10s;setxkbmap -layout us,gr;setxkbmap -option 'grp:alt_shift_toggle'
-################################################################################
-#
-#
 #####################
 # KEYBOARD SETTINGS #
 #####################
