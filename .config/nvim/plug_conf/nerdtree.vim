@@ -8,6 +8,7 @@ fu Nerd_tog()
   en
 endf
 au VimEnter * call Nerd_tog()
+let g:NERDTreeStatusline = '%#NonText#'
 let NERDTreeIgnore=[]
 let NERDTreeShowHidden=1
 let NERDTreeMapOpenInTab='<ENTER>'
