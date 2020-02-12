@@ -26,7 +26,7 @@ function date() {
 function check() {
   dns.lookup(arg[2], (e, r) => {
     if (e) {
-      console.err(e);
+      console.error(e);
     } else {
       console.log(date() + c_m + r + c_r);
     }
