@@ -50,5 +50,3 @@ if executable("gofmt")
 en
 " Remove empty whitespace
 au FileType sass au BufWritePre <buffer> %s/\s\+$//e
-" read stylus as css
-au BufRead *.styl set syntax=css ft=css
