@@ -1,0 +1,5 @@
+#!/bin/bash
+for C in /sys/devices/system/cpu/cpu[0-9]*;do
+  sudo sh -c "echo \"performance\" > $C/cpufreq/scaling_governor"
+done
+unset C
