@@ -10,7 +10,7 @@ exec --no-startup-id hsetroot -solid "#3B4252"
 
 exec --no-startup-id firefox
 exec --no-startup-id spotify
-exec --no-startup-id steam-native
+exec --no-startup-id steam-runtime
 
 #####################
 # KEYBOARD SETTINGS #
