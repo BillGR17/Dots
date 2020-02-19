@@ -1,23 +1,27 @@
+let s:has = {}
+let s:has.js = executable("js-beautify")
+let s:has.clang = executable("clang-format")
+let s:has.gofmt = executable("gofmt")
 " enable syntax
 syn on
 " this function saves cursor position and executes beautify and deletes empty lines
-fu B_C(_file)
+fu B_C()
   if line('$') > 1
     " current position¬
-    let _c_c=getpos(".")
-    if a:_file=="js"
+    let s:_c_c=getpos(".")
+    if &syn =~# '\(\^*javascript\|json\)' && s:has.js
       sil! undoj|sil! exe "%!js-beautify -s 2"|sil! g/^$/d
-    elsei a:_file=="ht"
+    elsei &syn =~# "html*" && s:has.js
       sil! undoj|sil! exe "%!js-beautify -s 2 --type html"|sil! g/^$/d
-    elsei a:_file=="cs"
+    elsei &syn ==# "css" && s:has.js
       sil! undoj|sil! exe "%!js-beautify -s 2 --type css"|sil! g/^$/d
-    elsei a:_file=="c"
+    elsei &syn =~# '\^\(c\|cpp\)\$' && s:has.clang
       sil! undoj|sil! exe "%!clang-format --style=file"|sil! g/^$/d
-    elsei a:_file=="go"
-      sil! undoj|sil! call GoFMT()
+    elsei &syn ==# "go" && s:has.gofmt
+      sil! undoj|sil! cal GoFMT()
     en
     " move to current position after done executing¬
-    call setpos(".",_c_c)
+    call setpos(".",s:_c_c)
   en
 endf
 " Fixes all the issues from gofmt
@@ -35,18 +39,4 @@ fu GoFMT()
   " remove empty lines and tabs
   g/^$/d | %s/\t/  /g
 endf
-" if js-beautify exist beautify code on every save¬
-if executable("js-beautify")
-  au FileType javascript.jsx,json,javascript au BufWrite *.js,*.json call B_C("js")
-  au FileType html,html.handlebars au BufWrite *.html,*.hbs,*.handlebars,*.twig call B_C("ht")
-  au FileType css au BufWritePre *.css call B_C("cs")
-en
-" if clang-format exist beautify code on every save¬
-if executable("clang-format")
-  au FileType c,cpp au BufWritePre *.c,*.cpp call B_C("c")
-en
-if executable("gofmt")
-  au FileType go au BufWritePre *.go call B_C("go")
-en
-" Remove empty whitespace
-au FileType sass au BufWritePre <buffer> %s/\s\+$//e
+au BufWritePre * cal B_C()
