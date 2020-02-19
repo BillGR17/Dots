@@ -54,9 +54,9 @@ if dein#load_state(s:deinPath)
         \ endf\n
         \ au VimEnter * call Nerd_tog()\n
         \ let g:NERDTreeStatusline = '%#NonText#'\n
-        \ let NERDTreeIgnore=[]\n
-        \ let NERDTreeShowHidden=1\n
-        \ let NERDTreeMapOpenInTab='<ENTER>'\n
+        \ let g:NERDTreeIgnore=[]\n
+        \ let g:NERDTreeShowHidden=1\n
+        \ let g:NERDTreeMapOpenInTab='<ENTER>'\n
         \ au VimLeavePre * NERDTreeClose\n
         \ nm <silent> <C-\\> :cal Nerd_tog()<CR>\n
         \ im <silent> <C-\\> <ESC> :cal Nerd_tog()<CR>\n
