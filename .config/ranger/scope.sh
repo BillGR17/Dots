@@ -1,15 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 set -o noclobber -o noglob -o nounset -o pipefail
 IFS=$'\n'
-
-# If the option `use_preview_script` is set to `true`,
-# then this script will be called and its output will be displayed in ranger.
-# ANSI color codes are supported.
-# STDIN is disabled, so interactive scripts won't work properly
-
-# This script is considered a configuration file and must be updated manually.
-# It will be left untouched if you upgrade ranger.
 
 # Meanings of exit codes:
 # code | meaning    | action of ranger
@@ -35,10 +27,8 @@ FILE_EXTENSION_LOWER=$(echo ${FILE_EXTENSION} | tr '[:upper:]' '[:lower:]')
 
 # Settings
 HIGHLIGHT_SIZE_MAX=262143  # 256KiB
-HIGHLIGHT_TABWIDTH=8
-HIGHLIGHT_STYLE='pablo'
-PYGMENTIZE_STYLE='autumn'
-
+HIGHLIGHT_TABWIDTH=2
+HIGHLIGHT_STYLE='zenburn'
 
 handle_extension() {
     case "${FILE_EXTENSION_LOWER}" in
@@ -56,25 +46,21 @@ handle_extension() {
             # Avoid password prompt by providing empty password
             7z l -p -- "${FILE_PATH}" && exit 5
             exit 1;;
-
         # PDF
         pdf)
             # Preview as text conversion
             pdftotext -l 10 -nopgbrk -q -- "${FILE_PATH}" - && exit 5
             exiftool "${FILE_PATH}" && exit 5
             exit 1;;
-
         # BitTorrent
         torrent)
             transmission-show -- "${FILE_PATH}" && exit 5
             exit 1;;
-
         # OpenDocument
         odt|ods|odp|sxw)
             # Preview as text conversion
             odt2txt "${FILE_PATH}" && exit 5
             exit 1;;
-
         # HTML
         htm|html|xhtml)
             # Preview as text conversion
@@ -84,15 +70,13 @@ handle_extension() {
             ;; # Continue with next handler on failure
     esac
 }
-
 handle_image() {
     local mimetype="${1}"
     case "${mimetype}" in
         # SVG
-        # image/svg+xml)
-        #     convert "${FILE_PATH}" "${IMAGE_CACHE_PATH}" && exit 6
-        #     exit 1;;
-
+         image/svg+xml)
+             convert "${FILE_PATH}" "${IMAGE_CACHE_PATH}" && exit 6
+             exit 1;;
         # Image
         image/*)
             local orientation
@@ -103,11 +87,9 @@ handle_image() {
                 # ...auto-rotate the image according to the EXIF data.
                 convert -- "${FILE_PATH}" -auto-orient "${IMAGE_CACHE_PATH}" && exit 6
             fi
-
             # `w3mimgdisplay` will be called for all images (unless overriden as above),
             # but might fail for unsupported types.
             exit 7;;
-
         # Video
          video/*)
              # Thumbnail
@@ -129,7 +111,7 @@ handle_mime() {
     local mimetype="${1}"
     case "${mimetype}" in
         # Text
-        text/* | */xml)
+        text/* | */xml | */json)
             # Syntax highlight
             if [[ "$( stat --printf='%s' -- "${FILE_PATH}" )" -gt "${HIGHLIGHT_SIZE_MAX}" ]]; then
                 exit 2
@@ -143,16 +125,13 @@ handle_mime() {
             fi
             highlight --replace-tabs="${HIGHLIGHT_TABWIDTH}" --out-format="${highlight_format}" \
                 --style="${HIGHLIGHT_STYLE}" --force -- "${FILE_PATH}" && exit 5
-            # pygmentize -f "${pygmentize_format}" -O "style=${PYGMENTIZE_STYLE}" -- "${FILE_PATH}" && exit 5
             exit 2;;
-
         # Image
         image/*)
             # Preview as text conversion
             # img2txt --gamma=0.6 --width="${PV_WIDTH}" -- "${FILE_PATH}" && exit 4
             exiftool "${FILE_PATH}" && exit 5
             exit 1;;
-
         # Video and audio
         video/* | audio/*)
             mediainfo "${FILE_PATH}" && exit 5
@@ -160,13 +139,10 @@ handle_mime() {
             exit 1;;
     esac
 }
-
 handle_fallback() {
     echo '----- File Type Classification -----' && file --dereference --brief -- "${FILE_PATH}" && exit 5
     exit 1
 }
-
-
 MIMETYPE="$( file --dereference --brief --mime-type -- "${FILE_PATH}" )"
 if [[ "${PV_IMAGE_ENABLED}" == 'True' ]]; then
     handle_image "${MIMETYPE}"
@@ -174,5 +150,4 @@ fi
 handle_extension
 handle_mime "${MIMETYPE}"
 handle_fallback
-
 exit 1
