@@ -1,5 +1,5 @@
 " faster&better gui updates + mouse + remember undo's
-se mouse=a wfh lz ut=100 title udf
+se mouse=a lz ut=100 title udf
 " suggestions menu
 se ph=20 cot=menuone,preview
 " show matching open-close brackets
