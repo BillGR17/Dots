@@ -1,11 +1,13 @@
-let s:deinPath='~/.config/nvim/dein'
+let s:deinPath='$HOME/.config/nvim/dein'
 let s:f_init=empty(glob(s:deinPath))
 if s:f_init
   sil !curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh |bash /dev/stdin ~/.config/nvim/dein
 en
-se rtp+=~/.config/nvim/dein/repos/github.com/Shougo/dein.vim
+se rtp+=$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 if dein#load_state(s:deinPath)
   cal dein#begin(s:deinPath)
+  cal dein#add('$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim')
+  cal dein#add('sheerun/vim-polyglot')
   " Better Lang Syntax
   cal dein#add('sheerun/vim-polyglot')
   " Tools
@@ -73,7 +75,7 @@ if dein#load_state(s:deinPath)
   cal dein#end()
   cal dein#save_state()
   if s:f_init
-    cal dein#install()
+    cal dein#install() --sync|so $MYVIMRC
   en
 en
 cal dein#call_hook('source')
