@@ -11,7 +11,7 @@ fu B_C()
     let s:_c_c=getpos(".")
     if &syn =~# '\(\^*javascript\|json\)' && s:has.js
       sil! undoj|sil! exe "%!js-beautify -s 2"|sil! g/^$/d
-    elsei &syn =~# '\(html\|mustache\)' && s:has.js
+    elsei &syn =~# '\(html\|mustache\|svg\)' && s:has.js
       sil! undoj|sil! exe "%!js-beautify -s 2 --type html"|sil! g/^$/d
     elsei &syn ==# 'css' && s:has.js
       sil! undoj|sil! exe "%!js-beautify -s 2 --type css"|sil! g/^$/d
