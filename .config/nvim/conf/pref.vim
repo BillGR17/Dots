@@ -1,5 +1,5 @@
 " faster&better gui updates + mouse + remember undo's
-se mouse=a wfh lz ut=100 title udf
+se mouse=a lz ut=100 title udf
 " suggestions menu
 se ph=20 cot=menuone,preview
 " show matching open-close brackets
@@ -14,4 +14,3 @@ se nowrap nu list lcs=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:.
 se spell fenc=utf-8 kmp=greek_utf-8 imi=0 ims=-1
 " Theme Settings
 se tgc
-colo nord
