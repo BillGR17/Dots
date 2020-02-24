@@ -15,7 +15,6 @@ module.exports = {
     "indent": [
       "error",
       2,
-      "ArrayExpression": "first",
       {
         "SwitchCase": 1
       }
