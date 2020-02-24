@@ -4,30 +4,34 @@ let s:has.clang = executable("clang-format")
 let s:has.gofmt = executable("gofmt")
 " enable syntax
 syn on
+" executes formating script and removes empty lines and trim whitespace
+fu s:ExecFormat(exec)
+  sil! undoj|sil! exe "%!"a:exec|sil! g/^$/d|sil! :%s/ \+$//
+endf
 " this function saves cursor position and executes beautify and deletes empty lines
 fu B_C()
   if line('$') > 1
     " current position¬
-    let s:_c_c=getpos(".")
+    let s:_c_c=winsaveview()
     if &syn =~# '\(\^*javascript\|json\)' && s:has.js
-      sil! undoj|sil! exe "%!js-beautify -s 2"|sil! g/^$/d
+      cal s:ExecFormat("js-beautify -s 2")
     elsei &syn =~# '\(html\|mustache\|svg\)' && s:has.js
-      sil! undoj|sil! exe "%!js-beautify -s 2 --type html"|sil! g/^$/d
+      cal s:ExecFormat("js-beautify -s 2 --type html")
     elsei &syn ==# 'css' && s:has.js
-      sil! undoj|sil! exe "%!js-beautify -s 2 --type css"|sil! g/^$/d
+      cal s:ExecFormat("js-beautify -s 2 --type css")
     elsei &syn =~# '\^\(c\|cpp\)\$' && s:has.clang
-      sil! undoj|sil! exe "%!clang-format --style=file"|sil! g/^$/d
+      cal s:ExecFormat("clang-format --style=file")
     elsei &syn ==# 'go' && s:has.gofmt
-      sil! undoj|sil! cal GoFMT()
+      sil! undoj|sil! cal s:GoFMT()
     en
     " move to current position after done executing¬
-    cal setpos(".",s:_c_c)
+    cal winrestview(s:_c_c)
   en
 endf
 " Fixes all the issues from gofmt
 " tabs and empty lines
 " and on error it will ignore the output
-fu GoFMT()
+fu s:GoFMT()
   " get all text from file before gofmt
   let s:buff = join(getline(1, '$'), "\n")
   execute("%!gofmt")
