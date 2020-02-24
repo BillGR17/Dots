@@ -8,6 +8,7 @@ exec --no-startup-id picom --config ~/.config/picom/pi.conf
 exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
 exec --no-startup-id hsetroot -solid "#3B4252"
 
+exec --no-startup-id /usr/bin/lxsession
 exec --no-startup-id firefox
 exec --no-startup-id spotify
 exec --no-startup-id steam-runtime
@@ -147,8 +148,8 @@ focus_follows_mouse no
 mouse_warping none
 
 #Marking primary & secondary screens
-set $p DP-0
-set $s HDMI-0
+set $p primary
+set $s right
 
 #PRIMARY SCREEN WORKPLACE
 workspace 1 output $p
@@ -162,7 +163,6 @@ workspace 2 output $s
 workspace 4 output $s
 workspace 6 output $s
 workspace 8 output $s
-workspace 10 output $s
 
 #FLOAT WINDOWS ARE HERE
 for_window [class="^feh"] floating enable
@@ -221,8 +221,6 @@ client.background       $nord1
 ##############
 
 bar {
-  output $p
-  output $s
   tray_output $p
   status_command i3blocks -c ~/.config/i3/blocks/i3blocks.conf
   font pango: Hack 10
