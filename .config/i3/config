@@ -149,7 +149,7 @@ mouse_warping none
 
 #Marking primary & secondary screens
 set $p primary
-set $s right
+set $s HDMI-0
 
 #PRIMARY SCREEN WORKPLACE
 workspace 1 output $p
