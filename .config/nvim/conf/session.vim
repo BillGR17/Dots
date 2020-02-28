@@ -9,11 +9,11 @@ en
 fu s:ClearEmpty()
   let s:windows=0
   " close empty windows before saving session
-  bufdo if empty(&buftype) | clo | en
+  windo if (line('$') == 1 && getline(1) == '') | clo | en
   " count remaining windows
-  windo let s:windows=s:windows+1
+  windo let s:windows+=1
   " don't bother saving session for 1 window
-  if s:windows>1
+  if (s:windows>1)
     mks! .session.vim~
   en
 endf
