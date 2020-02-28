@@ -146,6 +146,7 @@ font pango: Hack 10
 smart_gaps on
 focus_follows_mouse no
 mouse_warping none
+popup_during_fullscreen smart
 
 #Marking primary & secondary screens
 set $p primary
@@ -165,8 +166,7 @@ workspace 6 output $s
 workspace 8 output $s
 
 #FLOAT WINDOWS ARE HERE
-for_window [class="^feh"] floating enable
-for_window [title="^sxiv"] floating enable
+for_window [title="^sxiv"] fullscreen enable
 
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="bubble"] floating enable
@@ -176,13 +176,10 @@ for_window [window_role="Preferences"] floating enable
 for_window [window_type="dialog"] floating enable
 for_window [window_type="menu"] floating enable
 
-for_window [title="^chrome-devtools"] floating enable
 for_window [title="Shutdown PC"] floating enable
 
 for_window [class="^Transmission"] float enable
 for_window [window_role="pop-up"] floating enable
-
-for_window [class="^vlc"] floating enable
 
 assign [class="(?i)steam"] 0
 for_window [class="Spotify"] move to workspace 2
