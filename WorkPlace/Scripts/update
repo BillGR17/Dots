@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 # Update the configs first
-if [ -x "$(upTermFiles)" ];then
-  upTermFiles
+if [ -x "$(command -v upTermFiles)" ];then
+ upTermFiles 
 fi
 #update nvim plugins
 nvim -c "cal dein#update()" +qa!
