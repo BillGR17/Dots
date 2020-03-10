@@ -1,0 +1,24 @@
+#!/usr/bin/env zsh
+# Update the configs first
+if [ -x "$(upTermFiles)" ];then
+  upTermFiles
+fi
+#update nvim plugins
+nvim -c "cal dein#update()" +qa!
+#update zsh plugins
+antibody update
+#update system
+#remove unwanted packages
+#clean cache
+##dont ask for any other stuff other than
+#password for sudo
+if [ -x "$(command -v yay)" ]; then
+  yay -Syu --noconfirm --sudoloop
+  sudo pacman -Rs $(pacman -Qdtq) --noconfirm
+  yay -Scc --noconfirm
+elif [ -x "$(command -v apt)" ]; then
+  sudo apt update
+  sudo apt dist-upgrade -y
+  sudo apt autoremove -y
+  sudo apt autoclean -y
+fi
