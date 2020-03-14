@@ -7,6 +7,11 @@ fi
 nvim -c "cal dein#update()" +qa!
 #update zsh plugins
 antibody update
+#update npm global packages
+if [ -x "$(command -v npm)" ];then
+  npm i -g npm
+  npm up -g
+fi
 #update system
 #remove unwanted packages
 #clean cache
