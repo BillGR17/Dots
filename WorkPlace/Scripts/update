@@ -9,7 +9,7 @@ nvim -c "cal dein#update()" +qa!
 antibody update
 #update npm global packages
 if [ -x "$(command -v npm)" ];then
-  npm i -g npm
+  sudo npm i -g npm
   npm up -g
 fi
 #update system
