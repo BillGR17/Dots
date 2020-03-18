@@ -2,7 +2,6 @@
 
 set -o noclobber -o noglob -o nounset -o pipefail
 IFS=$'\n'
-
 # Meanings of exit codes:
 # code | meaning    | action of ranger
 # -----+------------+-------------------------------------------
@@ -80,7 +79,7 @@ handle_image() {
         # Image
         image/*)
             local orientation
-            orientation="$( identify -format '%[EXIF:Orientation]\n' -- "${FILE_PATH}" )"
+            orientation="$(identify -format '%[EXIF:Orientation]\n' -- "${FILE_PATH}" )"
             # If orientation data is present and the image actually
             # needs rotating ("1" means no rotation)...
             if [[ -n "$orientation" && "$orientation" != 1 ]]; then
@@ -117,10 +116,8 @@ handle_mime() {
                 exit 2
             fi
             if [[ "$( tput colors )" -ge 256 ]]; then
-                local pygmentize_format='terminal256'
                 local highlight_format='xterm256'
             else
-                local pygmentize_format='terminal'
                 local highlight_format='ansi'
             fi
             highlight --replace-tabs="${HIGHLIGHT_TABWIDTH}" --out-format="${highlight_format}" \
@@ -128,8 +125,7 @@ handle_mime() {
             exit 2;;
         # Image
         image/*)
-            # Preview as text conversion
-            # img2txt --gamma=0.6 --width="${PV_WIDTH}" -- "${FILE_PATH}" && exit 4
+            img2txt -W "${PV_WIDTH}" "${FILE_PATH}" && exit 4
             exiftool "${FILE_PATH}" && exit 5
             exit 1;;
         # Video and audio

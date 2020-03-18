@@ -1,33 +1,41 @@
+" check for executables here
 let s:has = {}
 let s:has.js = executable("js-beautify")
 let s:has.clang = executable("clang-format")
 let s:has.gofmt = executable("gofmt")
 " enable syntax
 syn on
-" this function saves cursor position and executes beautify and deletes empty lines
-fu B_C()
+" executes formating script
+fu s:ExecFormat(exec)
+  exe "%!"a:exec|g/^$/d|%s/\s\+$//e
+endf
+" format function init
+fu FormatIt()
+  " check if the current file has at least more than 1 line of code
   if line('$') > 1
-    " current position¬
-    let s:_c_c=getpos(".")
-    if &syn =~# '\(\^*javascript\|json\)' && s:has.js
-      sil! undoj|sil! exe "%!js-beautify -s 2"|sil! g/^$/d
+    " save current position
+    let l:pos=winsaveview()
+    " check file syntax and if format exec exist
+    if &syn =~# '^\(javascript\|json\)' && s:has.js
+      undoj|cal s:ExecFormat("js-beautify -s 2")
     elsei &syn =~# '\(html\|mustache\|svg\)' && s:has.js
-      sil! undoj|sil! exe "%!js-beautify -s 2 --type html"|sil! g/^$/d
+      undoj|cal s:ExecFormat("js-beautify -s 2 --type html")
     elsei &syn ==# 'css' && s:has.js
-      sil! undoj|sil! exe "%!js-beautify -s 2 --type css"|sil! g/^$/d
-    elsei &syn =~# '\^\(c\|cpp\)\$' && s:has.clang
-      sil! undoj|sil! exe "%!clang-format --style=file"|sil! g/^$/d
+      undoj|cal s:ExecFormat("js-beautify -s 2 --type css")
+    elsei &syn =~# '^\(c\|cpp\)' && s:has.clang
+      undoj|cal s:ExecFormat("clang-format --style=file")
     elsei &syn ==# 'go' && s:has.gofmt
-      sil! undoj|sil! cal GoFMT()
+      undoj|cal s:GoFMT()
     en
-    " move to current position after done executing¬
-    cal setpos(".",s:_c_c)
+    " always remove tabs and use spaces instead
+    %s/\t/  /g
+    " move to old position after done executing¬
+    cal winrestview(l:pos)
   en
 endf
-" Fixes all the issues from gofmt
-" tabs and empty lines
-" and on error it will ignore the output
-fu GoFMT()
+" Fixes the issue from gofmt
+" on error it will ignore the output
+fu s:GoFMT()
   " get all text from file before gofmt
   let s:buff = join(getline(1, '$'), "\n")
   execute("%!gofmt")
@@ -36,7 +44,6 @@ fu GoFMT()
   if v:shell_error != 0
     1,$d|pu = s:buff
   en
-  " remove empty lines and tabs
-  g/^$/d|%s/\t/  /g
+  g/^$/d|%s/\s\+$//e
 endf
-au BufWritePre * cal B_C()
+au BufWritePre * sil! cal FormatIt()

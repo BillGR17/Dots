@@ -35,12 +35,7 @@ func onErr(e error) {
 func main() {
   file := []string{
     ".config/nvim/init.vim",
-    ".config/nvim/plug_conf/ale.vim",
-    ".config/nvim/plug_conf/colorizer.vim",
-    ".config/nvim/plug_conf/deoplete.vim",
-    ".config/nvim/plug_conf/emmet.vim",
-    ".config/nvim/plug_conf/gitgutter.vim",
-    ".config/nvim/plug_conf/nerdtree.vim",
+    ".config/nvim/plugins.vim",
     ".config/nvim/conf/editor-keys.vim",
     ".config/nvim/conf/format.vim",
     ".config/nvim/conf/pref.vim",

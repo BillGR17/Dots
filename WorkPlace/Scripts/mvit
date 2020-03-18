@@ -7,49 +7,62 @@
 # Quick script to fix the images on each folder
 # and also fix the thumb files
 #
-# Rename all images to 1 digit and concerts everything to jpg
+# Rename all images to 1 digit and converts everything to jpg
 # Checks for png JPEG jpeg JPG and converts them to jpg
 # Removes stupid thumbs.db files
-# Fixes thumb folder if its thumbs or n instead of m...
+# Searches for a folder that contains 'thu' and sets it
+# as a thumb folder
 #
 rnrm(){
-  for f in *;do
+  #first thing first remove windows thumb db
+  find . -maxdepth 1 -iname 'thumbs.db' -exec rm -fv {} +
+  #check each file and ignore folders
+  for f in `find . -maxdepth 1 -type f`;do
     #check if it contains capital letters
     #change everything to lower case
-    _tmp=${f,,}
+    local _tmp=${f,,}
     if [[ $f =~ [[:upper:]] ]];then
-      mv "$f" "$_tmp"
+      mv -v "$f" "${_tmp}"
     fi
-    if [ ${f: -5} == ".jpeg" ] || [ ${f: -5} == ".JPEG" ];then
-      mv "${_tmp}" "${_tmp/jpeg/jpg}"
-    elif [ ${f: -4} == ".png" ];then
+    #check if jpeg or png and fix it to jpg
+    if [ ${_tmp: -5} == ".jpeg" ] ;then
+      mv -v "${_tmp}" "${_tmp/jpeg/jpg}"
+    elif [ ${_tmp: -4} == ".png" ];then
       mogrify -format jpg -quality 100 "$_tmp"
       rm -fv "$_tmp"
     fi
-    unset _tmp
   done
-  find . -maxdepth 1 -iname 'thumbs.db' -exec rm -fv {} +
   qdr -d 1 -f *.jpg
 }
-printf "\33[1;36mStarting from $1 Folder\033[0m\n"
-cd $1
-rnrm
-printf "\33[1;36mGoing to $1/thumb Folder\033[0m\n"
-if [ -d "thumb" ];then
-  cd thumb
+getThumb(){
+  #since there is a whole mess with folders containing spaces wrong characters like
+  #thunb instead of thumb
+  #thumbs instead of thumb
+  #leading spaces or ending with a space
+  #or all of the above
+  #search for anything that contains 'thu' and get the first result
+  #since the folder should contain only thumb folder
+  #this should be fine(?)
+  local thumb="$(find . -maxdepth 1 -type d -iname "*thu*" -printf '%f\n'|head -n1)"
+  if [ $thumb ];then
+    #mv -nv doesnt work so...
+    if [ "$thumb" != "thumb" ];then
+      mv -v "$thumb" "thumb"
+    fi
+    cd "thumb"
+    rnrm
+  else
+    printf "\033[1;31mThumb not found!\nEither different name or thumb missing(again!)\033[0m\n"
+  fi
+}
+#before executing anything
+#check if folder exist
+if [[ -d $1 ]];then
+  printf "\33[1;36mStarting from $1 Folder\033[0m\n"
+  cd $1
   rnrm
-elif [ -d "thumbs" ];then
-  mv thumbs thumb
-  cd thumb
-  rnrm
-elif [ -d "thunbs" ];then
-  mv thunbs thumb
-  cd thumb
-  rnrm
-elif [ -d "thunb" ];then
-  mv thunb thumb
-  cd thumb
-  rnrm
+  printf "\33[1;36mGoing to $1/thumb Folder\033[0m\n"
+  getThumb
 else
-  printf "\033[1;31mThumb not found!\nEither different name or thumb missing(again!)\033[0m\n"
+  printf "\033[1;31mCould not find '$1'\033[0m\n"
 fi
