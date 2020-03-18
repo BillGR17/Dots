@@ -1,169 +1,235 @@
 ######################
-#AUTOSTART ON STARTUP #
-  ######################
-  exec-- no -
-  startup - id nm - applet exec-- no - startup - id parcellite exec-- no - startup -
-  id picom-- config ~ /.config / picom / pi.conf exec-- no - startup -
-  id dunst-- config ~ /.config / dunst / dunstrc exec-- no - startup - id hsetroot -
-  solid "#3B4252"
-  exec-- no -
-  startup - id / usr / bin / lxsession exec-- no - startup - id firefox exec-- no - startup - id spotify exec-- no -
-  startup - id steam -
-  runtime
-  #################### #
-#KEYBOARD SETTINGS #
-  #################### #
-#MAIN KEY(superkey)
-  set $mod Mod4
-#start a terminal
-    bindsym $mod +
-  Return exec xterm -
-  e tmux
-#Use Mouse + $mod to drag floating windows to their wanted position
-    floating_modifier $mod
-#start dmenu(a program launcher)
-      bindsym $mod +
-  d exec dmenu_run
-#kill focused window
-    bindsym $mod +
-  Shift + q kill bindsym Mod1 +
-  F4 kill
-#force kill on select
-    bindsym-- release $mod +
-  x exec xkill
-#change focus
-    bindsym $mod +
-  Left focus left bindsym $mod + Down focus down bindsym $mod + Up focus up bindsym $mod +
-  Right focus right
-#move focused window
-    bindsym $mod +
-  Shift + Left move left bindsym $mod + Shift + Down move down bindsym $mod + Shift + Up move up bindsym $mod + Shift +
-  Right move right
-#split in horizontal orientation
-    bindsym $mod +
-  h split h
-#split in vertical orientation
-    bindsym $mod +
-  v split v
-#enter fullscreen mode for the focused container
-    bindsym $mod +
-  f fullscreen toggle
-#change container layout(stacked, tabbed, toggle split)
-    bindsym $mod +
-  s layout stacking bindsym $mod + w layout tabbed bindsym $mod +
-  e layout toggle split
-#toggle tiling / floating
-    bindsym $mod +
-  Shift +
-  space floating toggle
-#change focus between tiling / floating windows
-    bindsym $mod +
-  space focus mode_toggle
-#focus the parent container
-    bindsym $mod +
-  a focus parent
-#switch to workspace
-    bindsym $mod +
-  1 workspace 1 bindsym $mod + 2 workspace 2 bindsym $mod + 3 workspace 3 bindsym $mod + 4 workspace 4 bindsym $mod +
-  5 workspace 5 bindsym $mod + 6 workspace 6 bindsym $mod + 7 workspace 7 bindsym $mod + 8 workspace 8 bindsym $mod +
-  9 workspace 9 bindsym $mod +
-  0 workspace 0
-#move focused container to workspace
-  bindsym $mod +
-  Shift + 1 move container to workspace 1 bindsym $mod + Shift + 2 move container to workspace 2 bindsym $mod + Shift +
-  3 move container to workspace 3 bindsym $mod + Shift + 4 move container to workspace 4 bindsym $mod + Shift +
-  5 move container to workspace 5 bindsym $mod + Shift + 6 move container to workspace 6 bindsym $mod + Shift +
-  7 move container to workspace 7 bindsym $mod + Shift + 8 move container to workspace 8 bindsym $mod + Shift +
-  9 move container to workspace 9 bindsym $mod + Shift +
-  0 move container to workspace 0
-#reload the configuration file
-  bindsym $mod +
-  Shift +
-  c reload
-#restart i3 inplace(preserves your layout / session, can be used to upgrade i3)
-    bindsym $mod +
-  Shift +
-  r restart
-#exit i3(logs you out of your X session)
-    bindsym $mod +
-  Shift +
-  e exec "i3-nagbar -t warning -m 'Do you really want to log out?' -b 'Logout' 'i3-msg exit'"
-#resize window
-  mode "resize" {
-#These bindings trigger as soon as you enter the resize mode
-    bindsym Left resize shrink width 10 px or 10 ppt bindsym Down resize grow height 10 px or
-    10 ppt bindsym Up resize shrink height 10 px or 10 ppt bindsym Right resize grow width 10 px or
-    10 ppt
-#back to normal : Enter or Escape or $mod + r
-        bindsym Return mode "default" bindsym Escape mode "default" bindsym $mod +
-      r mode "default"
-  }
-  bindsym $mod +
-  r mode "resize"
+#AUTOSTART ON STARTUP#
+######################
+
+exec --no-startup-id nm-applet
+exec --no-startup-id parcellite
+exec --no-startup-id picom --config ~/.config/picom/pi.conf
+exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
+exec --no-startup-id hsetroot -solid "#3B4252"
+
+exec --no-startup-id /usr/bin/lxsession
+exec --no-startup-id firefox
+exec --no-startup-id spotify
+exec --no-startup-id steam-runtime
+
+#####################
+# KEYBOARD SETTINGS #
+#####################
+
+#MAIN KEY (superkey)
+set $mod Mod4
+
+# start a terminal
+bindsym $mod+Return exec xterm -e tmux
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start dmenu (a program launcher)
+bindsym $mod+d exec dmenu_run
+
+# kill focused window
+bindsym $mod+Shift+q kill
+bindsym Mod1+F4   kill
+
+# force kill on select
+bindsym --release $mod+x exec xkill
+
+# change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 0
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 0
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to log out?' -b 'Logout' 'i3-msg exit'"
+
+# resize window
+mode "resize" {
+  # These bindings trigger as soon as you enter the resize mode
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Down resize grow height 10 px or 10 ppt
+  bindsym Up resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
+
+  # back to normal: Enter or Escape or $mod+r
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
 #Print Screen Stolen from reddit :)
-#https: // www.reddit.com/r/i3wm/comments/8jugx9/keyboard_binding_for_scrot_s_is_not_working_got/dz2im83
-  bindsym-- release Print exec-- no -
-  startup - id import - silent -
-  window $(xprop - root _NET_ACTIVE_WINDOW |
-           cut - d ' ' - f 5 | tail) "$HOME/Pictures/$($HOME/.config/i3/blocks/scripts/active)_$(ls -l "
-                                     "$HOME/Pictures/|grep -Fc " $($HOME /.config / i3 / blocks / scripts /
-                                                                   active) ").jpg" bindsym-- release Ctrl
-  + Shift + Print exec-- no - startup - id import - silent -
-  window root "$HOME/Pictures/$($HOME/.config/i3/blocks/scripts/active)_$(ls -l $HOME/Pictures/|grep -Fc " $(
-    $HOME /.config / i3 / blocks / scripts / active) ").jpg" bindsym-- release Shift
-  + Print exec-- no - startup - id import -
-  silent "$HOME/Pictures/$($HOME/.config/i3/blocks/scripts/active)_$(ls -l $HOME/Pictures/|grep -Fc " $(
-    $HOME /.config / i3 / blocks / scripts /
-    active) ").jpg"
-#Media keys
-  bindsym XF86AudioRaiseVolume exec "amixer -q sset Master 1%+ unmute" bindsym XF86AudioLowerVolume exec
-            "amixer -q sset Master 1%- unmute"
-  bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle" bindsym XF86AudioPlay exec
-            "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 "
-            "org.mpris.MediaPlayer2.Player.PlayPause" bindsym XF86AudioNext exec
-            "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 "
-            "org.mpris.MediaPlayer2.Player.Next" bindsym XF86AudioPrev exec
-            "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 "
-            "org.mpris.MediaPlayer2.Player.Previous" bindsym XF86AudioStop exec
-            "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 "
-            "org.mpris.MediaPlayer2.Player.Stop" bindsym XF86MonBrightnessUp exec
-            "bright -c intel_backlight" bindsym XF86MonBrightnessDown exec "bright -c intel_backlight -d"
-  ################## #
-#WINDOW SETTINGS #
-  ################## #
-  smart_borders on new_window pixel 2 gaps inner 5 gaps outer 0 font pango
-  : Hack 10 smart_gaps on focus_follows_mouse no mouse_warping none popup_during_fullscreen smart
-#Marking primary& secondary screens
-    set $p primary set $s primary
+#https://www.reddit.com/r/i3wm/comments/8jugx9/keyboard_binding_for_scrot_s_is_not_working_got/dz2im83
+bindsym --release Print exec --no-startup-id import -silent -window $(xprop -root _NET_ACTIVE_WINDOW|cut -d ' ' -f 5|tail) "$HOME/Pictures/$($HOME/.config/i3/blocks/scripts/active)_$(ls -l $HOME/Pictures/|grep -Fc "$($HOME/.config/i3/blocks/scripts/active)").jpg"
+bindsym --release Ctrl+Shift+Print exec --no-startup-id import -silent -window root "$HOME/Pictures/$($HOME/.config/i3/blocks/scripts/active)_$(ls -l $HOME/Pictures/|grep -Fc "$($HOME/.config/i3/blocks/scripts/active)").jpg"
+bindsym --release Shift+Print exec --no-startup-id import -silent "$HOME/Pictures/$($HOME/.config/i3/blocks/scripts/active)_$(ls -l $HOME/Pictures/|grep -Fc "$($HOME/.config/i3/blocks/scripts/active)").jpg"
+
+# Media keys
+bindsym XF86AudioRaiseVolume exec "amixer -q sset Master 1%+ unmute"
+bindsym XF86AudioLowerVolume exec "amixer -q sset Master 1%- unmute"
+
+bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
+bindsym XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+bindsym XF86MonBrightnessUp exec "bright -c intel_backlight"
+bindsym XF86MonBrightnessDown exec "bright -c intel_backlight -d"
+
+###################
+# WINDOW SETTINGS #
+###################
+
+smart_borders on
+new_window pixel 2
+gaps inner 5
+gaps outer 0
+font pango: Hack 10
+smart_gaps on
+focus_follows_mouse no
+mouse_warping none
+popup_during_fullscreen smart
+
+#Marking primary & secondary screens
+set $p primary
+set $s primary
+
 #PRIMARY SCREEN WORKPLACE
-    workspace 1 output $p workspace 3 output $p workspace 5 output $p workspace 7 output $p workspace 9 output $p
+workspace 1 output $p
+workspace 3 output $p
+workspace 5 output $p
+workspace 7 output $p
+workspace 9 output $p
+
 #SECONDARY SCREEN WORKPLACE
-    workspace 2 output $s workspace 4 output $s workspace 6 output $s workspace 8 output $s
+workspace 2 output $s
+workspace 4 output $s
+workspace 6 output $s
+workspace 8 output $s
+
 #FLOAT WINDOWS ARE HERE
-    for_window[title = "^sxiv"] fullscreen enable
-    for_window[window_role = "pop-up"] floating enable for_window[window_role = "bubble"] floating enable
-    for_window[window_role = "task_dialog"] floating enable for_window[window_role = "Preferences"] floating enable
-    for_window[window_type = "dialog"] floating enable for_window[window_type = "menu"] floating enable
-    for_window[title = "Shutdown PC"] floating enable
-    for_window[class = "^Transmission"] float enable for_window[window_role = "pop-up"] floating enable
-    assign[class = "(?i)steam"] 0 for_window[class = "Spotify"] move to workspace 2#################### #
-#COLORS ARE SET HERE #
-    #################### #
-#Nord theme colors
-    set $nord0 #2E3440 set $nord1 #3B4252 set $nord2 #434C5E set $nord3 #4C566A set $nord4 #D8DEE9 set $nord5
-    #E5E9F0 set $nord6 #ECEFF4 set $nord7 #8FBCBB set $nord8 #88C0D0 set $nord9 #81A1C1 set $nord10 #5E81AC set $nord11
-    #BF616A set $nord12 #D08770 set $nord13 #EBCB8B set $nord14 #A3BE8C set $nord15 #B48EAD
-#class border back.text indicator child_border
-    client.focused $nord3 $nord0 $nord8 $nord7 $nord8 client.focused_inactive $nord3 $nord0 $nord7 $nord8 $nord9 client
-      .unfocused $nord1 $nord0 $nord10 $nord9 $nord3 client.urgent $nord11 $nord0 $nord11 $nord11 $nord11 client
-      .placeholder $nord13 $nord0 $nord8 $nord11 $nord11 client.background $nord1
-    ##############
-#BAR SETTINGS #
-    ##############
-    bar {
-  tray_output $p status_command i3blocks -
-    c ~ /.config / i3 / blocks / i3blocks.conf font pango : Hack 10 height 20 colors {
-    background $nord0 statusline $nord8 focused_workspace $nord0 $nord8 active_workspace $nord7 $nord3
-      inactive_workspace $nord8 $nord0 urgent_workspace $nord0 $nord11
+for_window [title="^sxiv"] fullscreen enable
+
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+
+for_window [title="Shutdown PC"] floating enable
+
+for_window [class="^Transmission"] float enable
+for_window [window_role="pop-up"] floating enable
+
+assign [class="(?i)steam"] 0
+for_window [class="Spotify"] move to workspace 2
+#####################
+#COLORS ARE SET HERE#
+#####################
+# Nord theme colors
+
+set $nord0   #2E3440
+set $nord1   #3B4252
+set $nord2   #434C5E
+set $nord3   #4C566A
+set $nord4   #D8DEE9
+set $nord5   #E5E9F0
+set $nord6   #ECEFF4
+set $nord7   #8FBCBB
+set $nord8   #88C0D0
+set $nord9   #81A1C1
+set $nord10  #5E81AC
+set $nord11  #BF616A
+set $nord12  #D08770
+set $nord13  #EBCB8B
+set $nord14  #A3BE8C
+set $nord15  #B48EAD
+
+# class                 border  back.   text    indicator child_border
+client.focused          $nord3  $nord0  $nord8  $nord7    $nord8
+client.focused_inactive $nord3  $nord0  $nord7  $nord8    $nord9
+client.unfocused        $nord1  $nord0  $nord10 $nord9    $nord3
+client.urgent           $nord11 $nord0  $nord11 $nord11   $nord11
+client.placeholder      $nord13 $nord0  $nord8  $nord11   $nord11
+client.background       $nord1
+
+##############
+#BAR SETTINGS#
+##############
+
+bar {
+  tray_output $p
+  status_command i3blocks -c ~/.config/i3/blocks/i3blocks.conf
+  font pango: Hack 10
+  height 20
+  colors {
+    background         $nord0
+    statusline         $nord8
+    focused_workspace  $nord0  $nord8
+    active_workspace   $nord7  $nord3
+    inactive_workspace $nord8  $nord0
+    urgent_workspace   $nord0  $nord11
   }
 }
