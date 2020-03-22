@@ -1,8 +1,12 @@
 #!/usr/bin/env zsh
+#ask for sudo ath
+sudo --validate
 # Update the configs first
 if [ -x "$(command -v upTermFiles)" ];then
- upTermFiles 
+ upTermFiles
 fi
+#keep sudo ath :)
+sudo --validate
 #update nvim plugins
 nvim -c "cal dein#update()" +qa!
 #update zsh plugins
@@ -19,7 +23,9 @@ fi
 #password for sudo
 if [ -x "$(command -v yay)" ]; then
   yay -Syu --noconfirm --sudoloop
-  sudo pacman -Rs $(pacman -Qdtq) --noconfirm
+  if [[ $(pacman -Qdtq|wc -l) > 0 ]];then
+    sudo pacman -Rs $(pacman -Qdtq) --noconfirm
+  fi
   yay -Scc --noconfirm
 elif [ -x "$(command -v apt)" ]; then
   sudo apt update
