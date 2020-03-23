@@ -22,7 +22,7 @@ fu FormatIt()
       undoj|cal s:ExecFormat("js-beautify -s 2 --type html")
     elsei &syn ==# 'css' && s:has.js
       undoj|cal s:ExecFormat("js-beautify -s 2 --type css")
-    elsei &syn =~# '^\(c\|cpp\)' && s:has.clang
+    elsei &syn =~# '^\(c$\|cpp\)' && s:has.clang
       undoj|cal s:ExecFormat("clang-format --style=file")
     elsei &syn ==# 'go' && s:has.gofmt
       undoj|cal s:GoFMT()
