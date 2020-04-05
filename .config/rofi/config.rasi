@@ -1,0 +1,10 @@
+configuration {
+  modi: "drun,run";
+  width: 200;
+  lines: 5;
+  font: "Hack 10";
+  show-match: false;
+  separator-style: "solid";
+  hide-scrollbar: true;
+  theme: "~/.config/rofi/nord";
+}

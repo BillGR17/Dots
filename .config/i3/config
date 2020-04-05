@@ -10,7 +10,6 @@ exec --no-startup-id hsetroot -solid "#3B4252"
 
 exec --no-startup-id /usr/bin/lxsession
 exec --no-startup-id firefox
-exec --no-startup-id spotify
 exec --no-startup-id steam-runtime
 
 #####################
@@ -27,7 +26,7 @@ bindsym $mod+Return exec xterm -e tmux
 floating_modifier $mod
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec rofi -show run
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -182,7 +181,7 @@ for_window [class="^Transmission"] float enable
 for_window [window_role="pop-up"] floating enable
 
 assign [class="(?i)steam"] 0
-for_window [class="Spotify"] move to workspace 2
+
 #####################
 #COLORS ARE SET HERE#
 #####################
