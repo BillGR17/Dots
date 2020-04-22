@@ -13,7 +13,12 @@ nvim -c "cal dein#update()" +qa!
 antibody update
 #update npm global packages
 if [ -x "$(command -v npm)" ];then
-  sudo npm i -g npm
+  #check if there is npm in the outdated list
+  #and then update npm
+  _up_npm="$(sudo npm out -g)"
+  if [[ $_up_npm =~ "npm" ]];then
+    sudo npm i -g npm
+  fi
   npm up -g
 fi
 #update system
