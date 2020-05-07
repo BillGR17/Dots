@@ -51,7 +51,7 @@ export VISUAL="$EDITOR"
 
 # Set Paths
 # NPM path
-export PATH=$HOME/.npm-packages/bin:$PATH
+export PATH=$HOME/.npm/packages/bin:$PATH
 # Go Lang Path
 export GOPATH=$HOME/.go
 
