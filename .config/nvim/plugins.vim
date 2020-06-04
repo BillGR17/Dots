@@ -7,7 +7,7 @@ se rtp+=$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 if dein#load_state(s:deinPath)
   cal dein#begin(s:deinPath)
   cal dein#add('$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim')
-  cal dein#add('sheerun/vim-polyglot')
+  call dein#add('$HOME/')
   " Better Lang Syntax
   cal dein#add('sheerun/vim-polyglot')
   " Tools
@@ -75,7 +75,8 @@ if dein#load_state(s:deinPath)
   cal dein#end()
   cal dein#save_state()
   if s:f_init
-    cal dein#install() --sync|so $MYVIMRC
+    cal dein#install()
+    so $MYVIMRC
   en
 en
 cal dein#call_hook('source')
