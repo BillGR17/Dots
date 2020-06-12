@@ -3,6 +3,7 @@ let s:has = {}
 let s:has.js = executable("js-beautify")
 let s:has.clang = executable("clang-format")
 let s:has.gofmt = executable("gofmt")
+let s:has.rustfmt = executable("rustfmt")
 " enable syntax
 syn on
 " executes formating script
@@ -24,8 +25,10 @@ fu FormatIt()
       undoj|cal s:ExecFormat("js-beautify -s 2 --type css")
     elsei &syn =~# '^\(c$\|cpp\)' && s:has.clang
       undoj|cal s:ExecFormat("clang-format --style=file")
+    elsei &syn =~# 'rust' && s:has.rustfmt
+      undoj|cal s:MyFMT("rustfmt --emit stdout")
     elsei &syn ==# 'go' && s:has.gofmt
-      undoj|cal s:GoFMT()
+      undoj|cal s:MyFMT("gofmt")
     en
     " always remove tabs and use spaces instead
     %s/\t/  /g
@@ -33,13 +36,13 @@ fu FormatIt()
     cal winrestview(l:pos)
   en
 endf
-" Fixes the issue from gofmt
+" Fixes the issue from gofmt&rustfmt
 " on error it will ignore the output
-fu s:GoFMT()
-  " get all text from file before gofmt
+fu s:MyFMT(exec)
+  " get all text from file before running the exec command
   let s:buff = join(getline(1, '$'), "\n")
-  execute("%!gofmt")
-  " if the gofmt exits with a non-zero
+  exe "%!" a:exec
+  " if the executable exits with a non-zero
   " delete everything and paste the old text
   if v:shell_error != 0
     1,$d|pu = s:buff
