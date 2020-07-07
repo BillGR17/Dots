@@ -4,7 +4,7 @@
 
 exec --no-startup-id nm-applet
 exec --no-startup-id parcellite
-exec --no-startup-id picom --config ~/.config/picom/pi.conf
+exec --no-startup-id xcompmgr -c -C -t-5 -l-5 -r4 -o.5 &!   
 exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
 exec --no-startup-id hsetroot -solid "#3B4252"
 
