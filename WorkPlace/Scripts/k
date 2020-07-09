@@ -13,11 +13,10 @@ function main(){
   if [ ! -z "$res" ];then
     echo -e "[$_s]\n[Results]\n~~~~~~~\n"
     # Print each pid ram usage in mb and cmd
-    for ((i=1;i<${#res[@]};i++));do
-      local _pid=${res[i]}
-      local _name=$(ps -p $_pid -o cmd|tail -1)
-      local _mem=$(pmap $_pid|tail -1|awk '{$1=int($2/1024);print $1}')
-      printf "[%6d] %5dmb \e[32m%s\e[0m\n" ${res[$i]} $_mem $_name
+    for i in $res;do
+      local _name=$(ps -p $i -o cmd|tail -1)
+      local _mem=$(pmap $i|tail -1|awk '{$1=int($2/1024);print $1}')
+      printf "[%6d] %5dmb \e[32m%s\e[0m\n" $i $_mem $_name
     done
     # Ask the user before terminating the process
     echo -e "\n~~~~~~~\n[KILL THOSE ${#res[@]}]?(?)! [Y/N]?"
