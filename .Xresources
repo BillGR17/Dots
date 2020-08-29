@@ -25,6 +25,9 @@ XTerm.vt100.font: Hack:style=Regular:size=11
 XTerm.boldFont: Hack:style=Bold:size=11
 XTerm.italicFont: Hack:style=Italic:size=11
 
+Xcursor.size: 64
+Xcursor.theme: Breeze_Blue
+
 ! Trim trailing spaces
 XTerm*trimSelection: true
 

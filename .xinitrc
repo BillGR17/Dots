@@ -7,6 +7,6 @@ xset r rate 250 90
 # Turns the Num-lock on
 xdotool key Num_Lock
 # Use the xterm settings
-xrdb .Xresources
+xrdb -merge .Xresources
 #Start i3
 exec i3 >> ~/.local/share/logs/i3.log
