@@ -141,9 +141,12 @@ bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer
 # WINDOW SETTINGS #
 ###################
 
-#smart_borders on
+smart_borders on
 new_window pixel 1
+gaps inner 5
+gaps outer 5
 font pango: Hack 10
+smart_gaps on
 focus_follows_mouse no
 mouse_warping none
 popup_during_fullscreen smart
