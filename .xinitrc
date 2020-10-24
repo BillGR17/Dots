@@ -9,4 +9,4 @@ xdotool key Num_Lock
 # Use the xterm settings
 xrdb -merge .Xresources
 #Start i3
-exec i3 >> ~/.local/share/logs/i3.log
+exec i3 > ~/.cache/i3.log
