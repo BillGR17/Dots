@@ -143,8 +143,8 @@ bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer
 
 smart_borders on
 new_window pixel 1
-gaps inner 5
-gaps outer 5
+gaps inner 0
+gaps outer 0
 font pango: Hack 10
 smart_gaps on
 focus_follows_mouse no
