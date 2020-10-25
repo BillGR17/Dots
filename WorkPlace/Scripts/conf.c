@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 char h[] = "Specify What you need to "
-           "confing\n[ng=nginx]\n[ap=apache]\n[i3=i3wm]\n[vi=nvim]\n[ra=ranger]\n[tm=tmux]\n[zh=zsh]\n[xr=xterm]\n[co="
-           "compton]\n[du=dunst]";
+           "confing\n[ng=nginx]\n[ap=apache]\n[i3=i3wm]\n[vi=nvim]\n[ra=ranger]\n[tm=tmux]\n[zh=zsh]\n[xr=xterm]\n"
+           "[pi=picom]\n[du=dunst]\n[ro=rofi]";
 void exec(char x[]) {
   char c[100];
   sprintf(c, "nvim %s", x);
@@ -16,12 +16,14 @@ void list(char s[]) {
     exec("~/.config/nvim/init.vim");
   } else if (strcmp(s, "ra") == 0) {
     exec("~/.config/ranger/rc.conf");
+  } else if (strcmp(s, "ro") == 0) {
+    exec("~/.config/rofi/config.rasi");
   } else if (strcmp(s, "ng") == 0) {
     exec("/etc/nginx/nginx.conf&&systemctl restart nginx.service");
   } else if (strcmp(s, "ap") == 0) {
     exec("/etc/httpd/conf/httpd.conf&&systemctl restart httpd.service");
-  } else if (strcmp(s, "co") == 0) {
-    exec("~/.config/compton/compton.conf");
+  } else if (strcmp(s, "pi") == 0) {
+    exec("~/.config/picom/pi.conf");
   } else if (strcmp(s, "du") == 0) {
     exec("~/.config/dunst/dunstrc");
   } else if (strcmp(s, "tm") == 0) {

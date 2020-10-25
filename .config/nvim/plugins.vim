@@ -7,7 +7,7 @@ se rtp+=$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 if dein#load_state(s:deinPath)
   cal dein#begin(s:deinPath)
   cal dein#add('$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim')
-  cal dein#add('sheerun/vim-polyglot')
+  call dein#add('$HOME/')
   " Better Lang Syntax
   cal dein#add('sheerun/vim-polyglot')
   " Tools
@@ -75,8 +75,23 @@ if dein#load_state(s:deinPath)
   cal dein#end()
   cal dein#save_state()
   if s:f_init
-    cal dein#install() --sync|so $MYVIMRC
+    cal dein#install()
+    so $MYVIMRC
   en
 en
 cal dein#call_hook('source')
+" Fix multiple cursor bug with deoplete
+fu! Multiple_cursors_before()
+  if deoplete#is_enabled()
+    call deoplete#disable()
+    let g:deoplete_is_enable_before_multi_cursors = 1
+  el
+    let g:deoplete_is_enable_before_multi_cursors = 0
+  en
+endf
+fu! Multiple_cursors_after()
+  if g:deoplete_is_enable_before_multi_cursors
+    cal deoplete#enable()
+  en
+endf
 cal dein#remote_plugins()

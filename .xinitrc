@@ -6,11 +6,9 @@ setxkbmap -layout us,gr;setxkbmap -option 'grp:alt_shift_toggle'
 xset r rate 250 90
 # Turns the Num-lock on
 xdotool key Num_Lock
-# Set resolutions primary and refresh rate
-xrandr --output eDP-1-1 --primary --mode 1920x1080 --rate 60
 # Set msi keyboard led
 msi-led -m normal -c left,sky,low -c middle,sky,low -c right,sky,low
 # Use the xterm settings
-xrdb .Xresources
+xrdb -merge .Xresources
 #Start i3
-exec i3
+exec i3 > ~/.cache/i3.log

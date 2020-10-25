@@ -7,7 +7,7 @@ se sm
 " mouse cross
 se cuc cul
 " set tabs and spaces smart indents
-se ts=2 shiftwidth=2 sts=2 et si
+se ts=2 sw=2 sts=2 et si
 " show everything whitespace etc...
 se nowrap nu list lcs=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:.
 " Greek keymap support & Encoding
