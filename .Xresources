@@ -3,7 +3,7 @@ XTerm.termName: xterm-256color
 XTerm.vt100.metaSendsEscape: true
 
 ! History
-xterm.vt100.saveLines: 100000
+XTerm.vt100.saveLines: 100000
 
 XTerm*forceBoxChars: true
 XTerm*dynamicColors: true
