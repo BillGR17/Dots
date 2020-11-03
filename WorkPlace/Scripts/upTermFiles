@@ -1,0 +1,59 @@
+#!/bin/bash
+# All files to update
+files=(\
+  ".config/nvim/init.vim"\
+  ".config/nvim/plugins.vim"\
+  ".config/nvim/conf/editor-keys.vim"\
+  ".config/nvim/conf/format.vim"\
+  ".config/nvim/conf/pref.vim"\
+  ".config/nvim/conf/session.vim"\
+  ".config/nvim/conf/statusline.vim"\
+  ".config/nvim/conf/term.vim"\
+  ".config/nvim/conf/window.vim"\
+  ".config/ranger/rc.conf"\
+  ".config/ranger/rifle.conf"\
+  ".config/ranger/scope.sh"\
+  ".zshrc"\
+)
+# Colors
+# 0 Reset
+# 1 Red
+# 2 Blue
+# 3 Cyan
+c=(\
+  "\033[0m"\
+  "\033[0;31m"\
+  "\033[0;34m"\
+  "\033[0;36m"\
+)
+# Github Raw
+gitraw="raw.githubusercontent.com/BillGR17/Dots/master/"
+function goget(){
+  # Download the files inside /tmp/
+  # it should be replaced again on the same folder
+  # it grabs the exit code to compare it later
+  status=$(wget --server-response -x -N "https://$gitraw$1" -P "/tmp/" 2>&1 | awk '/^  HTTP/{print $2}')
+  # Here is later :D
+  # It will check for 200 or 304 status code
+  # If its anything else it will show the echo with the red x
+  if (( $status == 200 )) || (( $status == 304 ));then
+    # Compares the downloaded files with the files at home directory
+    # if they are the same it will just print ~
+    # otherwise it will print + and it will move the
+    # downloaded file to the home directory
+    if [ -z "$(cmp "/tmp/$gitraw$1" "$HOME/$1")" ]; then
+      # the files are the same
+      echo -e "[${c[3]}~${c[0]}]${c[2]}$1${c[0]}"
+    else
+      # the files are different
+      echo -e "[${c[3]}+${c[0]}]${c[2]}$1${c[0]}"
+      cp "/tmp/$gitraw$1" "$HOME/$1"
+    fi
+  else
+    # the error message
+    echo -e "[${c[1]}x${c[0]}]${c[2]}$1${c[0]}"
+  fi
+}
+for f in ${files[@]};do
+  goget "$f"
+done
