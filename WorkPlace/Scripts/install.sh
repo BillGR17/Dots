@@ -1,21 +1,43 @@
-#!/bin/sh
-# Grab info about user [name&pass] Host name and where to install grub
+#!/bin/bash
+# Grab info about user [name&pass]Host name and where to install grub
 echo "Please enter the Username:"
 read user_name
-echo "Please enter the User Password:"
+echo "Please enter the User Password"
 read user_pass
 echo "Please enter the Hostname:"
 read host_name
 fdisk -l
 echo "Please enter where to install the Grub (example: /dev/sda):"
 read disk
+# Chose what GPU drivers to install
+echo "Install GPU?\n\n0) Skip\n1) Nvidia\n2) AMD\n\n*nvidia drivers wont be installed from .packages"
+read_gpu=true
+while $read_gpu; do
+  read gpu
+  if (( "$gpu" >= 0 )) && (( "$gpu" <= 3 )) ; then
+    read_gpu=false
+  else
+    echo "Install GPU?\n0) Skip\n1) Nvidia\n2) AMD\n"
+  fi
+done
 # Install base-devel just in case base was installed
-# Also install linux-zen
-pacman -S --needed base-devel git go zsh networkmanager linux-zen linux-zen-headers wget curl
+# Also install linux-zen networkmanager go(its already needed for yay)
+# And zsh shell and set it as default
+# Also install mesa since its always needed
+pacman -S --needed base-devel git go zsh networkmanager linux-zen linux-zen-headers wget curl mesa lib32-mesa
+# Now install GPU drivers
+case "$gpu" in
+  1)
+    pacman -S nvidia-dkms lib32-nvidia-utils lib32-opencl-nvidia
+  ;;
+  2)
+    pacman -S xf86-video-amdgpu vulkan-randeon lib32-vulkan-radeon  libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau 
+  ;;
+esac
 # Change default shell to zsh for root
-chsh -s /usr/bin/zsh
+chsh -s $(which zsh)
 # Make new user and use zsh as defalt shell
-useradd -m $user_name -s /usr/bin/zsh -d ~/$user_name
+useradd -m $user_name -s $(which zsh) -d ~/$user_name
 # Add to sudoers allow no pass for now
 # It should be changed to ALL again later on
 echo "$user_name ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
@@ -24,16 +46,16 @@ passwd $user_pass
 # Add hostname
 echo $host_name >> /etc/hostname
 # Add Langs Greek and US
-echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
-echo 'el_GR.UTF-8 UTF-8' >> /etc/locale.gen
-echo 'el_GR ISO-8859-7'  >> /etc/locale.gen
+echo 'en_US.UTF-8 UTF-8'  >> /etc/locale.gen
+echo 'el_GR.UTF-8 UTF-8'  >> /etc/locale.gen
+echo 'el_GR ISO-8859-7'   >> /etc/locale.gen
 # Set main lang
 echo -n "LANG=en_US.UTF-8" > /etc/locale.conf
 # Generate lang
 locale-gen
 # Switch to user
 su - $user_name
-# Make sure its on users home dir
+# Make sure its on users home directory
 cd ~/
 # Grab my dots
 git clone https://github.com/BillGR17/Dots
@@ -46,10 +68,16 @@ cd ~/
 rm -rf yay
 # Hopefully this will help get pass the password prompt on yay
 # Grab all my packages from dots
-yay -S $(cat .packages) --noconfirm
-# return to root
+# Ignore/remove all nvidia packages and vr stuff
+packages=$(cat .packages| sed -e "s/\bnvidia\b//" -e "s/\bvr\b//g" -e "s/\bopenxr\b//g")
+yay -S $packages --noconfirm
+# Needed for neovim
+pip install neovim
+# Install all npm shit that i need the most
+npm i -g eslint express-generator webpack-cli nodemon js-beautify neovim
+# Return to root
 exit
-# now it should ask for passwords
+# Now it should ask for passwords
 cat /etc/sudoers|sed -e "s/$user_name ALL=(ALL) NOPASSWD:ALL/$user_name ALL=(ALL) ALL/"> /etc/sudoers
 # Grub & kernel
 mkinitcpio -p linux-zen
@@ -57,3 +85,6 @@ grub-install --force --target=i386-pc $disk
 grub-mkconfig -o /boot/grub/grub.cfg
 # Enable services
 systemctl enable NetworkManager
+# Create autologin to tty1
+mkdir -p /etc/systemd/system/getty@tty1.service.d
+echo "[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin $user --noclear %I $TERM" > /etc/systemd/system/getty@tty1.service.d/override.conf
