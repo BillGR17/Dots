@@ -2,7 +2,7 @@
 # Grab info about user [name&pass]Host name and where to install grub
 echo "Please enter the Username:"
 read user_name
-echo "Please enter the User Password"
+echo "Please enter the User Password:"
 read user_pass
 echo "Please enter the Hostname:"
 read host_name
