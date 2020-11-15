@@ -1,0 +1,21 @@
+#!/bin/bash
+################################################################
+# Requires xorg-xwininfo xdotool ffmpeg gawk
+################################################################
+# Where to store the video
+loc="$HOME/Videos"
+if [ -d "$1" ]; then
+  loc="$1"
+fi
+# All the xwininfo output from active window
+xw=$(xwininfo -id $(xdotool getactivewindow))
+# Active windows resolution
+win_res="$(grep Width <<< $xw|awk '{print $2}')x$(grep Height <<< $xw|awk '{print $2}')"
+# Active windows absolute position
+pos="+$(grep "Absolute upper-left X" <<< $xw|awk '{print $4}'),$(grep "Absolute upper-left Y" <<< $xw|awk '{print $4}')"
+# File name for video and for log
+win_name=$(grep 'id:' <<< $xw|cut -d ' ' -f5-)
+f_name="${win_name:1:-1}_$(date +%s)"
+# Pulse audio default output
+pu_default=$(pactl info|grep Sink|awk '{print $3".monitor"}')
+ffmpeg -y -video_size $win_res -r 60 -f x11grab -i $pos -f pulse -i $pu_default -vcodec libx264 -preset ultrafast -qp 0 -threads 0 "$loc/$f_name.mp4" &> "/tmp/$f_name.log"
