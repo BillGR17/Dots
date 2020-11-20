@@ -59,7 +59,7 @@ async function checkArg() {
   let d = null;
   await verifyLink(process.argv[2]).then(async (link) => {
     await checkLink(link).then((status) => {
-      if (status === 200 || status === 302) {
+      if (status <= 302) {
         let _url = url.parse(link, true);
         domain = _url.protocol + "//" + _url.hostname;
         d = link;
