@@ -87,4 +87,4 @@ grub-mkconfig -o /boot/grub/grub.cfg
 systemctl enable NetworkManager
 # Create autologin to tty1
 mkdir -p /etc/systemd/system/getty@tty1.service.d
-echo "[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin $user --noclear %I $TERM" > /etc/systemd/system/getty@tty1.service.d/override.conf
+printf "[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin $user --noclear %%I \$TERM\n" > /etc/systemd/system/getty@tty1.service.d/override.conf
