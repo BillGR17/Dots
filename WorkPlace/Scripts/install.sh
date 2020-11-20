@@ -10,14 +10,14 @@ fdisk -l
 echo "Please enter where to install the Grub (example: /dev/sda):"
 read disk
 # Chose what GPU drivers to install
-echo "Install GPU?\n\n0) Skip\n1) Nvidia\n2) AMD\n\n*nvidia drivers wont be installed from .packages"
+printf "Install GPU?\n\n0) Skip\n1) Nvidia\n2) AMD\n\n*nvidia drivers wont be installed from .packages\n" 
 read_gpu=true
 while $read_gpu; do
   read gpu
   if (( "$gpu" >= 0 )) && (( "$gpu" <= 3 )) ; then
     read_gpu=false
   else
-    echo "Install GPU?\n0) Skip\n1) Nvidia\n2) AMD\n"
+    printf "Install GPU?\n0) Skip\n1) Nvidia\n2) AMD\n"
   fi
 done
 # Install base-devel just in case base was installed
@@ -69,7 +69,7 @@ rm -rf yay
 # Hopefully this will help get pass the password prompt on yay
 # Grab all my packages from dots
 # Ignore/remove all nvidia packages and vr stuff
-packages=$(cat .packages| sed -e "s/\bnvidia\b//" -e "s/\bvr\b//g" -e "s/\bopenxr\b//g")
+packages=$(sed -e "s/\bnvidia\b//" -e "s/\bvr\b//g" -e "s/\bopenxr\b//g" .packages)
 yay -S $packages --noconfirm
 # Needed for neovim
 pip install neovim
@@ -78,7 +78,7 @@ npm i -g eslint express-generator webpack-cli nodemon js-beautify neovim
 # Return to root
 exit
 # Now it should ask for passwords
-cat /etc/sudoers|sed -e "s/$user_name ALL=(ALL) NOPASSWD:ALL/$user_name ALL=(ALL) ALL/"> /etc/sudoers
+sed -e "s/$user_name ALL=(ALL) NOPASSWD:ALL/$user_name ALL=(ALL) ALL/" /etc/sudoers > /etc/sudoers
 # Grub & kernel
 mkinitcpio -p linux-zen
 grub-install --force --target=i386-pc $disk
