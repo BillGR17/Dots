@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const http = require("http"),
   https = require("https"),
+  url = require("url"),
   ifaces = require("os").networkInterfaces();
 let localhost;
 Object.keys(ifaces).forEach(dev => {
@@ -10,7 +11,8 @@ Object.keys(ifaces).forEach(dev => {
     }
   });
 });
-let domain; //Saves the user's URL
+//Saves the user's URL
+let domain;
 //check if URL is correct
 //its only used once for the user URL
 //but it can be used on clean function...
@@ -45,11 +47,10 @@ function checkLink(link) {
   });
 }
 //ignore insecure certificate
+//if its a localhost ignore certificate
 function unsafe() {
-  //if its a localhost ignore certificate
-  if (process.argv[2].indexOf(localhost) !== -1 || process.argv[2].indexOf("localhost") !== -1 || process.argv[2].indexOf("127.0.0.1") !== -1) {
+  if (process.argv[2] && (process.argv[2].indexOf(localhost) !== -1 || process.argv[2].indexOf("localhost") !== -1 || process.argv[2].indexOf("127.0.0.1") !== -1))
     process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
-  }
 }
 //First things first
 //check the URL the user has entered
@@ -58,7 +59,9 @@ async function checkArg() {
   let d = null;
   await verifyLink(process.argv[2]).then(async (link) => {
     await checkLink(link).then((status) => {
-      if (status == 200) {
+      if (status === 200 || status === 302) {
+        let _url = url.parse(link, true);
+        domain = _url.protocol + "//" + _url.hostname;
         d = link;
       } else {
         console.log("The provided URL Must Return [200] but returns [" + status + "]");
@@ -88,8 +91,8 @@ function clean(urls) {
 }
 //contains list of protocols
 //angular useless links
-function nonolist(url) {
-  return (url) ? !url.substr(0, 10).match("http://|https://|mailto:|data:|tel:|ftp://|file://|news://|telnet://|gopher://|nntp://|{%") : undefined;
+function nonolist(_url) {
+  return (_url) ? !_url.substr(0, 10).match("http://|https://|mailto:|data:|tel:|ftp://|file://|news://|telnet://|gopher://|nntp://|{%") : undefined;
 }
 //checks each link
 //if it doesn't have / at the beginning
@@ -130,16 +133,16 @@ function getLinks(link) {
           data += buf;
         });
         _res.on("end", async () => {
-          let url = [];
+          let _url = [];
           if (data) {
             //get all matching href links and src links
-            url.push.apply(url, Array.from(new Set(data.match(/href="(.*?)"/g))));
-            url.push.apply(url, Array.from(new Set(data.match(/src="(.*?)"/g))));
+            _url.push.apply(_url, Array.from(new Set(data.match(/href="(.*?)"/g))));
+            _url.push.apply(_url, Array.from(new Set(data.match(/src="(.*?)"/g))));
             //remove the src and href
-            url = Array.from(await clean(new Set(url))).sort();
-            url = await removeUnwantedLinks(url);
+            _url = Array.from(await clean(new Set(_url))).sort();
+            _url = await removeUnwantedLinks(_url);
           }
-          res(url);
+          res(_url);
         });
       } else {
         res(undefined);
@@ -182,13 +185,12 @@ async function go(list) {
   return visited;
 }
 async function main() {
-  //if local ignore certificate
+  //if localhost ignore certificate
   unsafe();
-  domain = await checkArg();
-  if (domain) {
-    //if user provided / at the end of the URL remove it!
-    domain = (domain.endsWith("/")) ? domain.slice(0, -1) : domain;
-    let visited = await go(await getLinks(domain));
+  //check if url is good
+  let curent_link = await checkArg();
+  if (curent_link) {
+    let visited = await go(await getLinks(curent_link));
     //grab everything that doesn't have status code 200 and show it
     let err = visited.filter(obj => obj.status !== 200);
     if (err.length) {
