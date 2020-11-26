@@ -1,3 +1,5 @@
+// Monitors if the connection with the website is established
+// sends email if its down and when it comes back online again
 #include <curl/curl.h>
 #include <stdio.h>
 #include <stdlib.h>
