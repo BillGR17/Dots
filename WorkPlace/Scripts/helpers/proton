@@ -42,9 +42,9 @@ prefix(){
   # it should create a folder with the proton version
   # this should help to have multiple prefixes per proton version
   # sets the prefix envs
-  p_v=$(echo $1|grep -oP '(?<=Proton )?[0-9]+([.][0-9]+)'+)
+  p_v=$(echo $PROTON_PATH|grep -oP '(?<=Proton )?[0-9]+([.][0-9]+)'+)
   mkdir -pv $PWD/.proton/$p_v
-  echo $1 > $PWD/.proton/last
+  echo $PROTON_PATH > $PWD/.proton/last
   export STEAM_COMPAT_DATA_PATH="$PWD/.proton/$p_v"
   export WINEPREFIX="$STEAM_COMPAT_DATA_PATH"
   echo "Prefix: $PWD/.proton/$p_v"
@@ -56,11 +56,14 @@ if [ ! -z "$1" ]; then
   if [[ -z "$PROTON_PATH" ]]; then
     if [ -f "$PWD/.proton/last" ]; then
       latest_run
+      prefix
     else
       echo "new"
       find_proton
-      prefix $PROTON_PATH
+      prefix
     fi
+  else
+    prefix
   fi
   # And now wine env variables
   # Most of them are required for winetricks
