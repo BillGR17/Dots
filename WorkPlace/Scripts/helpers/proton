@@ -1,32 +1,66 @@
 #!/bin/bash
+find_proton(){
+  # Search for proton file in mnt and Users Home
+  # Searching for proton folder will have more issues
+  # since custom proton folders have different names and slashes
+  # This is the best solution that came to my mind...
+  # also ignore all the unreadable folders errors
+  proton=$(find /mnt $HOME -type f -name proton 2>/dev/null)
+  # Force IFS on line break
+  IFS=$'\n'
+  # Its used to store the biggest version
+  p_l=0
+  for p in $proton;do
+    # Stores Version
+    p_v=$(echo $p|grep -oP '(?<=Proton )?[0-9]+([.][0-9]+)'+)
+    # If somehow finds another Proton file including this one
+    # It shouldn't have a number so ignore it completely so it wont 
+    # crash the script :D
+    if [ ! -z "$p_v" ] && (( $(echo "$p_v > $p_l" |bc -l) )); then
+      p_l="$p_v"
+      # Store only the path not the file :)
+      PROTON_PATH=$(sed 's|\(.*\)/.*|\1|' <<< $p)
+    fi
+  done
+  echo "Using [$p_l] $PROTON_PATH"
+}
+latest_run(){
+  # I need to add more stuff here
+  # right now its just checking if the last proton still exist
+  PROTON_PATH=$(cat $PWD/.proton/last)
+  if [ ! -f "$PROTON_PATH/proton" ]; then
+    echo "Proton no longer exists"
+    echo "Remove old prefix and restart the script"
+    exit 1
+  else
+    prefix $PROTON_PATH
+  fi
+}
+prefix(){
+  # Creates the proton folder
+  # Uses a file called last to write last proton path
+  # it should create a folder with the proton version
+  # this should help to have multiple prefixes per proton version
+  # sets the prefix envs
+  p_v=$(echo $1|grep -oP '(?<=Proton )?[0-9]+([.][0-9]+)'+)
+  mkdir -pv $PWD/.proton/$p_v
+  echo $1 > $PWD/.proton/last
+  export STEAM_COMPAT_DATA_PATH="$PWD/.proton/$p_v"
+  export WINEPREFIX="$STEAM_COMPAT_DATA_PATH"
+  echo "Prefix: $PWD/.proton/$p_v"
+}
 # If no arguments don't do shit
 if [ ! -z "$1" ]; then
   # If PROTON_PATH doesn't exist
   # find the latest proton version
   if [[ -z "$PROTON_PATH" ]]; then
-    # Search for proton file in mnt and Users Home
-    # Searching for proton folder will have more issues
-    # since custom proton folders have different names and slashes
-    # This is the best solution that came to my mind...
-    # also ignore all the unreadable folders errors
-    proton=$(find /mnt $HOME -type f -name proton 2>/dev/null)
-    # Force IFS on line break
-    IFS=$'\n'
-    # Its used to store the biggest version
-    p_l=0
-    for p in $proton;do
-      # Stores Version
-      p_v=$(echo $p|grep -oP '(?<=Proton )?[0-9]+([.][0-9]+)'+)
-      # If somehow finds another Proton file including this one
-      # It shouldn't have a number so ignore it completely so it wont 
-      # crash the script :D
-      if [ ! -z "$p_v" ] && (( $(echo "$p_v > $p_l" |bc -l) )); then
-        p_l="$p_v"
-        # Store only the path not the file :)
-        PROTON_PATH=$(sed 's|\(.*\)/.*|\1|' <<< $p)
-      fi
-    done
-    echo "Using [$p_l] $PROTON_PATH"
+    if [ -f "$PWD/.proton/last" ]; then
+      latest_run
+    else
+      echo "new"
+      find_proton
+      prefix $PROTON_PATH
+    fi
   fi
   # And now wine env variables
   # Most of them are required for winetricks
@@ -34,12 +68,6 @@ if [ ! -z "$1" ]; then
   export WINEPATH="$PROTON_PATH/"
   export WINE="$WINEPATH/dist/bin/wine"
   export WINESERVER="$PROTON_PATH/dist/bin/wineserver"
-  # Creates proton prefix folder if it doesn't exist
-  # And also -v to print output
-  mkdir -vp $PWD/.proton
-  # Use proton prefix
-  export STEAM_COMPAT_DATA_PATH="$PWD/.proton"
-  export WINEPREFIX="$STEAM_COMPAT_DATA_PATH"
   # Runs all the arguments with proton
   if [[ "$1" == "winetricks" ]];then
     $@
