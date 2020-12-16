@@ -1,0 +1,16 @@
+#!/bin/bash
+if [[ -z "$2" ]];then
+  echo "Please enter the process name and what command to execute if the process doesn't exist"
+  echo "Example: $0 firefox poweroff"
+else
+  loop=true
+  while $loop;do
+    pid=$(pgrep $1)
+    if [[ -z "$pid" ]];then
+      loop=false
+    else
+      sleep .5
+    fi
+  done
+  ${@:2}
+fi
