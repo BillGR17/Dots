@@ -1,0 +1,29 @@
+#!/bin/bash
+# This script requires xdotool, imagemagick
+# This should get the active windows name
+ACTIVE_NAME=$(xdotool getactivewindow getwindowname)
+# Timestamp is used as the screenshot's name
+# Way better than numbering in my opinion
+TIMESTAMP=$(date +"%s")
+# In case of empty active_name
+# Just to play it safe use UNTITLED
+if [[ -z "$ACTIVE_NAME" ]];then
+  ACTIVE_NAME="UNTITLED"
+fi
+mkdir -p "$HOME/Pictures/$ACTIVE_NAME"
+case $1 in
+  "current")
+    # Capture only the active window
+    ACTIVE_ID=$(xprop -root _NET_ACTIVE_WINDOW|cut -d ' ' -f 5|tail)
+    import -silent -window $ACTIVE_ID "$HOME/Pictures/$ACTIVE_NAME/$TIMESTAMP.jpg"
+    ;;
+  "root")
+    # Capture he all the window(s) on the screenshot
+    import -silent -window root "$HOME/Pictures/$ACTIVE_NAME/$TIMESTAMP.jpg"
+    ;;
+  *)
+    # THIS IS THE DEFAULT
+    # Capture whatever the user selects
+    import -silent "$HOME/Pictures/$ACTIVE_NAME/$TIMESTAMP.jpg"
+    ;;
+esac
