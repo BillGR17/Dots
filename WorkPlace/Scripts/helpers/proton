@@ -27,13 +27,13 @@ find_proton(){
 latest_run(){
   # I need to add more stuff here
   # right now its just checking if the last proton still exist
-  PROTON_PATH=$(cat $PWD/.proton/last)
+  PROTON_PATH=$(cat "$PWD/.proton/last")
   if [ ! -f "$PROTON_PATH/proton" ]; then
     echo "Proton no longer exists"
     echo "Remove old prefix and restart the script"
     exit 1
   else
-    prefix $PROTON_PATH
+    prefix "$PROTON_PATH"
   fi
 }
 prefix(){
@@ -43,8 +43,8 @@ prefix(){
   # this should help to have multiple prefixes per proton version
   # sets the prefix envs
   p_v=$(echo $PROTON_PATH|grep -oP '(?<=Proton )?[0-9]+([.][0-9]+)'+)
-  mkdir -pv $PWD/.proton/$p_v
-  echo $PROTON_PATH > $PWD/.proton/last
+  mkdir -pv "$PWD/.proton/$p_v"
+  echo $PROTON_PATH > "$PWD/.proton/last"
   export STEAM_COMPAT_DATA_PATH="$PWD/.proton/$p_v"
   export WINEPREFIX="$STEAM_COMPAT_DATA_PATH"
   echo "Prefix: $PWD/.proton/$p_v"
