@@ -54,8 +54,8 @@ if [ ! -z "$1" ]; then
   # If PROTON_PATH is not set check if there is .proton folder on the current path
   # otherwise create a new .proton folder from the executables file location
   if [[ -z $PROTON_PREFIX ]] && [[ ! -d "$PWD/.proton" ]] && [[ "$1" != "winetricks" ]]; then
-    PROTON_PREFIX="$(dirname $1)"
-  elif [[ -d "$PWD/.proton" ]]; then
+    PROTON_PREFIX="$(dirname $(realpath -s '$1'))"
+  elif [[ -z $PROTON_PREFIX ]] && [[ -d "$PWD/.proton" ]]; then
     PROTON_PREFIX="$PWD"
   fi
   # If PROTON_PATH doesn't exist
