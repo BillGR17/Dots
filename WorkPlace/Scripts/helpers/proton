@@ -55,6 +55,8 @@ if [ ! -z "$1" ]; then
   # otherwise create a new .proton folder from the executables file location
   if [[ -z $PROTON_PREFIX ]] && [[ ! -d "$PWD/.proton" ]] && [[ "$1" != "winetricks" ]]; then
     PROTON_PREFIX="$(dirname $1)"
+  elif [[ -d "$PWD/.proton" ]]; then
+    PROTON_PREFIX="$PWD"
   fi
   # If PROTON_PATH doesn't exist
   # find the latest proton version
