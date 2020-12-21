@@ -27,7 +27,7 @@ find_proton(){
 latest_run(){
   # I need to add more stuff here
   # right now its just checking if the last proton still exist
-  PROTON_PATH=$(cat "$PWD/.proton/last")
+  PROTON_PATH=$(cat "$PROTON_PREFIX/.proton/last")
   if [ ! -f "$PROTON_PATH/proton" ]; then
     echo "Proton no longer exists"
     echo "Remove old prefix and restart the script"
@@ -43,26 +43,32 @@ prefix(){
   # this should help to have multiple prefixes per proton version
   # sets the prefix envs
   p_v=$(echo $PROTON_PATH|grep -oP '(?<=Proton )?[0-9]+([.][0-9]+)'+)
-  mkdir -pv "$PWD/.proton/$p_v"
-  echo $PROTON_PATH > "$PWD/.proton/last"
-  export STEAM_COMPAT_DATA_PATH="$PWD/.proton/$p_v"
+  mkdir -pv "$PROTON_PREFIX/.proton/$p_v"
+  echo $PROTON_PATH > "$PROTON_PREFIX/.proton/last"
+  export STEAM_COMPAT_DATA_PATH="$PROTON_PREFIX/.proton/$p_v"
   export WINEPREFIX="$STEAM_COMPAT_DATA_PATH"
-  echo "Prefix: $PWD/.proton/$p_v"
+  echo "Prefix: $PROTON_PREFIX/.proton/$p_v"
 }
 # If no arguments don't do shit
 if [ ! -z "$1" ]; then
+  # If PROTON_PATH is not set check if there is .proton folder on the current path
+  # otherwise create a new .proton folder from the executables file location
+  if [[ -z $PROTON_PREFIX ]] && [[ ! -d "$PWD/.proton" ]] && [[ "$1" != "winetricks" ]]; then
+    PROTON_PREFIX="$(dirname $1)"
+  fi
   # If PROTON_PATH doesn't exist
   # find the latest proton version
   if [[ -z "$PROTON_PATH" ]]; then
-    if [ -f "$PWD/.proton/last" ]; then
+    if [ -f "$PROTON_PREFIX/.proton/last" ]; then
+      echo "Found Previous Proton Run Files"
       latest_run
-      prefix
     else
-      echo "new"
+      echo "New Proton Run"
       find_proton
       prefix
     fi
   else
+    echo "Using Requested Proton"
     prefix
   fi
   # And now wine env variables
