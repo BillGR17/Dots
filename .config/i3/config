@@ -26,7 +26,6 @@ bindsym $mod+Return exec xterm -e tmux
 floating_modifier $mod
 
 # start the program launcher
-=======
 bindsym $mod+d exec rofi -show run
 
 # kill focused window
