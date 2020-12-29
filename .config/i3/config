@@ -4,8 +4,13 @@
 
 exec --no-startup-id nm-applet
 exec --no-startup-id parcellite
+<<<<<<< HEAD
 
 exec --no-startup-id comp
+=======
+exec --no-startup-id xcompmgr -c -C -t-5 -l-5 -r4 -o.5 &!   
+
+>>>>>>> 66a523f9bb91918b8ca16138ecf5a35d9d6bfa90
 exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
 exec --no-startup-id hsetroot -solid "#3B4252"
 
@@ -26,7 +31,11 @@ bindsym $mod+Return exec xterm -e tmux
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+<<<<<<< HEAD
 # start the program launcher
+=======
+# start dmenu (a program launcher)
+>>>>>>> 66a523f9bb91918b8ca16138ecf5a35d9d6bfa90
 bindsym $mod+d exec rofi -show run
 
 # kill focused window
@@ -121,6 +130,7 @@ bindsym $mod+r mode "resize"
 # close or start xcompmgr
 bindsym --release Mod1+F5  exec comp_toggle
 
+<<<<<<< HEAD
 # Print Screen
 bindsym --release Print exec --no-startup-id screenshot current
 bindsym --release Ctrl+Shift+Print exec --no-startup-id screenshot root
@@ -129,16 +139,32 @@ bindsym --release Shift+Print exec --no-startup-id screenshot
 # Record screen
 bindsym --release $mod+F12 exec record /mnt/Storage
 bindsym --release $mod+Shift+F12 exec killall ffmpeg
+=======
+#Print Screen Stolen from reddit :)
+#https://www.reddit.com/r/i3wm/comments/8jugx9/keyboard_binding_for_scrot_s_is_not_working_got/dz2im83
+bindsym --release Print exec --no-startup-id import -silent -window $(xprop -root _NET_ACTIVE_WINDOW|cut -d ' ' -f 5|tail) "$HOME/Pictures/$($HOME/.config/i3/blocks/scripts/active)_$(ls -l $HOME/Pictures/|grep -Fc "$($HOME/.config/i3/blocks/scripts/active)").jpg"
+bindsym --release Ctrl+Shift+Print exec --no-startup-id import -silent -window root "$HOME/Pictures/$($HOME/.config/i3/blocks/scripts/active)_$(ls -l $HOME/Pictures/|grep -Fc "$($HOME/.config/i3/blocks/scripts/active)").jpg"
+bindsym --release Shift+Print exec --no-startup-id import -silent "$HOME/Pictures/$($HOME/.config/i3/blocks/scripts/active)_$(ls -l $HOME/Pictures/|grep -Fc "$($HOME/.config/i3/blocks/scripts/active)").jpg"
+>>>>>>> 66a523f9bb91918b8ca16138ecf5a35d9d6bfa90
 
 # Media keys
 bindsym XF86AudioRaiseVolume exec "amixer -q sset Master 1%+ unmute"
 bindsym XF86AudioLowerVolume exec "amixer -q sset Master 1%- unmute"
 
 bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
+<<<<<<< HEAD
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+=======
+bindsym XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+bindsym XF86MonBrightnessUp exec "bright -c intel_backlight"
+bindsym XF86MonBrightnessDown exec "bright -c intel_backlight -d"
+>>>>>>> 66a523f9bb91918b8ca16138ecf5a35d9d6bfa90
 
 ###################
 # WINDOW SETTINGS #
@@ -156,7 +182,7 @@ popup_during_fullscreen smart
 
 #Marking primary & secondary screens
 set $p primary
-set $s HDMI-0
+set $s HDMI-1-1
 
 #PRIMARY SCREEN WORKPLACE
 workspace 1 output $p
