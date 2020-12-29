@@ -6,11 +6,8 @@ setxkbmap -layout us,gr;setxkbmap -option 'grp:alt_shift_toggle'
 xset r rate 250 90
 # Turns the Num-lock on
 xdotool key Num_Lock
-<<<<<<< HEAD
-=======
 # Set msi keyboard led
 msi-led -m normal -c left,sky,low -c middle,sky,low -c right,sky,low
->>>>>>> 66a523f9bb91918b8ca16138ecf5a35d9d6bfa90
 # Use the xterm settings
 xrdb -merge .Xresources
 #Start i3
