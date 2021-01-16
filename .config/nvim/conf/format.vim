@@ -31,7 +31,7 @@ fu FormatIt()
     elsei &syn ==# 'go' && s:has.gofmt
       undoj|cal s:MyFMT("gofmt")
     elsei &syn ==# 'python' && s:has.yapf
-      undoj|cal s:ExecFormat("yapf -q ")
+      undoj|exe "%! yapf -q "
     en
     " always remove tabs and use spaces instead
     %s/\t/  /g
