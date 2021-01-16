@@ -4,6 +4,7 @@ let s:has.js = executable("js-beautify")
 let s:has.clang = executable("clang-format")
 let s:has.gofmt = executable("gofmt")
 let s:has.rustfmt = executable("rustfmt")
+let s:has.yapf = executable("yapf")
 " enable syntax
 syn on
 " executes formating script
@@ -29,6 +30,8 @@ fu FormatIt()
       undoj|cal s:MyFMT("rustfmt --emit stdout")
     elsei &syn ==# 'go' && s:has.gofmt
       undoj|cal s:MyFMT("gofmt")
+    elsei &syn ==# 'python' && s:has.yapf
+      undoj|cal s:ExecFormat("yapf -q ")
     en
     " always remove tabs and use spaces instead
     %s/\t/  /g
