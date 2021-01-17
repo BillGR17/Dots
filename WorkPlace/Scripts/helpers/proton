@@ -1,88 +1,122 @@
-#!/bin/bash
-find_proton(){
-  # Search for proton file in mnt and Users Home
-  # Searching for proton folder will have more issues
-  # since custom proton folders have different names and slashes
-  # This is the best solution that came to my mind...
-  # also ignore all the unreadable folders errors
-  proton=$(find /mnt $HOME -type f -name proton 2>/dev/null)
-  # Force IFS on line break
-  IFS=$'\n'
-  # Its used to store the biggest version
-  p_l=0
-  for p in $proton;do
-    # Stores Version
-    p_v=$(echo $p|grep -oP '(?<=Proton )?[0-9]+([.][0-9]+)'+)
-    # If somehow finds another Proton file including this one
-    # It shouldn't have a number so ignore it completely so it wont 
-    # crash the script :D
-    if [ ! -z "$p_v" ] && (( $(echo "$p_v > $p_l" |bc -l) )); then
-      p_l="$p_v"
-      # Store only the path not the file :)
-      PROTON_PATH=$(sed 's|\(.*\)/.*|\1|' <<< $p)
-    fi
-  done
-  echo "Using [$p_l] $PROTON_PATH"
-}
-latest_run(){
-  # I need to add more stuff here
-  # right now its just checking if the last proton still exist
-  PROTON_PATH=$(cat "$PROTON_PREFIX/.proton/last")
-  if [ ! -f "$PROTON_PATH/proton" ]; then
-    echo "Proton no longer exists"
-    echo "Remove old prefix and restart the script"
-    exit 1
-  else
-    prefix "$PROTON_PATH"
-  fi
-}
-prefix(){
-  # Creates the proton folder
-  # Uses a file called last to write last proton path
-  # it should create a folder with the proton version
-  # this should help to have multiple prefixes per proton version
-  # sets the prefix envs
-  p_v=$(echo $PROTON_PATH|grep -oP '(?<=Proton )?[0-9]+([.][0-9]+)'+)
-  mkdir -pv "$PROTON_PREFIX/.proton/$p_v"
-  echo $PROTON_PATH > "$PROTON_PREFIX/.proton/last"
-  export STEAM_COMPAT_DATA_PATH="$PROTON_PREFIX/.proton/$p_v"
-  export WINEPREFIX="$STEAM_COMPAT_DATA_PATH"
-  echo "Prefix: $PROTON_PREFIX/.proton/$p_v"
-}
-# If no arguments don't do shit
-if [ ! -z "$1" ]; then
-  # If PROTON_PATH is not set check if there is .proton folder on the current path
-  # otherwise create a new .proton folder from the executables file location
-  if [[ -z $PROTON_PREFIX ]] && [[ ! -d "$PWD/.proton" ]] && [[ "$1" != "winetricks" ]]; then
-    PROTON_PREFIX=$(dirname "$(realpath -s "$1")")
-  elif [[ -z $PROTON_PREFIX ]] && [[ -d "$PWD/.proton" ]]; then
-    PROTON_PREFIX="$PWD"
-  fi
-  # If PROTON_PATH doesn't exist
-  # find the latest proton version
-  if [[ -z "$PROTON_PATH" ]]; then
-    if [ -f "$PROTON_PREFIX/.proton/last" ]; then
-      echo "Found Previous Proton Run Files"
-      latest_run
-    else
-      echo "New Proton Run"
-      find_proton
-      prefix
-    fi
-  else
-    echo "Using Requested Proton"
-    prefix
-  fi
-  # And now wine env variables
-  # Most of them are required for winetricks
-  export WINEARCH=win64
-  export WINEPATH="$PROTON_PATH/"
-  export WINE="$WINEPATH/dist/bin/wine"
-  export WINESERVER="$PROTON_PATH/dist/bin/wineserver"
-  # Runs all the arguments with proton
-  if [[ "$1" == "winetricks" ]];then
-    $@
-  else
-    "$PROTON_PATH/proton" run $@
-  fi
-fi
+#!/usr/bin/env python
+import os
+import sys
+
+PROTON_PATH = ""
+PROTON_PREFIX = ""
+
+
+def find(name, path):
+    """
+        Recursive search for file
+        since glob is extremely slow
+        i think this is the best way
+    """
+    result = []
+    for root, dirs, files in os.walk(path):
+        if name in files:
+            result.append(os.path.join(root, name))
+    return result
+
+
+def find_proton():
+    """
+        Grab all the proton
+        searchSteamLibs contains all the
+        paths to search for the proton file
+    """
+    searchSteamLibs = [os.path.expanduser("~") + "/.local/share/Steam", "/mnt"]
+    protonList = []
+    for x in searchSteamLibs:
+        protonList.extend(find("proton", x))
+    return protonList
+
+
+def check_prev_run(loc):
+    """
+        Check if .proton folder exist
+        Then check if last proton exec still exist
+        and use it or perform new run
+    """
+    global PROTON_PATH
+    global PROTON_PREFIX
+    path = loc + "/.proton/last"
+    print("Checking for previous proton run: " + path)
+    exists = os.path.isfile(path)
+    if exists:
+        file = open(path, "r")
+        # remove all breaklines
+        lastFile = file.read().replace("\n", "")
+        lastProton = os.path.isfile(lastFile + "/proton")
+        PROTON_PREFIX = loc + "/.proton/" + lastFile.split("/").pop().split(
+            " ").pop()
+        if lastProton:
+            print("Found last Proton used: " + lastFile)
+            set_env(PROTON_PREFIX, lastFile)
+            PROTON_PATH = lastFile
+        else:
+            print("Couldn't find the proton used last time : " + lastFile)
+            new_run(loc)
+            set_env(PROTON_PREFIX)
+    else:
+        print("No Previous run\nStarting new prefix")
+        new_run(loc)
+        PROTON_PREFIX = loc + "/" + PROTON_PATH.split("/").pop().split(
+            " ").pop()
+        set_env(PROTON_PREFIX, PROTON_PATH)
+
+
+def new_run(loc):
+    """
+        Creates all .proton folders and files
+        asks user what proton to use
+    """
+    global PROTON_PATH
+    protonsFound = find_proton()
+    for i, text in enumerate(protonsFound):
+        print("[%s]%s" % (i, text))
+    userInput = int(input("Select Proton Version to use: "))
+    PROTON_PATH = "/".join(protonsFound[userInput].split("/")[:-1])
+    if not os.path.exists(loc + "/.proton"):
+        os.makedirs(loc + "/.proton")
+    open(loc + "/.proton/last", "w").write(PROTON_PATH)
+    protonPrefix = loc + "/.proton/" + PROTON_PATH.split("/").pop().split(
+        " ").pop()
+    if not os.path.exists(protonPrefix):
+        os.makedirs(protonPrefix)
+
+
+def set_env(prefix, proton):
+    """
+        Sets all the enviroment variables
+    """
+    print("PROTON_PREFIX:", PROTON_PREFIX)
+    os.environ["PROTON_PREFIX"] = PROTON_PREFIX
+    os.environ["STEAM_COMPAT_DATA_PATH"] = PROTON_PREFIX
+    os.environ["WINEPREFIX"] = PROTON_PREFIX
+    os.environ["WINE"] = proton + "/dist/bin/wine"
+    os.environ["WINEARCH"] = "win64"
+    os.environ["WINESERVER"] = PROTON_PREFIX + "/dist/bin/wineserver"
+
+
+def run(loc):
+    if loc == "":
+        loc = os.getcwd()
+    check_prev_run(loc)
+    _exec = "'" + PROTON_PATH + "/proton' run '" + sys.argv[
+        1] + "' " + " ".join(sys.argv[2:])
+    print("Executing: " + _exec)
+    os.system(_exec)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        if ".exe" in sys.argv[1]:
+            run("/".join(sys.argv[1].split("/")[:-1]))
+        elif "wine" in sys.argv[1]:
+            run("")
+        else:
+            print("Not sure what you are trying to do  right now...")
+    else:
+        print("Run this script with an argumeny,\nLike this: " + sys.argv[0] +
+              " game.exe")
