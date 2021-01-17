@@ -59,9 +59,9 @@ def check_prev_run(loc):
             new_run(loc)
             set_env(PROTON_PREFIX)
     else:
-        print("No Previous run\nStarting new prefix")
+        print("No Previous run\nCreating new prefix")
         new_run(loc)
-        PROTON_PREFIX = loc + "/" + PROTON_PATH.split("/").pop().split(
+        PROTON_PREFIX = loc + "/.proton/" + PROTON_PATH.split("/").pop().split(
             " ").pop()
         set_env(PROTON_PREFIX, PROTON_PATH)
 
