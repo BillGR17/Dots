@@ -4,6 +4,7 @@ let s:has.js = executable("js-beautify")
 let s:has.clang = executable("clang-format")
 let s:has.gofmt = executable("gofmt")
 let s:has.rustfmt = executable("rustfmt")
+let s:has.yapf = executable("yapf")
 " enable syntax
 syn on
 " executes formating script
@@ -26,9 +27,11 @@ fu FormatIt()
     elsei &syn =~# '^\(c$\|cpp\)' && s:has.clang
       undoj|cal s:ExecFormat("clang-format --style=file")
     elsei &syn =~# 'rust' && s:has.rustfmt
-      undoj|cal s:MyFMT("rustfmt --emit stdout")
+      undoj|cal s:MyFMT("rustfmt --emit stdout")|g/^$/d|%s/\s\+$//e
     elsei &syn ==# 'go' && s:has.gofmt
-      undoj|cal s:MyFMT("gofmt")
+      undoj|cal s:MyFMT("gofmt")|g/^$/d|%s/\s\+$//e
+    elsei &syn ==# 'python' && s:has.yapf
+      undoj|cal s:MyFMT("yapf")
     en
     " always remove tabs and use spaces instead
     %s/\t/  /g
@@ -45,8 +48,7 @@ fu s:MyFMT(exec)
   " if the executable exits with a non-zero
   " delete everything and paste the old text
   if v:shell_error != 0
-    1,$d|pu = s:buff
+    1,$d|pu! = s:buff
   en
-  g/^$/d|%s/\s\+$//e
 endf
 au BufWritePre * sil! cal FormatIt()
