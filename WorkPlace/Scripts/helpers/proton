@@ -52,6 +52,25 @@ def find_proton():
     return protonList
 
 
+def pwd_pfx(loc):
+    """
+        Checks if there is a prefix on current location
+        Doesn't create a new one
+    """
+    global PROTON_PREFIX
+    current_pfx = os.getcwd() + "/.proton"
+    print("Checking for previous proton run: ", end="")
+    if os.path.exists(current_pfx):
+        print(current_pfx)
+        PROTON_PREFIX = current_pfx + "/pfx"
+        return current_pfx
+    else:
+        path = loc + "/.proton/"
+        print(path)
+        PROTON_PREFIX = loc + "/.proton/pfx"
+        return path
+
+
 def check_prev_run(loc):
     """
         Check if .proton folder exist
@@ -59,13 +78,10 @@ def check_prev_run(loc):
         and use it or perform new run
     """
     global PROTON_PATH
-    global PROTON_PREFIX
-    path = loc + "/.proton/last"
-    print("Checking for previous proton run: " + path)
-    exists = os.path.isfile(path)
-    PROTON_PREFIX = loc + "/.proton/pfx"
+    path = pwd_pfx(loc)
+    exists = os.path.isfile(path + "/last")
     if exists:
-        file = open(path, "r")
+        file = open(path + "/last", "r")
         # remove all breaklines
         lastFile = file.read().replace("\n", "")
         lastProton = os.path.isfile(lastFile + "/proton")
@@ -103,6 +119,13 @@ def new_run(loc):
 
 
 def change_proton(loc):
+    """
+        Asks if he wants to replace the old prefix or start a new one
+        Removes last file
+        Checks if there is another pfx_old and removes it
+        Creates a new copy of the previous prefix
+        and then exits the script
+    """
     if loc == "":
         loc = os.getcwd()
     global PROTON_PREFIX
@@ -124,6 +147,7 @@ def change_proton(loc):
                         ignore=shutil.ignore_patterns("dosdevices"),
                         dirs_exist_ok=True)
     new_run(loc)
+    print("All Done!")
     sys.exit(0)
 
 
@@ -141,6 +165,11 @@ def set_env(prefix, proton):
 
 
 def run(loc):
+    """
+        Checks if locations is empty and sets the current location instead
+        Then it will put all the arguments on the proton and start the
+        execution
+    """
     if loc == "":
         loc = os.getcwd()
     check_prev_run(loc)
@@ -151,6 +180,10 @@ def run(loc):
 
 
 def ifloc():
+    """
+        Checks if there is a path on argument 2
+        and returns it or ignores it if it doesnt exists
+    """
     if sys.argv[2]:
         loc = sys.argv[2]
         if os.path.exists(loc):
