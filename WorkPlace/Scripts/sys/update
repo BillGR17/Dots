@@ -15,9 +15,9 @@ antibody update
 if [ -x "$(command -v npm)" ];then
   #check if there is npm in the outdated list
   #and then update npm
-  _up_npm="$(sudo npm out -g)"
+  _up_npm="$(npm out -g)"
   if [[ $_up_npm =~ "npm" ]];then
-    sudo npm i -g npm
+    npm i -g npm
   fi
   npm up -g
 fi
