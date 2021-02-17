@@ -184,7 +184,7 @@ def ifloc():
         Checks if there is a path on argument 2
         and returns it or ignores it if it doesnt exists
     """
-    if sys.argv[2]:
+    if len(sys.argv)>2:
         loc = sys.argv[2]
         if os.path.exists(loc):
             return loc
