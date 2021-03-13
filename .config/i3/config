@@ -2,16 +2,18 @@
 #AUTOSTART ON STARTUP#
 ######################
 
+# Tray
 exec --no-startup-id nm-applet
 exec --no-startup-id parcellite
-
+# System
 exec --no-startup-id comp
 exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
 exec --no-startup-id hsetroot -solid "#3B4252"
-
 exec --no-startup-id /usr/bin/lxsession
+# Applications
 exec --no-startup-id firefox
 exec --no-startup-id steam-runtime > ~/.cache/steam.log
+exec --no-startup-id eddie-ui
 
 #####################
 # KEYBOARD SETTINGS #
