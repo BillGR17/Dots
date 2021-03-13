@@ -9,6 +9,9 @@ TIMESTAMP=$(date +"%s")
 # Just to play it safe use UNTITLED
 if [[ -z "$ACTIVE_NAME" ]];then
   ACTIVE_NAME="UNTITLED"
+else
+  # Make sure it doesnt create directories if the name contains \
+  ACTIVE_NAME=$(echo $ACTIVE_NAME|tr '\' '_')
 fi
 mkdir -p "$HOME/Pictures/$ACTIVE_NAME"
 case $1 in
