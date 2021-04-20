@@ -87,16 +87,16 @@ def check_prev_run(loc):
         lastProton = os.path.isfile(lastFile + "/proton")
         if lastProton:
             print("Found last Proton used: " + lastFile)
-            set_env(PROTON_PREFIX, lastFile)
             PROTON_PATH = lastFile
+            set_env()
         else:
             print("Couldn't find the proton used last time : " + lastFile)
             new_run(loc)
-            set_env(PROTON_PREFIX, PROTON_PATH)
+            set_env()
     else:
         print("No Previous run\nCreating new prefix")
         new_run(loc)
-        set_env(PROTON_PREFIX, PROTON_PATH)
+        set_env()
 
 
 def new_run(loc):
@@ -151,7 +151,7 @@ def change_proton(loc):
     sys.exit(0)
 
 
-def set_env(prefix, proton):
+def set_env():
     """
         Sets all the enviroment variables
     """
@@ -159,9 +159,9 @@ def set_env(prefix, proton):
     os.environ["PROTON_PREFIX"] = PROTON_PREFIX
     os.environ["STEAM_COMPAT_DATA_PATH"] = PROTON_PREFIX
     os.environ["WINEPREFIX"] = PROTON_PREFIX
-    os.environ["WINE"] = proton + "/dist/bin/wine"
     os.environ["WINEARCH"] = "win64"
-    os.environ["WINESERVER"] = PROTON_PREFIX + "/dist/bin/wineserver"
+    os.environ["WINE"] = PROTON_PATH + "/dist/bin/wine64"
+    os.environ["WINESERVER"] = PROTON_PATH + "/dist/bin/wineserver"
 
 
 def run(loc):
@@ -184,7 +184,7 @@ def ifloc():
         Checks if there is a path on argument 2
         and returns it or ignores it if it doesnt exists
     """
-    if sys.argv[2]:
+    if len(sys.argv) > 2:
         loc = sys.argv[2]
         if os.path.exists(loc):
             return loc

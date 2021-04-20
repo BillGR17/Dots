@@ -2,15 +2,18 @@
 #AUTOSTART ON STARTUP#
 ######################
 
+# Tray
 exec --no-startup-id nm-applet
 exec --no-startup-id parcellite
+# System
 exec --no-startup-id comp
 exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
 exec --no-startup-id hsetroot -solid "#3B4252"
-
 exec --no-startup-id /usr/bin/lxsession
+# Applications
 exec --no-startup-id firefox
 exec --no-startup-id steam-runtime > ~/.cache/steam.log
+exec --no-startup-id eddie-ui
 
 #####################
 # KEYBOARD SETTINGS #
@@ -159,7 +162,7 @@ popup_during_fullscreen smart
 
 #Marking primary & secondary screens
 set $p primary
-set $s HDMI-1-1
+set $s HDMI-0
 
 #PRIMARY SCREEN WORKPLACE
 workspace 1 output $p
@@ -234,7 +237,7 @@ bar {
     background         $nord0
     statusline         $nord8
     focused_workspace  $nord0  $nord8
-    active_workspace   $nord7  $nord3
+    active_workspace   $nord7  $nord3 FROM MASTER
     inactive_workspace $nord8  $nord0
     urgent_workspace   $nord0  $nord11
   }
