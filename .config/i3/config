@@ -12,6 +12,7 @@ exec --no-startup-id hsetroot -solid "#3B4252"
 exec --no-startup-id /usr/bin/lxsession
 # Applications
 exec --no-startup-id firefox
+exec --no-startup-id discord
 exec --no-startup-id steam-runtime > ~/.cache/steam.log
 exec --no-startup-id eddie-ui
 
@@ -192,8 +193,10 @@ for_window [title="Shutdown PC"] floating enable
 
 for_window [class="^Transmission"] float enable
 for_window [window_role="pop-up"] floating enable
+for_window [class="*.exe"] floating enable
 
 assign [class="(?i)steam"] 0
+assign [class="(?i)discord"] 2
 
 #####################
 #COLORS ARE SET HERE#
@@ -237,7 +240,7 @@ bar {
     background         $nord0
     statusline         $nord8
     focused_workspace  $nord0  $nord8
-    active_workspace   $nord7  $nord3 FROM MASTER
+    active_workspace   $nord7  $nord3
     inactive_workspace $nord8  $nord0
     urgent_workspace   $nord0  $nord11
   }
