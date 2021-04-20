@@ -142,6 +142,10 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
+bindsym XF86MonBrightnessUp exec "bright -c intel_backlight"
+bindsym XF86MonBrightnessDown exec "bright -c intel_backlight -d"
+
+
 ###################
 # WINDOW SETTINGS #
 ###################
@@ -233,7 +237,7 @@ bar {
     background         $nord0
     statusline         $nord8
     focused_workspace  $nord0  $nord8
-    active_workspace   $nord7  $nord3
+    active_workspace   $nord7  $nord3 FROM MASTER
     inactive_workspace $nord8  $nord0
     urgent_workspace   $nord0  $nord11
   }
