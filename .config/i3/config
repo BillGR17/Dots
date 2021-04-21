@@ -237,7 +237,7 @@ bar {
     background         $nord0
     statusline         $nord8
     focused_workspace  $nord0  $nord8
-    active_workspace   $nord7  $nord3 FROM MASTER
+    active_workspace   $nord7  $nord3
     inactive_workspace $nord8  $nord0
     urgent_workspace   $nord0  $nord11
   }
