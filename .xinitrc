@@ -9,7 +9,7 @@ xmodmap -e "pointer = 1 2 3 4 5 0 0 8 9 10 11 12 13 14 15 16 17 18 19 20"
 # Turns the Num-lock on
 xdotool key Num_Lock
 # Set msi keyboard led
-msi-led -m normal -c left,sky,low -c middle,sky,low -c right,sky,low
+#msi-led -m normal -c left,sky,low -c middle,sky,low -c right,sky,low
 # Use the xterm settings
 xrdb -merge .Xresources
 #Start i3
