@@ -84,6 +84,7 @@ bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
 bindsym $mod+grave workspace 0
 
 # move focused container to workspace
@@ -96,6 +97,7 @@ bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
 bindsym $mod+Shift+grave move container to workspace 0
 
 # reload the configuration file
@@ -166,6 +168,7 @@ set $p primary
 set $s HDMI-0
 
 #PRIMARY SCREEN WORKPLACE
+workspace 0 output $p
 workspace 1 output $p
 workspace 3 output $p
 workspace 5 output $p
@@ -191,9 +194,9 @@ for_window [window_type="menu"] floating enable
 
 for_window [title="Shutdown PC"] floating enable
 
-for_window [class="^Transmission"] float enable
-for_window [window_role="pop-up"] floating enable
-for_window [class="*.exe"] floating enable
+for_window [class="^Transmission"] floating enable
+for_window [class="steam_proton"] floating enable, move container to workspace 0
+for_window [class="Steam"] [title="(?i)friends list*"] floating enable, move container to workspace 0
 
 assign [class="(?i)steam"] 0
 assign [class="(?i)discord"] 2
