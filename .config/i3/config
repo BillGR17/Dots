@@ -195,8 +195,8 @@ for_window [window_type="menu"] floating enable
 for_window [title="Shutdown PC"] floating enable
 
 for_window [class="^Transmission"] floating enable
-for_window [class="steam_proton"] floating enable, move container to workspace 0
-for_window [class="Steam"] [title="(?i)friends list*"] floating enable, move container to workspace 0
+for_window [class="^steam_*"] floating enable
+for_window [class="Steam"] [title="(?i)friends list*"] floating enable
 
 assign [class="(?i)steam"] 0
 assign [class="(?i)discord"] 2
