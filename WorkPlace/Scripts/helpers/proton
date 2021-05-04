@@ -170,7 +170,6 @@ def run(target):
         Then it will put all the arguments on the proton and start the
         execution
     """
-    print("!" + target)
     check_prev_run(os.getcwd())
     _exec = "'" + PROTON_PATH + "/proton' run " + target
     print("Executing: " + _exec)
