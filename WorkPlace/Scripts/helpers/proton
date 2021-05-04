@@ -153,7 +153,7 @@ def change_proton(loc):
 
 def set_env():
     """
-        Sets all the enviroment variables
+        Sets all the environment variables
     """
     print("PROTON_PREFIX:", PROTON_PREFIX)
     os.environ["PROTON_PREFIX"] = PROTON_PREFIX
@@ -164,17 +164,15 @@ def set_env():
     os.environ["WINESERVER"] = PROTON_PATH + "/dist/bin/wineserver"
 
 
-def run(loc):
+def run(target):
     """
         Checks if locations is empty and sets the current location instead
         Then it will put all the arguments on the proton and start the
         execution
     """
-    if loc == "":
-        loc = os.getcwd()
-    check_prev_run(loc)
-    _exec = "'" + PROTON_PATH + "/proton' run '" + sys.argv[
-        1] + "' " + " ".join(sys.argv[2:])
+    print("!" + target)
+    check_prev_run(os.getcwd())
+    _exec = "'" + PROTON_PATH + "/proton' run " + target
     print("Executing: " + _exec)
     os.system(_exec)
 
@@ -185,18 +183,24 @@ def ifloc():
         and returns it or ignores it if it doesnt exists
     """
     if len(sys.argv) > 2:
-        loc = sys.argv[2]
+        loc = os.path.realpath(sys.argv[2])
         if os.path.exists(loc):
+            print("Running in location: " + loc)
             return loc
     return ""
 
 
 if __name__ == "__main__":
+    # Files to run proton
+    filetypes = [".exe", ".msi"]
     if len(sys.argv) > 1:
-        if ".exe" in sys.argv[1]:
-            run("/".join(sys.argv[1].split("/")[:-1]))
+        if any(i in sys.argv[1] for i in filetypes):
+            print("called!")
+            run("'" + os.path.realpath(sys.argv[1]) + "' " +
+                "".join(sys.argv[2:]))
         elif "wine" in sys.argv[1]:
-            run(ifloc())
+            print("called")
+            run(sys.argv[1])
         elif "change" in sys.argv[1]:
             change_proton(ifloc())
         else:
