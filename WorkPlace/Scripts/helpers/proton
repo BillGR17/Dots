@@ -194,11 +194,9 @@ if __name__ == "__main__":
     filetypes = [".exe", ".msi"]
     if len(sys.argv) > 1:
         if any(i in sys.argv[1] for i in filetypes):
-            print("called!")
             run("'" + os.path.realpath(sys.argv[1]) + "' " +
                 "".join(sys.argv[2:]))
         elif "wine" in sys.argv[1]:
-            print("called")
             run(sys.argv[1])
         elif "change" in sys.argv[1]:
             change_proton(ifloc())
