@@ -170,7 +170,6 @@ def run(target):
         Then it will put all the arguments on the proton and start the
         execution
     """
-    check_prev_run(os.getcwd())
     _exec = "'" + PROTON_PATH + "/proton' run " + target
     print("Executing: " + _exec)
     os.system(_exec)
@@ -194,9 +193,12 @@ if __name__ == "__main__":
     filetypes = [".exe", ".msi"]
     if len(sys.argv) > 1:
         if any(i in sys.argv[1] for i in filetypes):
-            run("'" + os.path.realpath(sys.argv[1]) + "' " +
-                "".join(sys.argv[2:]))
+            # Full path from exe
+            target = os.path.realpath(sys.argv[1])
+            check_prev_run(os.path.dirname(target))
+            run("'" + target + "' " + "".join(sys.argv[2:]))
         elif "wine" in sys.argv[1]:
+            check_prev_run(os.getcwd())
             run(sys.argv[1])
         elif "change" in sys.argv[1]:
             change_proton(ifloc())
