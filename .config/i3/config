@@ -12,9 +12,9 @@ exec --no-startup-id hsetroot -solid "#3B4252"
 exec --no-startup-id /usr/bin/lxsession
 # Applications
 exec --no-startup-id firefox
-exec --no-startup-id discord
 exec --no-startup-id steam-runtime > ~/.cache/steam.log
-exec --no-startup-id sleep 60 && eddie-ui
+exec --no-startup-id discord
+exec --no-startup-id eddie-ui
 
 #####################
 # KEYBOARD SETTINGS #
