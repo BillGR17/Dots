@@ -12,5 +12,5 @@ xdotool key Num_Lock
 #msi-led -m normal -c left,sky,low -c middle,sky,low -c right,sky,low
 # Use the xterm settings
 xrdb -merge .Xresources
-#Start i3
+# Start i3
 exec i3 > ~/.cache/i3.log
