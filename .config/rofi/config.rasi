@@ -1,10 +1,25 @@
 configuration {
   modi: "drun,run";
+  font: "Hack 10";
+  theme: "~/.config/rofi/nord";
+}
+window {
   width: 200;
   lines: 5;
-  font: "Hack 10";
-  show-match: false;
+  show-matching: true;
   separator-style: "solid";
   hide-scrollbar: true;
-  theme: "~/.config/rofi/nord";
+}
+icon-paste {
+    expand: false;
+    filename: "gtk-paste";
+    size: 24;
+    vertical-align: 0.5;
+    action: "kb-primary-paste";
+}
+button-paste {
+    expand: false;
+    content: "My Clickable Message";
+    vertical-align: 0.5;
+    action: "kb-primary-paste";
 }
