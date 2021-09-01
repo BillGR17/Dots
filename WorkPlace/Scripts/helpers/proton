@@ -158,6 +158,7 @@ def set_env():
     print("PROTON_PREFIX:", PROTON_PREFIX)
     os.environ["PROTON_PREFIX"] = PROTON_PREFIX
     os.environ["STEAM_COMPAT_DATA_PATH"] = PROTON_PREFIX
+    os.environ["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = os.environ["HOME"] + "/.local/share/Steam"
     os.environ["WINEPREFIX"] = PROTON_PREFIX
     os.environ["WINEARCH"] = "win64"
     os.environ["WINE"] = PROTON_PATH + "/dist/bin/wine64"
