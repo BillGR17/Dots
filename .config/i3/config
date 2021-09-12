@@ -146,7 +146,7 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # Find cursor
-bindsym --release $mod+1 exec "find-cursor -c cyan -t -g"
+bindsym --release $mod+Escape exec "find-cursor -c cyan -t -g"
 
 ###################
 # WINDOW SETTINGS #
