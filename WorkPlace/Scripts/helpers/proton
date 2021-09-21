@@ -197,7 +197,7 @@ if __name__ == "__main__":
             # Full path from exe
             target = os.path.realpath(sys.argv[1])
             check_prev_run(os.path.dirname(target))
-            run("'" + target + "' " + "".join(sys.argv[2:]))
+            run("'" + target + "' " + " ".join(sys.argv[2:]))
         elif "wine" in sys.argv[1]:
             check_prev_run(os.getcwd())
             run(sys.argv[1])
