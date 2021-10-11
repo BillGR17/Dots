@@ -152,12 +152,8 @@ bindsym --release $mod+Escape exec "find-cursor -c cyan -t -g"
 # WINDOW SETTINGS #
 ###################
 
-smart_borders on
 new_window pixel 1
-gaps inner 0
-gaps outer 0
 font pango: Hack 10
-smart_gaps on
 focus_follows_mouse no
 mouse_warping none
 popup_during_fullscreen smart
@@ -224,7 +220,7 @@ set $nord15  #B48EAD
 
 # class                 border  back.   text    indicator child_border
 client.focused          $nord3  $nord0  $nord8  $nord7    $nord8
-client.focused_inactive $nord3  $nord0  $nord7  $nord8    $nord9
+client.focused_inactive $nord3  $nord0  $nord7  $nord8    $nord1
 client.unfocused        $nord1  $nord0  $nord10 $nord9    $nord3
 client.urgent           $nord11 $nord0  $nord11 $nord11   $nord11
 client.placeholder      $nord13 $nord0  $nord8  $nord11   $nord11
