@@ -1,8 +1,8 @@
 configuration {
   modi: "drun,run";
   font: "Hack 10";
-  theme: "~/.config/rofi/nord";
 }
+@theme "nord"
 window {
   width: 200;
   lines: 5;
