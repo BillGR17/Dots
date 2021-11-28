@@ -160,7 +160,7 @@ popup_during_fullscreen smart
 
 #Marking primary & secondary screens
 set $p primary
-set $s HDMI-0
+set $s primary
 
 #PRIMARY SCREEN WORKPLACE
 workspace 0 output $p
