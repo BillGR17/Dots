@@ -96,6 +96,7 @@ void checkPage(int err) {
   CURL* curl = curl_easy_init();
   if (curl) {
     curl_easy_setopt(curl, CURLOPT_URL, F_WEBSITE);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0); // Tell libcurl to not verify the peer
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
     if (curl_easy_perform(curl) == CURLE_OK) {
       long http_code = 0;
