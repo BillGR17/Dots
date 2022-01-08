@@ -1,0 +1,9 @@
+#!/bin/bash
+old_process=$(ps -ef |grep swcursor|grep -v grep| awk '{print $2}')
+if [ -z "$old_process" ];then
+  cd /home/awesomename/.local/share/swcursor
+  ./swcursor&!
+else
+  kill -9 "$old_process"
+fi
+
