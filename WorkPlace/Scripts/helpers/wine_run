@@ -1,0 +1,93 @@
+#!/usr/bin/env python
+import os
+import sys
+# Sets prefix location
+ROOT_PREFIX_LOC = "/.wine"
+# In order to pass our own options
+# without affecting anything
+# right now or in future
+# we separate the path
+# of the actual prefix
+PFX_LOC = "/pfx"
+
+
+def set_env(WINEPREFIX):
+    """
+      Sets all the environment variables
+    """
+    os.environ["WINEPREFIX"] = WINEPREFIX
+    os.environ["WINEARCH"] = "win64"
+
+
+def check_for_prefix(pwd, target_loc):
+    """
+      Checks paths for prefix
+      if it doesnt found any
+      it will create it on
+      argument path
+    """
+    if os.path.exists(pwd + ROOT_PREFIX_LOC + PFX_LOC):
+        print("Prefix found on:", pwd)
+        return pwd
+    elif os.path.exists(target_loc + ROOT_PREFIX_LOC + PFX_LOC):
+        print("Prefix found on:", target_loc)
+        return target_loc
+    else:
+        print("Creating prefix on:", target_loc)
+        os.makedirs(target_loc + ROOT_PREFIX_LOC + PFX_LOC, exist_ok=True)
+        return target_loc
+
+
+def setup_dxvk(pfx):
+    """
+      if ROOT_PREFIX_LOC doesnt have dxvk file
+      run setup_dxvk install
+      otherwise dont do shit
+    """
+    if not os.path.isfile(pfx + ROOT_PREFIX_LOC + "/dxvk"):
+        open(pfx + ROOT_PREFIX_LOC + "/dxvk", 'w')
+        os.system("setup_dxvk install")
+
+
+def run(args):
+    """
+      Get all locations
+      call prefix check & set it
+      then actually run the command
+    """
+    pwd = os.getcwd()
+    target = os.path.realpath(args[1])
+    target_dir = os.path.dirname(target)
+    pfx = check_for_prefix(pwd, target_dir)
+    set_env(pfx + ROOT_PREFIX_LOC + PFX_LOC)
+    setup_dxvk(pfx)
+    w_exec = "wine64 '" + target + "' " + " ".join(args[2:])
+    print("Running:", w_exec)
+    os.system(w_exec)
+
+
+if __name__ == "__main__":
+    filetypes = [".exe", ".msi", ".msu"]
+    """
+      if the its the accepted file type
+      check if it actually exists
+      then move on forward
+      if he didnt type any arguments
+      throw an example
+    """
+    if len(sys.argv) > 1:
+        if any(i in sys.argv[1] for i in filetypes):
+            if os.path.exists(sys.argv[1]):
+                run(sys.argv)
+            else:
+                print(sys.argv[1] + " Not found")
+        else:
+            """
+              to pass stuff like
+              setup_dxvk winecfg winetricks
+            """
+            os.system(" ".join(sys.argv[1:]))
+    else:
+        script = sys.argv[0].split("/").pop()
+        print("Please provide an argument like:\n\n" + script +
+              " target.exe\n")
