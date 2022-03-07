@@ -29,12 +29,10 @@ def check_for_prefix(pwd, target_loc):
     if os.path.exists(pwd + ROOT_PREFIX_LOC + PFX_LOC):
         print("Prefix found on:", pwd)
         set_env(pwd + ROOT_PREFIX_LOC + PFX_LOC)
-        os.system("wineboot -u")
         return pwd
     elif os.path.exists(target_loc + ROOT_PREFIX_LOC + PFX_LOC):
         print("Prefix found on:", target_loc)
         set_env(target_loc + ROOT_PREFIX_LOC + PFX_LOC)
-        os.system("wineboot -u")
         return target_loc
     else:
         print("Creating prefix on:", target_loc)
