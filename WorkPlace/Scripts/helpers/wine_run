@@ -28,13 +28,19 @@ def check_for_prefix(pwd, target_loc):
     """
     if os.path.exists(pwd + ROOT_PREFIX_LOC + PFX_LOC):
         print("Prefix found on:", pwd)
+        set_env(pwd + ROOT_PREFIX_LOC + PFX_LOC)
+        os.system("wineboot -u")
         return pwd
     elif os.path.exists(target_loc + ROOT_PREFIX_LOC + PFX_LOC):
         print("Prefix found on:", target_loc)
+        set_env(target_loc + ROOT_PREFIX_LOC + PFX_LOC)
+        os.system("wineboot -u")
         return target_loc
     else:
         print("Creating prefix on:", target_loc)
         os.makedirs(target_loc + ROOT_PREFIX_LOC + PFX_LOC, exist_ok=True)
+        set_env(target_loc + ROOT_PREFIX_LOC + PFX_LOC)
+        os.system("wineboot -i")
         return target_loc
 
 
@@ -49,7 +55,7 @@ def setup_dxvk(pfx):
         os.system("setup_dxvk install")
 
 
-def run(args):
+def run_wine(args):
     """
       Get all locations
       call prefix check & set it
@@ -59,12 +65,25 @@ def run(args):
     target = os.path.realpath(args[1])
     target_dir = os.path.dirname(target)
     pfx = check_for_prefix(pwd, target_dir)
-    set_env(pfx + ROOT_PREFIX_LOC + PFX_LOC)
     setup_dxvk(pfx)
     w_exec = "wine64 '" + target + "' " + " ".join(args[2:])
     print("Running:", w_exec)
     os.system(w_exec)
 
+
+def run_command(args):
+    """
+      If command didnot pass the allowed
+      filetype to run as wine
+      do prefix check or set it
+      then actually run the command
+    """
+    pwd = os.getcwd()
+    pfx = check_for_prefix(pwd,pwd)
+    set_env(pfx + ROOT_PREFIX_LOC + PFX_LOC)
+    w_exec = " ".join(args[1:])
+    print("Running:", w_exec)
+    os.system(w_exec)
 
 if __name__ == "__main__":
     filetypes = [".exe", ".msi", ".msu"]
@@ -78,7 +97,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         if any(i in sys.argv[1] for i in filetypes):
             if os.path.exists(sys.argv[1]):
-                run(sys.argv)
+                run_wine(sys.argv)
             else:
                 print(sys.argv[1] + " Not found")
         else:
@@ -86,8 +105,9 @@ if __name__ == "__main__":
               to pass stuff like
               setup_dxvk winecfg winetricks
             """
-            os.system(" ".join(sys.argv[1:]))
+            run_command(sys.argv)
     else:
         script = sys.argv[0].split("/").pop()
         print("Please provide an argument like:\n\n" + script +
               " target.exe\n")
+
