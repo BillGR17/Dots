@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+# If user has input his own url otherwise use the default one
+if [ -z "$1" ]; then
+  ARCH_MIRRORLIST="https://archlinux.org/mirrorlist/?country=HR&country=DE&country=GR&country=IT&protocol=https&ip_version=4&use_mirror_status=on"
+  echo "Using default: $ARCH_MIRRORLIST"
+else
+  ARCH_MIRRORLIST="$1"
+  echo "Using user input: $ARCH_MIRRORLIST"
+fi
+# if pacman has created a new mirrorlist file remove it
+rm /etc/pacman.d/mirrorlist.pacnew 2> /dev/null || true
+# Downloads the new list removes the comment then sorts 5 of them per speed
+curl -s "$ARCH_MIRRORLIST" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 - > /etc/pacman.d/mirrorlist
+
