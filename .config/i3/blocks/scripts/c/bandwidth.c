@@ -25,7 +25,7 @@ int main() {
     d = readf(td);
     u = readf(tu);
     if (_d > 0) {
-      printf(":%.2fmb :%.2fmb\n", (float)(d - _d) / 1024 / 1024, (float)(u - _u) / 1024 / 1024);
+      printf("D:%.2fmb U:%.2fmb\n", (float)(d - _d) / 1024 / 1024, (float)(u - _u) / 1024 / 1024);
       fflush(stdout);
     } else {
       printf("Initializing...\n");

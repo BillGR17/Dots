@@ -10,7 +10,7 @@ int main() {
       case 5: system("amixer -q set Master 1%- unmute"); break;
     }
   }
-  system("if [[ $(amixer get Master|grep -Fc \"[off]\") == 0 ]];then echo -e ' '$(amixer get Master|grep -E -o "
-         "'[0-9]{1,3}?%'|head -1);else echo -e ' Muted';fi");
+  system("if [[ $(amixer get Master|grep -Fc \"[off]\") == 0 ]];then echo -e ''$(amixer get Master|grep -E -o "
+         "'[0-9]{1,3}?%'|head -1);else echo -e 'Muted';fi");
   return 0;
 }

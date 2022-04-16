@@ -192,6 +192,8 @@ for_window [class="^Transmission"] floating enable
 for_window [class="^steam_*"] floating enable
 for_window [class="Steam"] [title="(?i)friends list*"] floating enable
 
+for_window [title="(?i)origin"] floating enable
+
 assign [class="(?i)steam"] 0
 
 #####################
