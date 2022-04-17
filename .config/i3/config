@@ -3,7 +3,6 @@
 ######################
 
 # Tray
-exec --no-startup-id nm-applet
 exec --no-startup-id parcellite
 # System
 exec --no-startup-id comp
