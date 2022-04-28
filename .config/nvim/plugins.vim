@@ -1,9 +1,9 @@
 let s:deinPath='$HOME/.config/nvim/dein'
 let s:f_init=empty(glob(s:deinPath))
 if s:f_init
-  sil !curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh |bash /dev/stdin ~/.config/nvim/dein
+  sil !curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh |bash /dev/stdin ~/.cache/nvim/dein
 en
-se rtp+=$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
+se rtp+=$HOME/.cache/nvim/dein/repos/github.com/Shougo/dein.vim
 if dein#load_state(s:deinPath)
   cal dein#begin(s:deinPath)
   cal dein#add('$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim')
@@ -66,17 +66,12 @@ if dein#load_state(s:deinPath)
   cal dein#add('arcticicestudio/nord-vim',{
         \ 'hook_add':'colo nord'
         \})
-  cal dein#add('chrisbra/Colorizer', {
-        \'hook_add': "
-        \ au WinEnter * :ColorHighlight\n
-        \ nm <silent> <F11> :ColorHighlight<CR>\n
-        \ im <silent> <F11> <ESC> :ColorHighlight<CR>\n
-        \"})
+  cal dein#add('rrethy/vim-hexokinase',
+        \ {'build': 'make hexokinase'}) " There is also a config down below 
   cal dein#end()
   cal dein#save_state()
   if s:f_init
-    cal dein#install()
-    so $MYVIMRC
+    cal dein#install()|so $MYVIMRC
   en
 en
 cal dein#call_hook('source')
@@ -94,4 +89,5 @@ fu! Multiple_cursors_after()
     cal deoplete#enable()
   en
 endf
+let g:Hexokinase_optInPatterns = [ 'full_hex', 'triple_hex', 'rgb', 'rgba', 'hsl', 'hsla', 'colour_names']
 cal dein#remote_plugins()
