@@ -5,7 +5,7 @@
 # Tray
 exec --no-startup-id parcellite
 # System
-exec --no-startup-id comp
+exec --no-startup-id picom --config ~/.config/picom/pi.conf
 exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
 exec --no-startup-id hsetroot -solid "#3B4252"
 exec --no-startup-id /usr/bin/lxsession
@@ -121,9 +121,6 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
-
-# close or start xcompmgr
-bindsym --release Mod1+F5  exec comp_toggle
 
 # Print Screen
 bindsym --release Print exec --no-startup-id screenshot current
