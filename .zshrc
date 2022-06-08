@@ -38,9 +38,8 @@ alias vim="nvim"
 alias ls="ls --color=tty --group-directories-first "
 alias grep="grep --color=auto"
 # just add the state you want to check execute like this [ssmonit ESTABLISHED]
-alias ssmonit="watch -n 1 \"ss -tuap state \""
-alias psmine="ps -fH -u $(whoami)"
-alias df="df -h"
+alias ssm="watch -n 1 \"ss -tuap state \""
+alias psme="ps -fH -u $(whoami)"
 alias trn="tr ' ' '\n'"
 # Set Environment Variables
 # To fix git gpg
@@ -66,7 +65,30 @@ function _GIT_(){
     echo -n "]"
   fi
 }
+# pre execution function
+function preexec() {
+  time_start=$(date +%s%3N)
+}
+# after command ends function
+# count how long it took to execute
+function precmd() {
+  if [ $time_start ]; then
+    local time_end=$(date +%s%3N)
+    local timer=$(($time_end-$time_start))
+    local toSec=1000
+    timer_output="${timer}ms"
+    if [[ $timer -gt $toSec ]]; then
+      timer_output=$(printf %.2fs $(bc -l <<< "$timer/$toSec"))
+    elif [[ $timer -gt $(($toSec*60)) ]];then
+      timer_output=$(printf %.2fm $(bc -l <<< "$timer/$toSec*60"))
+    elif [[ $timer -gt $(($toSec*3600)) ]];then
+      timer_output=$(printf %.2fh $(bc -l <<< "$timer/$toSec*3600"))
+    fi
+    unset time_start
+  fi
+}
+
 setopt PROMPT_SUBST
 
-PROMPT='%F{236}%K{012}%n@%M%B%~ %f%b%k%f%B%F{012}❱➤%f%b '
-RPROMPT='[%F{yellow}%?%f]$(_GIT_)'
+PROMPT='%F{236}%K{012}%n@%M%B%~ %f%b%k%f%B%F{012}%f%b '
+RPROMPT='$(_GIT_)${timer_output}[%F{yellow}%?%f]'
