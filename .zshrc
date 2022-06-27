@@ -35,6 +35,7 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 # Alias & Functions
 alias vim="nvim"
+alias n="nnn -adHUioRu"
 alias ls="ls --color=tty --group-directories-first "
 alias grep="grep --color=auto"
 # just add the state you want to check execute like this [ssmonit ESTABLISHED]
