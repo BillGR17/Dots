@@ -75,7 +75,7 @@ function preexec() {
 function precmd() {
   if [ $time_start ]; then
     local timer=$(($(date +%s%3N)-$time_start))
-    timer_output=$(printf "%02d:%02d:%02d" $((($timer/1000*60*60)%24)) $(((($timer/(1000*60)))%60)) $((($timer/1000)%60)))
+    timer_output=$(printf "%02d:%02d:%02d" $((($timer/(1000*60*60)))) $(((($timer/(1000*60)))%60)) $((($timer/1000)%60)))
     unset time_start
   fi
 }
