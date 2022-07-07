@@ -5,12 +5,17 @@ int main() {
   if (e != NULL) {
     int m = atoi(e);
     switch (m) {
-      case 1: system("amixer -q set Master,0 toggle"); break;
-      case 4: system("amixer -q set Master 1%+ unmute"); break;
-      case 5: system("amixer -q set Master 1%- unmute"); break;
+      case 1: system("pulsemixer --toggle-mute&"); break;
+      case 4:
+        system("pulsemixer --unmute&");
+        system("pulsemixer --change-volume +1&");
+        break;
+      case 5:
+        system("pulsemixer --unmute&");
+        system("pulsemixer --change-volume -1&");
+        break;
     }
   }
-  system("if [[ $(amixer get Master|grep -Fc \"[off]\") == 0 ]];then echo -e ''$(amixer get Master|grep -E -o "
-         "'[0-9]{1,3}?%'|head -1);else echo -e 'Muted';fi");
+  system("if [[ $(pulsemixer --get-mute) == 0 ]];then pulsemixer --get-volume;else echo 'MUTED';fi");
   return 0;
 }
