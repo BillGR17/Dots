@@ -2,10 +2,10 @@
 function bars_output() {
   ((bars=$_con_state/25))
   case $bars in
-    4)echo "▁▂▃▄";;
-    3)echo "▁▂▃";;
-    2)echo "▁▂";;
-    1)echo "▁";;
+    4)echo "▂▄▆▉";;
+    3)echo "▂▄▆";;
+    2)echo "▂▄";;
+    1)echo "▂";;
     *)echo "ERR";;
   esac
 }
