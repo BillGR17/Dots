@@ -47,30 +47,33 @@ int handler(Display* d, XErrorEvent* e) {
   return e->type;
 }
 int main(void) {
-  // Check for errors
-  XSetErrorHandler(handler);
-  // Set display
-  d = XOpenDisplay(NULL);
-  if (d == NULL) { onError("Cant open display", 1); }
-  // Set font
-  f = XLoadQueryFont(d, "*-hack-medium-r-normal-*");
-  if (d == NULL) { onError("Cant load font", 2); }
-  // Find default screen [start the window there]
-  s = DefaultScreen(d);
-  // Create window
-  w = XCreateSimpleWindow(d, RootWindow(d, s), 0, 0, w_w, w_h, 1, BlackPixel(d, s), WhitePixel(d, s));
-  // Place new window on screen
-  gc = XCreateGC(d, w, 0, &v);
-  XMapWindow(d, w);
-  XSetFont(d, gc, f->fid);
-  XStoreName(d, w, "Shutdown PC");
-  XSelectInput(d, w, ExposureMask | KeyPressMask | ButtonReleaseMask | ButtonPressMask);
-  while (1) {
-    if (e.type == KeyPress || terminate) break;
-    XNextEvent(d, &e);
-    button("System Shutdown", 0, 0, shutitdown);
-    button("Close Window", 200, 0, destroy);
+  char* btn = getenv("BLOCK_BUTTON");
+  if (btn != NULL && atoi(btn) == 1) {
+    // Check for errors
+    XSetErrorHandler(handler);
+    // Set display
+    d = XOpenDisplay(NULL);
+    if (d == NULL) { onError("Cant open display", 1); }
+    // Set font
+    f = XLoadQueryFont(d, "*-hack-medium-r-normal-*");
+    if (d == NULL) { onError("Cant load font", 2); }
+    // Find default screen [start the window there]
+    s = DefaultScreen(d);
+    // Create window
+    w = XCreateSimpleWindow(d, RootWindow(d, s), 0, 0, w_w, w_h, 1, BlackPixel(d, s), WhitePixel(d, s));
+    // Place new window on screen
+    gc = XCreateGC(d, w, 0, &v);
+    XMapWindow(d, w);
+    XSetFont(d, gc, f->fid);
+    XStoreName(d, w, "Shutdown PC");
+    XSelectInput(d, w, ExposureMask | KeyPressMask | ButtonReleaseMask | ButtonPressMask);
+    while (1) {
+      if (e.type == KeyPress || terminate) break;
+      XNextEvent(d, &e);
+      button("System Shutdown", 0, 0, shutitdown);
+      button("Close Window", 200, 0, destroy);
+    }
+    XCloseDisplay(d);
   }
-  XCloseDisplay(d);
   return 0;
 }
