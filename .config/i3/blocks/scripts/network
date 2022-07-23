@@ -12,7 +12,7 @@ function bars_output() {
 if [[ $BLOCK_BUTTON == 2 ]];then
   xterm -e nmtui
 fi
-_con_device=`nmcli device status|awk '$3=="connected" {print $1}'`
+_con_device=`nmcli device status|awk '$3=="connected" {print $1}'|head -n1`
 if [ ! -z $_con_device ];then
   _con_info=`nmcli device show $_con_device`
   _con_type=`echo $_con_info|awk '$1 ~ "TYPE" {print $2}'`
