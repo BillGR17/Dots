@@ -10,7 +10,7 @@ exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
 exec --no-startup-id hsetroot -solid "#3B4252"
 exec --no-startup-id /usr/bin/lxsession
 # Applications
-exec --no-startup-id i3-msg "workspace 0;exec steam-native > ~/.cache/steam.log"
+exec --no-startup-id i3-msg "exec steam-native -silent  > ~/.cache/steam.log"
 exec --no-startup-id i3-msg "workspace 2;exec thunderbird"
 exec --no-startup-id eddie-ui
 exec --no-startup-id i3-msg "workspace 1;exec firefox"
@@ -190,6 +190,7 @@ for_window [class="^steam_*"] floating enable
 for_window [class="Steam"] [title="(?i)friends list*"] floating enable
 
 for_window [title="(?i)origin"] floating enable
+for_window [class="mpv"] floating enable
 
 assign [class="(?i)steam"] 0
 
