@@ -42,7 +42,7 @@ alias grep="grep --color=auto"
 alias ssm="watch -n 1 \"ss -tuap state \""
 alias psme="ps -fH -u $(whoami)"
 alias trn="tr ' ' '\n'"
-alias rem_orphans="PAC_ORP='$(pacman -Qdtq)';if [ -n '$PAC_ORP' ];then sudo pacman -Rsc '$PAC_ORP';else echo 'No Orphans'; fi"
+if command -v pacman &> /dev/null;then alias rem_orphans="PAC_ORP='$(pacman -Qdtq)';if [ -n '$PAC_ORP' ];then sudo pacman -Rsc '$PAC_ORP';else echo 'No Orphans'; fi"; fi
 # Set Environment Variables
 # To fix git gpg
 export GPG_TTY=$(tty)
