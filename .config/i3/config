@@ -191,6 +191,8 @@ for_window [class="Steam"] [title="(?i)friends list*"] floating enable
 
 for_window [title="(?i)origin"] floating enable
 for_window [class="mpv"] floating enable
+for_window [class="(?i)eddie"] floating enable
+for_window [class="(?i)wine"] floating enable
 
 assign [class="(?i)steam"] 0
 
