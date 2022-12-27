@@ -13,7 +13,6 @@ if dein#load_state(s:deinPath)
   " Tools
   cal dein#add('dense-analysis/ale',{
         \'hook_add':"
-        \ let g:ale_open_list=1\n
         \ let g:ale_linters = {
         \   'c': ['clang'],
         \   'javascript': ['eslint']
@@ -22,11 +21,8 @@ if dein#load_state(s:deinPath)
         \   '.*\.hbs$': {'ale_enabled': 0},
         \   '.*\.handlebars$': {'ale_enabled': 0}
         \ }\n
-        \ aug CloseLoclistWindowGroup\n
-        \   au!\n
-        \   au QuitPre * if empty(&buftype) | lcl | en\n
-        \ aug END\n
         \"})
+        " added some stuff bellow
   cal dein#add('Shougo/deoplete.nvim',
         \{'hook_add': 'let g:deoplete#enable_at_startup=1'})
   cal dein#add('tbodt/deoplete-tabnine',
@@ -67,13 +63,16 @@ if dein#load_state(s:deinPath)
         \ 'hook_add':'colo nord'
         \})
   cal dein#add('rrethy/vim-hexokinase',
-        \ {'build': 'make hexokinase'}) " There is also a config down below 
+        \ {'build': 'make hexokinase'}) " There is also a config down below
   cal dein#end()
   cal dein#save_state()
   if s:f_init
     cal dein#install()|so $MYVIMRC
   en
 en
+
+let g:ale_open_list=0
+
 cal dein#call_hook('source')
 " Fix multiple cursor bug with deoplete
 fu! Multiple_cursors_before()
