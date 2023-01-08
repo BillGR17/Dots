@@ -12,7 +12,6 @@ exec --no-startup-id /usr/bin/lxsession
 # Applications
 exec --no-startup-id i3-msg "exec steam-native -silent  > ~/.cache/steam.log"
 exec --no-startup-id i3-msg "workspace 2;exec thunderbird"
-exec --no-startup-id eddie-ui
 exec --no-startup-id i3-msg "workspace 1;exec firefox"
 
 #####################
