@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+source ~/.zshrc
 #ask for sudo ath
 sudo --validate
 # Update the configs first
@@ -10,7 +11,7 @@ sudo --validate
 #update nvim plugins
 nvim -c "cal dein#update()" +qa!
 #update zsh plugins
-antibody update
+zpm u
 #update npm global packages
 if [ -x "$(command -v npm)" ];then
   #check if there is npm in the outdated list
