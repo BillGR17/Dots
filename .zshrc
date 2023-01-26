@@ -1,14 +1,13 @@
-# Download and install antibody if it doesn't exist
-if ! type "antibody" > /dev/null; then
-  curl -sfL git.io/antibody|sudo sh -s - -b /usr/local/bin
+[ -d /tmp/zsh-1000/ ] && rm -rf /tmp/zsh-1000/* 2> /dev/null
+ZPM_LOC="$HOME/.cache/zpm_data/"
+if [[ ! -f "${ZPM_LOC}zpm.zsh" ]]; then
+  git clone --recursive https://github.com/zpm-zsh/zpm $ZPM_LOC
 fi
-
-source <(antibody init)
-
-antibody bundle zsh-users/zsh-history-substring-search
-antibody bundle zsh-users/zsh-autosuggestions
-antibody bundle zsh-users/zsh-syntax-highlighting
-antibody bundle zsh-users/zsh-completions
+source "${ZPM_LOC}zpm.zsh"
+zpm load zsh-users/zsh-history-substring-search
+zpm load zsh-users/zsh-autosuggestions
+zpm load zsh-users/zsh-syntax-highlighting
+zpm load zsh-users/zsh-completions
 
 HISTFILE=~/.histfile
 HISTSIZE=10000
