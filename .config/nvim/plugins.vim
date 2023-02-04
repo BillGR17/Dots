@@ -1,13 +1,15 @@
-let s:deinPath='$HOME/.config/nvim/dein'
-let s:f_init=empty(glob(s:deinPath))
+let s:dein_path='$HOME/.cache/dein'
+let s:f_init=empty(glob(s:dein_path))
 if s:f_init
-  sil !curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh |bash /dev/stdin ~/.cache/nvim/dein
+  exe '!mkdir -p ' . s:dein_path
+  exec 'wget ' . 'https://raw.githubusercontent.com/Shougo/dein-installer.vim/main/installer.sh' . ' -o '$HOME/.cache/dein/installer.sh'
+  exe 'sh ' . s:dein_path . '/installer.sh' 
 en
-se rtp+=$HOME/.cache/nvim/dein/repos/github.com/Shougo/dein.vim
-if dein#load_state(s:deinPath)
-  cal dein#begin(s:deinPath)
-  cal dein#add('$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim')
-  call dein#add('$HOME/')
+let s:dein_src=s:dein_path . '/repos/github.com/Shougo/dein.vim'
+exe 'se rtp+=' . s:dein_src
+if dein#load_state(s:dein_path)
+  cal dein#begin(s:dein_path)
+  cal dein#add(s:dein_src)
   " Better Lang Syntax
   cal dein#add('sheerun/vim-polyglot')
   " Tools
@@ -24,7 +26,7 @@ if dein#load_state(s:deinPath)
         \"})
         " added some stuff bellow
   cal dein#add('Shougo/deoplete.nvim',
-        \{'hook_add': 'let g:deoplete#enable_at_startup=1'})
+        \{'hook_add': 'let g:deoplete#enable_at_startup=0'})
   cal dein#add('tbodt/deoplete-tabnine',
         \{ 'build': './install.sh' })
   cal dein#add('mattn/emmet-vim',{
