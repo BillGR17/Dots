@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-source ~/.zshrc
 #ask for sudo ath
 sudo --validate
 # Update the configs first
@@ -10,8 +9,6 @@ fi
 sudo --validate
 #update nvim plugins
 nvim -c "cal dein#update()" +qa!
-#update zsh plugins
-zpm u
 #update npm global packages
 if [ -x "$(command -v npm)" ];then
   #check if there is npm in the outdated list
@@ -39,3 +36,6 @@ elif [ -x "$(command -v apt)" ]; then
   sudo apt autoremove -y
   sudo apt autoclean -y
 fi
+#update zsh plugins
+source ~/.cache/antidote/antidote.zsh
+antidote update

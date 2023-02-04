@@ -1,13 +1,12 @@
-[ -d /tmp/zsh-1000/ ] && rm -rf /tmp/zsh-1000/* 2> /dev/null
-ZPM_LOC="$HOME/.cache/zpm_data/"
-if [[ ! -f "${ZPM_LOC}zpm.zsh" ]]; then
-  git clone --recursive https://github.com/zpm-zsh/zpm $ZPM_LOC
+ANTI_LOC="${HOME}/.cache/antidote/"
+if [ ! -d "$ANTI_LOC" ];then
+  mkdir -p "$ANTI_LOC"
+  git clone --depth=1 https://github.com/mattmc3/antidote.git "$ANTI_LOC"
 fi
-source "${ZPM_LOC}zpm.zsh"
-zpm load zsh-users/zsh-history-substring-search
-zpm load zsh-users/zsh-autosuggestions
-zpm load zsh-users/zsh-syntax-highlighting
-zpm load zsh-users/zsh-completions
+
+source "${ANTI_LOC}antidote.zsh"
+antidote bundle <~/.zsh_plugins.txt >~/.zsh_plugins.zsh 
+source ~/.zsh_plugins.zsh
 
 HISTFILE=~/.histfile
 HISTSIZE=10000
