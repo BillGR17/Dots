@@ -1,11 +1,12 @@
-let s:dein_path='$HOME/.cache/dein'
-let s:f_init=empty(glob(s:dein_path))
-if s:f_init
-  exe '!mkdir -p ' . s:dein_path
-  exec 'wget ' . 'https://raw.githubusercontent.com/Shougo/dein-installer.vim/main/installer.sh' . ' -o '$HOME/.cache/dein/installer.sh'
-  exe 'sh ' . s:dein_path . '/installer.sh' 
-en
-let s:dein_src=s:dein_path . '/repos/github.com/Shougo/dein.vim'
+let s:dein_path = '$HOME/.cache/dein'
+let s:dein_src = s:dein_path . '/repos/github.com/Shougo/dein.vim'
+let s:dein_fr = 0
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_path)
+    let s:dein_fr = 1
+    exe '!git clone https://github.com/Shougo/dein.vim' s:dein_src
+  endif
+endif
 exe 'se rtp+=' . s:dein_src
 if dein#load_state(s:dein_path)
   cal dein#begin(s:dein_path)
@@ -68,7 +69,7 @@ if dein#load_state(s:dein_path)
         \ {'build': 'make hexokinase'}) " There is also a config down below
   cal dein#end()
   cal dein#save_state()
-  if s:f_init
+  if s:dein_fr
     cal dein#install()|so $MYVIMRC
   en
 en
