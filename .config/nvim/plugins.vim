@@ -1,82 +1,74 @@
 let s:dein_path = '$HOME/.cache/dein'
 let s:dein_src = s:dein_path . '/repos/github.com/Shougo/dein.vim'
-let s:dein_fr = 0
 if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_path)
-    let s:dein_fr = 1
-    exe '!git clone https://github.com/Shougo/dein.vim' s:dein_src
-  endif
+  exe '!git clone https://github.com/Shougo/dein.vim' s:dein_src
 endif
 exe 'se rtp+=' . s:dein_src
-if dein#load_state(s:dein_path)
-  cal dein#begin(s:dein_path)
-  cal dein#add(s:dein_src)
-  " Better Lang Syntax
-  cal dein#add('sheerun/vim-polyglot')
-  " Tools
-  cal dein#add('dense-analysis/ale',{
-        \'hook_add':"
-        \ let g:ale_linters = {
-        \   'c': ['clang'],
-        \   'javascript': ['eslint']
-        \ }\n
-        \ let g:ale_pattern_options = {
-        \   '.*\.hbs$': {'ale_enabled': 0},
-        \   '.*\.handlebars$': {'ale_enabled': 0}
-        \ }\n
-        \"})
-        " added some stuff bellow
-  cal dein#add('Shougo/deoplete.nvim',
-        \{'hook_add': 'let g:deoplete#enable_at_startup=0'})
-  cal dein#add('tbodt/deoplete-tabnine',
-        \{ 'build': './install.sh' })
-  cal dein#add('mattn/emmet-vim',{
-        \ 'hook_add': "
-        \ let g:user_emmet_expandabbr_key='<C-e>'\n
-        \ let g:user_emmet_install_global=0\n
-        \ au FileType html,html.*,php EmmetInstall\n
-        \"})
-  cal dein#add('terryma/vim-multiple-cursors')
-  " UI & Tools
-  cal dein#add('airblade/vim-gitgutter',{
-        \ 'hook_add':"
-        \ let g:gitgutter_realtime=1\n
-        \ let g:gitgutter_eager=0\n
-        \"})
-  cal dein#add('preservim/nerdtree',
-        \ {'hook_add':"
-        \ fu Nerd_tog()\n
-        \   NERDTreeToggle\n
-        \   wincmd p\n
-        \   if filereadable(expand(@%)) != 0 && g:NERDTree.IsOpen()\n
-        \     NERDTreeFind\n
-        \     wincmd p\n
-        \   en\n
-        \ endf\n
-        \ au VimEnter * call Nerd_tog()\n
-        \ let g:NERDTreeStatusline = '%#NonText#'\n
-        \ let g:NERDTreeIgnore=[]\n
-        \ let g:NERDTreeShowHidden=1\n
-        \ let g:NERDTreeMapOpenInTab='<ENTER>'\n
-        \ au VimLeavePre * NERDTreeClose\n
-        \ nm <silent> <C-\\> :cal Nerd_tog()<CR>\n
-        \ im <silent> <C-\\> <ESC> :cal Nerd_tog()<CR>\n
-        \"})
-  cal dein#add('arcticicestudio/nord-vim',{
-        \ 'hook_add':'colo nord'
-        \})
-  cal dein#add('rrethy/vim-hexokinase',
-        \ {'build': 'make hexokinase'}) " There is also a config down below
-  cal dein#end()
-  cal dein#save_state()
-  if s:dein_fr
-    cal dein#install()|so $MYVIMRC
-  en
-en
+cal dein#begin(s:dein_path)
+cal dein#add(s:dein_src)
+" Better Lang Syntax
+cal dein#add('sheerun/vim-polyglot')
+" Tools
+cal dein#add('dense-analysis/ale',{
+      \'hook_add':"
+      \ let g:ale_linters = {
+      \   'c': ['clang'],
+      \   'javascript': ['eslint']
+      \ }\n
+      \ let g:ale_pattern_options = {
+      \   '.*\.hbs$': {'ale_enabled': 0},
+      \   '.*\.handlebars$': {'ale_enabled': 0}
+      \ }\n
+      \"})
+      " added some stuff bellow
+cal dein#add('Shougo/deoplete.nvim',
+      \{'hook_add': 'let g:deoplete#enable_at_startup=1'})
+cal dein#add('tbodt/deoplete-tabnine',
+      \{ 'build': './install.sh' })
+cal dein#add('mattn/emmet-vim',{
+      \ 'hook_add': "
+      \ let g:user_emmet_expandabbr_key='<C-e>'\n
+      \ let g:user_emmet_install_global=0\n
+      \ au FileType html,html.*,php EmmetInstall\n
+      \"})
+cal dein#add('terryma/vim-multiple-cursors')
+" UI & Tools
+cal dein#add('airblade/vim-gitgutter',{
+      \ 'hook_add':"
+      \ let g:gitgutter_realtime=1\n
+      \ let g:gitgutter_eager=0\n
+      \"})
+cal dein#add('preservim/nerdtree',
+      \ {'hook_add':"
+      \ fu Nerd_tog()\n
+      \   NERDTreeToggle\n
+      \   winc p\n
+      \   if filereadable(expand(@%)) != 0 && g:NERDTree.IsOpen()\n
+      \     NERDTreeFind\n
+      \     winc p\n
+      \   en\n
+      \ endf\n
+      \ au VimEnter * call Nerd_tog()\n
+      \ let g:NERDTreeStatusline = '%#NonText#'\n
+      \ let g:NERDTreeIgnore=[]\n
+      \ let g:NERDTreeShowHidden=1\n
+      \ let g:NERDTreeMapOpenInTab='<ENTER>'\n
+      \ au VimLeavePre * NERDTreeClose\n
+      \ nm <silent> <C-\\> :cal Nerd_tog()<CR>\n
+      \ im <silent> <C-\\> <ESC> :cal Nerd_tog()<CR>\n
+      \"})
+cal dein#add('arcticicestudio/nord-vim',{
+      \ 'hook_add':'colo nord'
+      \})
+cal dein#add('rrethy/vim-hexokinase',
+      \ {'build': 'make hexokinase'}) " There is also a config down below
+cal dein#end()
+if dein#check_install()
+ cal dein#install()
+endif
 
 let g:ale_open_list=0
 
-cal dein#call_hook('source')
 " Fix multiple cursor bug with deoplete
 fu! Multiple_cursors_before()
   if deoplete#is_enabled()
@@ -92,4 +84,3 @@ fu! Multiple_cursors_after()
   en
 endf
 let g:Hexokinase_optInPatterns = [ 'full_hex', 'triple_hex', 'rgb', 'rgba', 'hsl', 'hsla', 'colour_names']
-cal dein#remote_plugins()
