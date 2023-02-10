@@ -72,7 +72,7 @@ let g:ale_open_list=0
 " Fix multiple cursor bug with deoplete
 fu! Multiple_cursors_before()
   if deoplete#is_enabled()
-    call deoplete#disable()
+    cal deoplete#disable()
     let g:deoplete_is_enable_before_multi_cursors = 1
   el
     let g:deoplete_is_enable_before_multi_cursors = 0
