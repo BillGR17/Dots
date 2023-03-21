@@ -7,19 +7,4 @@ window {
   width: 200;
   lines: 5;
   show-matching: true;
-  separator-style: "solid";
-  hide-scrollbar: true;
-}
-icon-paste {
-    expand: false;
-    filename: "gtk-paste";
-    size: 24;
-    vertical-align: 0.5;
-    action: "kb-primary-paste";
-}
-button-paste {
-    expand: false;
-    content: "My Clickable Message";
-    vertical-align: 0.5;
-    action: "kb-primary-paste";
 }
