@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
+import time
 # Sets prefix location
 ROOT_PREFIX_LOC = "/.wine"
 # In order to pass our own options
@@ -16,6 +17,8 @@ def set_env(WINEPREFIX):
       Sets all the environment variables
     """
     os.environ["WINEPREFIX"] = WINEPREFIX
+    os.environ["DXVK_STATE_CACHE_PATH"] = WINEPREFIX.replace(PFX_LOC,"")
+    os.environ["DXVK_LOG_PATH"] = WINEPREFIX.replace(PFX_LOC,"")
     os.environ["WINEARCH"] = "win64"
 
 
@@ -38,7 +41,9 @@ def check_for_prefix(pwd, target_loc):
         print("Creating prefix on:", target_loc)
         os.makedirs(target_loc + ROOT_PREFIX_LOC + PFX_LOC, exist_ok=True)
         set_env(target_loc + ROOT_PREFIX_LOC + PFX_LOC)
-        os.system("wineboot -i")
+        os.system("winecfg")
+        # wait 5 secs and hopefully dxvk setup will work
+        time.sleep(5)
         return target_loc
 
 
