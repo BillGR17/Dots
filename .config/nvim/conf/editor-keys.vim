@@ -27,5 +27,12 @@ nm <F3> :%s/\t/  /g<CR>
 " Save Project
 nm <C-s> :w<CR>
 im <C-s> <ESC> :w<CR>
-" Fix Syntax
-nm <silent> <F12> :windo e! <bar> :wincmd p<CR>
+" save without any autocommands
+nm <C-A-s> :noau w<CR>
+im <C-A-s> <ESC> :noau w<CR>
+" enable and disable syntax
+nm <F7> :if exists("g:syntax_on") <bar>
+  \   syn off <bar>
+  \ else <bar>
+  \   syn on <bar>
+  \ endif <CR>
