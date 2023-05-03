@@ -1,7 +1,7 @@
 " create a session only if there is no argument on nvim call
 if argc() == 0
   if !empty(glob('.session.vim~'))
-     au VimEnter * so .session.vim~|cal delete('.session.vim~')
+     au VimEnter * nested so .session.vim~|cal delete('.session.vim~')
   en
   au VimLeavePre * cal s:ClearEmpty()
 en
