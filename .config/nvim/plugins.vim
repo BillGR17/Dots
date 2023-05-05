@@ -1,8 +1,10 @@
 let s:dein_path = '$HOME/.cache/dein'
 let s:dein_src = s:dein_path . '/repos/github.com/Shougo/dein.vim'
-if &runtimepath !~# '/dein.vim'
-  exe '!git clone https://github.com/Shougo/dein.vim' s:dein_src
-endif
+if !exists(s:dein_src)
+  if &runtimepath !~# '/dein.vim'
+    exe '!git clone https://github.com/Shougo/dein.vim' s:dein_src
+  en
+en
 exe 'se rtp+=' . s:dein_src
 cal dein#begin(s:dein_path)
 cal dein#add(s:dein_src)
@@ -38,25 +40,6 @@ cal dein#add('airblade/vim-gitgutter',{
       \ let g:gitgutter_realtime=1\n
       \ let g:gitgutter_eager=0\n
       \"})
-cal dein#add('preservim/nerdtree',
-      \ {'hook_add':"
-      \ fu Nerd_tog()\n
-      \   NERDTreeToggle\n
-      \   winc p\n
-      \   if filereadable(expand(@%)) != 0 && g:NERDTree.IsOpen()\n
-      \     NERDTreeFind\n
-      \     winc p\n
-      \   en\n
-      \ endf\n
-      \ au VimEnter * call Nerd_tog()\n
-      \ let g:NERDTreeStatusline = '%#NonText#'\n
-      \ let g:NERDTreeIgnore=[]\n
-      \ let g:NERDTreeShowHidden=1\n
-      \ let g:NERDTreeMapOpenInTab='<ENTER>'\n
-      \ au VimLeavePre * NERDTreeClose\n
-      \ nm <silent> <C-\\> :cal Nerd_tog()<CR>\n
-      \ im <silent> <C-\\> <ESC> :cal Nerd_tog()<CR>\n
-      \"})
 cal dein#add('arcticicestudio/nord-vim',{
       \ 'hook_add':'colo nord'
       \})
@@ -66,9 +49,7 @@ cal dein#end()
 if dein#check_install()
  cal dein#install()
 endif
-
 let g:ale_open_list=0
-
 " Fix multiple cursor bug with deoplete
 fu! Multiple_cursors_before()
   if deoplete#is_enabled()
