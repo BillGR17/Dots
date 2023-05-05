@@ -10,6 +10,8 @@ so ~/.config/nvim/conf/session.vim
 so ~/.config/nvim/conf/pref.vim
 " nvim terminal-emulator settings
 so ~/.config/nvim/conf/term.vim
+" file manager settings
+so ~/.config/nvim/conf/netrw.vim
 " Better Controls to create new windows
 so ~/.config/nvim/conf/window.vim
 " Better Controls to edit code
