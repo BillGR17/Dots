@@ -3,7 +3,7 @@ if argc() == 0
   if !empty(glob('.session.vim~'))
      au VimEnter * nested so .session.vim~|cal delete('.session.vim~')
   en
-  au VimLeavePre * cal s:ClearEmpty()
+  au VimLeave * cal s:ClearEmpty()
 en
 " close all empty windows before saving session
 fu s:ClearEmpty()
