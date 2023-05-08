@@ -1,11 +1,11 @@
 let s:dein_path = '$HOME/.cache/dein'
 let s:dein_src = s:dein_path . '/repos/github.com/Shougo/dein.vim'
-if !exists(s:dein_src)
-  if &runtimepath !~# '/dein.vim'
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(expand(s:dein_src))
     exe '!git clone https://github.com/Shougo/dein.vim' s:dein_src
   en
+  exe 'se rtp+=' . s:dein_src
 en
-exe 'se rtp+=' . s:dein_src
 cal dein#begin(s:dein_path)
 cal dein#add(s:dein_src)
 " Better Lang Syntax
