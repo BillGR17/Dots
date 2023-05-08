@@ -1,12 +1,18 @@
 fu Toggle_netrw()
   sil! Lex|winc p
 endf
+fu Change_map()
+  " Minor mouse fixes
+  nm <buffer> <2-LeftMouse> <nop>
+  nm <buffer> <LeftDrag> <cr>
+endf
 " commands
-au VimEnter * call Toggle_netrw()
-au VimLeavePre * call Toggle_netrw()
+au Filetype netrw cal Change_map()
+au VimEnter * cal Toggle_netrw()
+au VimLeavePre * cal Toggle_netrw()
 " Keysmaps
-nm <silent> <C-\> :call Toggle_netrw()<CR>
-im <silent> <C-\> :call Toggle_netrw()<CR>
+nm <silent> <C-\> :cal Toggle_netrw()<CR>
+im <silent> <C-\> :cal Toggle_netrw()<CR>
 " Settings
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
