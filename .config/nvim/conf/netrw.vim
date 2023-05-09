@@ -3,7 +3,7 @@ fu Toggle_netrw()
 endf
 fu Change_map()
   " Minor mouse fixes
-  nm <buffer> <2-LeftMouse> <nop>
+  nm <buffer> <2-LeftMouse> <cr>
   nm <buffer> <LeftDrag> <cr>
 endf
 " commands
