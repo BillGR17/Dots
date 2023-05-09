@@ -4,6 +4,7 @@ endf
 fu Change_map()
   " Minor mouse fixes
   nm <buffer> <2-LeftMouse> <cr>
+  nm <buffer> <MiddleMouse> <c-l>
   nm <buffer> <LeftDrag> <cr>
 endf
 " commands
