@@ -7,8 +7,12 @@ fu Change_map()
   nm <buffer> <MiddleMouse> <c-l>
   nm <buffer> <LeftDrag> <cr>
 endf
+fu Close_netrw()
+  windo if (&ft=='netrw') | clo | en
+endf
 " commands
 au VimEnter * cal Toggle_netrw()
+au VimLeave * cal Close_netrw()
 au Filetype netrw cal Change_map()
 " Keysmaps
 nm <silent> <C-\> :cal Toggle_netrw()<CR>
