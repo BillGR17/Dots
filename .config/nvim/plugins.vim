@@ -13,6 +13,7 @@ cal dein#add('sheerun/vim-polyglot')
 " Tools
 cal dein#add('dense-analysis/ale')
 cal dein#add('Shougo/ddc.vim')
+cal dein#add('Shougo/ddc-ui-native')
 cal dein#add('vim-denops/denops.vim')
 cal dein#add('Exafunction/codeium.vim')
 cal dein#add('Shougo/ddc-source-codeium')
