@@ -12,8 +12,10 @@ cal dein#add(s:dein_src)
 cal dein#add('sheerun/vim-polyglot')
 " Tools
 cal dein#add('dense-analysis/ale')
-cal dein#add('Shougo/deoplete.nvim')
-cal dein#add('tbodt/deoplete-tabnine', { 'build': './install.sh' })
+cal dein#add('Shougo/ddc.vim')
+cal dein#add('vim-denops/denops.vim')
+cal dein#add('Exafunction/codeium.vim')
+cal dein#add('Shougo/ddc-source-codeium')
 cal dein#add('mattn/emmet-vim')
 cal dein#add('terryma/vim-multiple-cursors')
 " UI & Tools
@@ -38,20 +40,12 @@ let g:ale_open_list=0
 
 colo nord
 
-let g:deoplete#enable_at_startup=1
-" Fix multiple cursor bug with deoplete
-fu! Multiple_cursors_before()
-  if deoplete#is_enabled()
-    cal deoplete#disable()
-    let g:deoplete_is_enable_before_multi_cursors = 1
-  el
-    let g:deoplete_is_enable_before_multi_cursors = 0
-  en
-endf
-fu! Multiple_cursors_after()
-  if g:deoplete_is_enable_before_multi_cursors
-    cal deoplete#enable()
-  en
-endf
+cal ddc#custom#patch_global('ui', 'native')
+ino <silent><expr> <TAB>
+\ pumvisible() ? '<C-n>' :
+\ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+\ '<TAB>' : ddc#map#manual_complete()
+ino <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+cal ddc#enable()
 
 let g:Hexokinase_optInPatterns = [ 'full_hex', 'triple_hex', 'rgb', 'rgba', 'hsl', 'hsla', 'colour_names']
