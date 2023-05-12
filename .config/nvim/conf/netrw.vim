@@ -8,9 +8,8 @@ fu Change_map()
   nm <buffer> <LeftDrag> <cr>
 endf
 " commands
-au Filetype netrw cal Change_map()
 au VimEnter * cal Toggle_netrw()
-au VimLeavePre * cal Toggle_netrw()
+au Filetype netrw cal Change_map()
 " Keysmaps
 nm <silent> <C-\> :cal Toggle_netrw()<CR>
 im <silent> <C-\> :cal Toggle_netrw()<CR>
