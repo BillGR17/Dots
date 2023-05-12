@@ -4,8 +4,6 @@ so ~/.config/nvim/plugins.vim
 so ~/.config/nvim/conf/format.vim
 " Set custom status line
 so ~/.config/nvim/conf/statusline.vim
-" Load or create session
-so ~/.config/nvim/conf/session.vim
 " Set important settings here
 so ~/.config/nvim/conf/pref.vim
 " nvim terminal-emulator settings
@@ -16,3 +14,5 @@ so ~/.config/nvim/conf/netrw.vim
 so ~/.config/nvim/conf/window.vim
 " Better Controls to edit code
 so ~/.config/nvim/conf/editor-keys.vim
+" Load or create session
+so ~/.config/nvim/conf/session.vim
