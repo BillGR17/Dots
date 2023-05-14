@@ -44,7 +44,13 @@ def find_proton():
         paths to search for the proton file
     """
     print("Searching for Any Installed Proton...")
-    searchSteamLibs = [os.path.expanduser("~") + "/.local/share/Steam", "/mnt"]
+    if os.path.isfile(os.path.expanduser("~") + "/.config/proton/conf"):
+        conf = open(os.path.expanduser("~") + "/.config/proton/conf")
+        searchSteamLibs = conf.read().split("\n")
+        print("Found ~/.config/proton/conf\nProton path[s]:", searchSteamLibs)
+    else:
+        print("Couldn't find ~/.config/proton/conf\nDefault path .local/share/Steam")
+        searchSteamLibs = [os.path.expanduser("~") + "/.local/share/Steam"]
     protonList = []
     for x in searchSteamLibs:
         protonList.extend(find("proton", x))
@@ -90,7 +96,7 @@ def check_prev_run(loc):
             PROTON_PATH = lastFile
             set_env()
         else:
-            print("Couldn't find the proton used last time : " + lastFile)
+            print("Couldn't find the proton used last time: " + lastFile)
             new_run(loc)
             set_env()
     else:
@@ -212,3 +218,4 @@ if __name__ == "__main__":
             " winecfg/winetricks\n" + script + " change\n\n",
             "\nIf u dont provide the location on winecfg/winetricks or on change,",
             "\nthe script will start on current location")
+
