@@ -27,6 +27,7 @@ cal dein#end()
 if dein#check_install()
   cal dein#install()
 en
+nm <F5> :cal dein#update() <CR>
 " Plugin Settings
 let g:user_emmet_expandabbr_key='<C-e>'
 let g:user_emmet_install_global=0
