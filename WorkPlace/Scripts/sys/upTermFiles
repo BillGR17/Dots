@@ -13,6 +13,7 @@ files=(\
   ".config/ranger/rc.conf"\
   ".config/ranger/rifle.conf"\
   ".config/ranger/scope.sh"\
+  "WorkPlace/Scripts/sys/upTermFiles"\
   ".zshrc"\
 )
 # Colors
@@ -37,17 +38,21 @@ function goget(){
   # It will check for 200 or 304 status code
   # If its anything else it will show the echo with the red x
   if (( $status == 200 )) || (( $status == 304 ));then
-    # Compares the downloaded files with the files at home directory
+    # Compare the downloaded files with the files at home directory
     # if they are the same it will just print ~
     # otherwise it will print + and it will move the
     # downloaded file to the home directory
-    if [ -z "$(cmp "/tmp/$gitraw$1" "$HOME/$1")" ]; then
+    location="$HOME/$1"
+    if [[ $1 =~ "WorkPlace" ]];then
+      location="/usr/local/bin/$(basename $1)"
+    fi
+    if [ -z "$(cmp "/tmp/$gitraw$1" "$location")" ]; then
       # the files are the same
       echo -e "[${c[3]}~${c[0]}]${c[2]}$1${c[0]}"
     else
       # the files are different
       echo -e "[${c[3]}+${c[0]}]${c[2]}$1${c[0]}"
-      cp "/tmp/$gitraw$1" "$HOME/$1"
+      cp "/tmp/$gitraw$1" "$location"
     fi
   else
     # the error message
