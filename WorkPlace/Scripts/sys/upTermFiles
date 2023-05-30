@@ -47,6 +47,10 @@ function goget(){
     if [[ $1 =~ "WorkPlace" ]];then
       location="/usr/local/bin/$(basename $1)"
     fi
+    # If file doesnt exist create so the compare wont fail
+    if [ ! -f "$location" ]; then
+      touch "$location"
+    fi
     if [ -z "$(cmp "/tmp/$gitraw$1" "$location")" ]; then
       # the files are the same
       echo -e "[${c[3]}~${c[0]}]${c[2]}$1${c[0]}"
