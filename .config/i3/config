@@ -10,7 +10,7 @@ exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
 exec --no-startup-id hsetroot -solid "#3B4252"
 exec --no-startup-id /usr/bin/lxsession
 # Applications
-exec --no-startup-id i3-msg "exec steam-native -silent  > ~/.cache/steam.log"
+exec --no-startup-id steam-native
 exec --no-startup-id i3-msg "workspace 2;exec thunderbird"
 exec --no-startup-id i3-msg "workspace 1;exec firefox"
 
