@@ -13,4 +13,4 @@ bluetoothctl power on&
 # Use the xterm settings
 xrdb -merge .Xresources&
 # Start i3
-exec i3 > ~/.cache/i3.log
+exec i3 > ~/.cache/wm.log
