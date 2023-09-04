@@ -1,5 +1,5 @@
 fu Toggle_netrw()
-  sil! Lex %:p:h|winc p
+  sil! Lex %:p:h|:se noma|winc p
 endf
 fu Change_map()
   " Minor mouse fixes
