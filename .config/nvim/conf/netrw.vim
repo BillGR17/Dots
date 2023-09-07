@@ -1,5 +1,5 @@
 fu Toggle_netrw()
-  sil! Lex %:p:h|:se noma|winc p
+  sil! Lex %:p:h|winc p
 endf
 fu Change_map()
   " Minor mouse fixes
@@ -10,9 +10,17 @@ endf
 fu Close_netrw()
   windo if (&ft=='netrw') | clo | en
 endf
+fu BuFenter()
+  se noma
+endf
+fu BuFleave()
+  se ma
+endf
 " commands
 au VimEnter * cal Toggle_netrw()
 au VimLeave * cal Close_netrw()
+au BufEnter netrw cal BuFenter()
+au BufLeave netrw cal BuFleave()
 au Filetype netrw cal Change_map()
 " Keysmaps
 nm <silent> <C-\> :cal Toggle_netrw()<CR>
