@@ -125,7 +125,7 @@ handle_mime() {
             exit 2;;
         # Image
         image/*)
-            img2txt -W "${PV_WIDTH}" "${FILE_PATH}" && exit 4
+            catimg -w "${PV_WIDTH}" "${FILE_PATH}" -t && exit 4
             exiftool "${FILE_PATH}" && exit 5
             exit 1;;
         # Video and audio
