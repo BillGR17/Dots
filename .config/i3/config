@@ -3,7 +3,7 @@
 ######################
 
 # Tray
-exec --no-startup-id parcellite
+exec --no-startup-id copyq
 # System
 exec --no-startup-id picom --config ~/.config/picom/pi.conf
 exec --no-startup-id dunst --config ~/.config/dunst/dunstrc
