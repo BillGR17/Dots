@@ -1,7 +1,12 @@
 #!/bin/bash
-# This script requires xdotool, imagemagick
+SCREENSHOT_TYPE="$1" 
+# This script requires sway, jq, xdotool, grim, slurp, imagemagick
 # This should get the active windows name
-ACTIVE_NAME=$(xdotool getactivewindow getwindowname)
+if [ ! -z "${WAYLAND_DISPLAY}" ]; then
+  ACTIVE_NAME=$(swaymsg -t get_tree | jq '.. | (.nodes? // empty)[] | select(.focused==true).name')
+else
+  ACTIVE_NAME=$(xdotool getactivewindow getwindowname)
+fi
 # Timestamp is used as the screenshot's name
 # Way better than numbering in my opinion
 TIMESTAMP=$(date +"%s")
@@ -10,23 +15,38 @@ TIMESTAMP=$(date +"%s")
 if [[ -z "$ACTIVE_NAME" ]];then
   ACTIVE_NAME="UNTITLED"
 else
-  # Make sure it doesnt create directories if the name contains \
-  ACTIVE_NAME=$(echo $ACTIVE_NAME|tr '\' '_')
+  # Make sure it doesnt create directories if the name contains \ or /
+  ACTIVE_NAME=$(echo "${ACTIVE_NAME}"|tr '\\' '|'|tr '/' '|')
 fi
-mkdir -p "$HOME/Pictures/$ACTIVE_NAME"
-case $1 in
+SCREENSHOT_LOC="$(xdg-user-dir PICTURES)/${ACTIVE_NAME}/"
+mkdir -p "${SCREENSHOT_LOC}"
+case $SCREENSHOT_TYPE in
   "current")
     # Capture only the active window
-    ACTIVE_ID=$(xprop -root _NET_ACTIVE_WINDOW|cut -d ' ' -f 5|tail)
-    import -silent -window $ACTIVE_ID "$HOME/Pictures/$ACTIVE_NAME/$TIMESTAMP.jpg"
+    if [ ! -z "${WAYLAND_DISPLAY}" ]; then
+      ACTIVE=$(swaymsg -t get_tree | jq '.. | (.nodes? // empty)[] | select(.focused and .pid) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')
+      grim -t jpeg -q 100 -g "$(eval echo ${ACTIVE})"  "${SCREENSHOT_LOC}$TIMESTAMP.jpg" 
+   else
+      ACTIVE_ID=$(xprop -root _NET_ACTIVE_WINDOW|cut -d ' ' -f 5|tail)
+      import -silent -window $ACTIVE_ID "${SCREENSHOT_LOC}$TIMESTAMP.jpg"
+    fi
     ;;
   "root")
-    # Capture he all the window(s) on the screenshot
-    import -silent -window root "$HOME/Pictures/$ACTIVE_NAME/$TIMESTAMP.jpg"
+    # Capture all the window(s) on the screenshot
+    if [ ! -z "${WAYLAND_DISPLAY}" ]; then
+      grim -t jpeg "${SCREENSHOT_LOC}$TIMESTAMP.jpg"
+    else
+     import -silent -window root "${SCREENSHOT_LOC}$TIMESTAMP.jpg"
+    fi
     ;;
   *)
     # THIS IS THE DEFAULT
     # Capture whatever the user selects
-    import -silent "$HOME/Pictures/$ACTIVE_NAME/$TIMESTAMP.jpg"
+    if [ ! -z "${WAYLAND_DISPLAY}" ]; then
+      grim -t jpeg -g "$(slurp)" "${SCREENSHOT_LOC}$TIMESTAMP.jpg"
+    else
+      import -silent "${SCREENSHOT_LOC}$TIMESTAMP.jpg"
+    fi
     ;;
 esac
+

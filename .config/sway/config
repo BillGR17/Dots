@@ -1,0 +1,250 @@
+######################
+#AUTOSTART ON STARTUP#
+######################
+
+# Tray
+exec copyq
+# System
+exec_always /usr/bin/lxsession
+exec_always dunst --config ~/.config/dunst/dunstrc
+# Applications
+exec steam-native
+exec swaymsg "workspace 1;exec firefox"
+exec thunderbird
+
+
+#####################
+# KEYBOARD SETTINGS #
+#####################
+
+#MAIN KEY (superkey)
+set $mod Mod4
+
+# start a terminal
+bindsym $mod+Return exec foot -e tmux
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start the program launcher
+bindsym $mod+d exec rofi -show run
+
+# kill focused window
+bindsym $mod+Shift+q kill
+bindsym Mod1+F4 kill
+
+# force kill on select
+bindsym --release $mod+x exec xkill
+
+# change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+bindsym $mod+grave workspace 0
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+grave move container to workspace 0
+
+# reload the configuration file
+bindsym $mod+Shift+r reload
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "swaynag -t warning -m 'Do you really want to log out?' -b 'Logout' 'swaymsg exit'"
+
+# resize window
+mode "resize" {
+  # These bindings trigger as soon as you enter the resize mode
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Down resize grow height 10 px or 10 ppt
+  bindsym Up resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
+
+  # back to normal: Enter or Escape or $mod+r
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+#change lang layout
+bindsym Shift+Alt input type:keyboard xkb_switch_layout next
+# Print Screen
+bindsym --release Print exec --no-startup-id screenshot current
+bindsym --release Ctrl+Shift+Print exec --no-startup-id screenshot root
+bindsym --release Shift+Print exec --no-startup-id screenshot
+
+# Record screen
+bindsym --release $mod+F12 exec record /mnt/Storage
+bindsym --release $mod+Shift+F12 exec killall ffmpeg
+
+# Media keys
+bindsym XF86AudioRaiseVolume exec "pulsemixer --unmute --change-volume +1"
+bindsym XF86AudioLowerVolume exec "pulsemixer --unmute --change-volume -1"
+bindsym XF86AudioMute exec "pulsemixer --toggle-mute"
+
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+# Easy Cursor 
+bindsym --release $mod+Escape exec cursor
+
+###################
+# WINDOW SETTINGS #
+###################
+
+default_border pixel 1
+font pango: Hack 10
+focus_follows_mouse no
+mouse_warping none
+popup_during_fullscreen smart
+
+#Marking primary & secondary screens
+set $p DP-1
+set $s DP-1
+
+#Output settings
+output DP-1 {
+  pos 0 0
+  modeline  497.75  2560 2608 2640 2720  1440 1443 1448 1525 +hsync -vsync 
+}
+
+#input settings
+input type:keyboard {
+  xkb_layout us,gr
+  xkb_options grp:alt_shift_toggle
+  repeat_rate 90
+  repeat_delay 250
+}
+#PRIMARY SCREEN WORKPLACE
+workspace 0 output $p
+workspace 1 output $p
+workspace 3 output $p
+workspace 5 output $p
+workspace 7 output $p
+workspace 9 output $p
+
+#SECONDARY SCREEN WORKPLACE
+workspace 2 output $s
+workspace 4 output $s
+workspace 6 output $s
+workspace 8 output $s
+
+#FLOAT WINDOWS ARE HERE
+for_window [title="^nsxiv"] fullscreen enable
+
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+
+for_window [title="Shutdown PC"] floating enable
+
+for_window [class="^Transmission"] floating enable
+
+for_window [class="mpv"] floating enable
+for_window [class="(?i)eddie"] floating enable
+for_window [class="(?i).exe"] floating enable
+
+assign [class="(?i)steam"] 0
+assign [class="(?i)thunderbird"] 2
+#####################
+#COLORS ARE SET HERE#
+#####################
+# Nord theme colors
+
+set $nord0   #2E3440
+set $nord1   #3B4252
+set $nord2   #434C5E
+set $nord3   #4C566A
+set $nord4   #D8DEE9
+set $nord5   #E5E9F0
+set $nord6   #ECEFF4
+set $nord7   #8FBCBB
+set $nord8   #88C0D0
+set $nord9   #81A1C1
+set $nord10  #5E81AC
+set $nord11  #BF616A
+set $nord12  #D08770
+set $nord13  #EBCB8B
+set $nord14  #A3BE8C
+set $nord15  #B48EAD
+
+# class                 border  back.   text    indicator child_border
+client.focused          $nord3  $nord0  $nord8  $nord7    $nord8
+client.focused_inactive $nord3  $nord0  $nord7  $nord8    $nord1
+client.unfocused        $nord1  $nord0  $nord10 $nord9    $nord3
+client.urgent           $nord11 $nord0  $nord11 $nord11   $nord11
+client.placeholder      $nord13 $nord0  $nord8  $nord11   $nord11
+client.background       $nord1
+
+##############
+#BAR SETTINGS#
+##############
+
+bar {
+  status_command i3blocks -c ~/.config/i3/blocks/i3blocks.conf
+  font pango: Hack 10
+  tray_output DP-1
+  colors {
+    background       $nord0
+    statusline       $nord5
+    separator        $nord3
+  }
+}
