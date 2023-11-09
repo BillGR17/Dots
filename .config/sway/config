@@ -17,7 +17,7 @@ exec thunderbird
 # KEYBOARD SETTINGS #
 #####################
 
-#MAIN KEY (superkey)
+# MAIN KEY (superkey)
 set $mod Mod4
 
 # start a terminal
@@ -210,9 +210,9 @@ for_window [class="(?i).exe"] floating enable
 
 assign [class="(?i)steam"] 0
 assign [class="(?i)thunderbird"] 2
-#####################
-#COLORS ARE SET HERE#
-#####################
+#######################
+# COLORS ARE SET HERE #
+#######################
 # Nord theme colors
 
 set $nord0   #2E3440
