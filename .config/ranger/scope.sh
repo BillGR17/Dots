@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-
 set -o noclobber -o noglob -o nounset -o pipefail
 IFS=$'\n'
 # Meanings of exit codes:
@@ -30,118 +29,120 @@ HIGHLIGHT_TABWIDTH=2
 HIGHLIGHT_STYLE='zenburn'
 
 handle_extension() {
-    case "${FILE_EXTENSION_LOWER}" in
-        # Archive
-        a|ace|alz|arc|arj|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|\
-        rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)
-            atool --list -- "${FILE_PATH}" && exit 5
-            bsdtar --list --file "${FILE_PATH}" && exit 5
-            exit 1;;
-        rar)
-            # Avoid password prompt by providing empty password
-            unrar lt -p- -- "${FILE_PATH}" && exit 5
-            exit 1;;
-        7z)
-            # Avoid password prompt by providing empty password
-            7z l -p -- "${FILE_PATH}" && exit 5
-            exit 1;;
-        # PDF
-        pdf)
-            # Preview as text conversion
-            pdftotext -l 10 -nopgbrk -q -- "${FILE_PATH}" - && exit 5
-            exiftool "${FILE_PATH}" && exit 5
-            exit 1;;
-        # BitTorrent
-        torrent)
-            transmission-show -- "${FILE_PATH}" && exit 5
-            exit 1;;
-        # OpenDocument
-        odt|ods|odp|sxw)
-            # Preview as text conversion
-            odt2txt "${FILE_PATH}" && exit 5
-            exit 1;;
-        # HTML
-        htm|html|xhtml)
-            # Preview as text conversion
-            w3m -dump "${FILE_PATH}" && exit 5
-            lynx -dump -- "${FILE_PATH}" && exit 5
-            elinks -dump "${FILE_PATH}" && exit 5
-            ;; # Continue with next handler on failure
-    esac
+  case "${FILE_EXTENSION_LOWER}" in
+    # Archive
+    a|ace|alz|arc|arj|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|\
+    rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)
+        atool --list -- "${FILE_PATH}" && exit 5
+        bsdtar --list --file "${FILE_PATH}" && exit 5
+        exit 1;;
+    rar)
+        # Avoid password prompt by providing empty password
+        unrar lt -p- -- "${FILE_PATH}" && exit 5
+        exit 1;;
+    7z)
+        # Avoid password prompt by providing empty password
+        7z l -p -- "${FILE_PATH}" && exit 5
+        exit 1;;
+    # PDF
+    pdf)
+        # Preview as text conversion
+        pdftotext -l 10 -nopgbrk -q -- "${FILE_PATH}" - && exit 5
+        exiftool "${FILE_PATH}" && exit 5
+        exit 1;;
+    # BitTorrent
+    torrent)
+        transmission-show -- "${FILE_PATH}" && exit 5
+        exit 1;;
+    # OpenDocument
+    odt|ods|odp|sxw)
+        # Preview as text conversion
+        odt2txt "${FILE_PATH}" && exit 5
+        exit 1;;
+    # HTML
+    htm|html|xhtml)
+        # Preview as text conversion
+        w3m -dump "${FILE_PATH}" && exit 5
+        lynx -dump -- "${FILE_PATH}" && exit 5
+        elinks -dump "${FILE_PATH}" && exit 5
+        ;; # Continue with next handler on failure
+  esac
 }
 handle_image() {
-    local mimetype="${1}"
-    case "${mimetype}" in
-        # SVG
-         image/svg+xml)
-             convert "${FILE_PATH}" "${IMAGE_CACHE_PATH}" && exit 6
-             exit 1;;
-        # Image
-        image/*)
-            local orientation
-            orientation="$(identify -format '%[EXIF:Orientation]\n' -- "${FILE_PATH}" )"
-            # If orientation data is present and the image actually
-            # needs rotating ("1" means no rotation)...
-            if [[ -n "$orientation" && "$orientation" != 1 ]]; then
-                # ...auto-rotate the image according to the EXIF data.
-                convert -- "${FILE_PATH}" -auto-orient "${IMAGE_CACHE_PATH}" && exit 6
-            fi
-            # `w3mimgdisplay` will be called for all images (unless overriden as above),
-            # but might fail for unsupported types.
-            exit 7;;
-        # Video
-         video/*)
-             # Thumbnail
-             ffmpegthumbnailer -i "${FILE_PATH}" -o "${IMAGE_CACHE_PATH}" -s 0 && exit 6
-             exit 1;;
-        # PDF
-         application/pdf)
-             pdftoppm -f 1 -l 1 \
-                      -scale-to-x 1920 \
-                      -scale-to-y -1 \
-                      -singlefile \
-                      -jpeg -tiffcompression jpeg \
-                      -- "${FILE_PATH}" "${IMAGE_CACHE_PATH%.*}" \
-                 && exit 6 || exit 1;;
-    esac
+  local mimetype="${1}"
+  case "${mimetype}" in
+    # SVG
+     image/svg+xml)
+       convert "${FILE_PATH}" "${IMAGE_CACHE_PATH}" && exit 6
+       exit 1;;
+    # Image
+    image/*)
+      local orientation
+      orientation="$(identify -format '%[EXIF:Orientation]\n' -- "${FILE_PATH}" )"
+      # If orientation data is present and the image actually
+      # needs rotating ("1" means no rotation)...
+      if [[ -n "$orientation" && "$orientation" != 1 ]]; then
+        convert -- "${FILE_PATH}" -auto-orient "${IMAGE_CACHE_PATH}" && exit 6
+      fi
+      exit 7;;
+    # Video
+     video/*)
+         # Thumbnail
+         ffmpegthumbnailer -i "${FILE_PATH}" -o "${IMAGE_CACHE_PATH}" -s 0 && exit 6
+         exit 1;;
+    # PDF
+     application/pdf)
+       pdftoppm -f 1 -l 1 \
+                -scale-to-x 1920 \
+                -scale-to-y -1 \
+                -singlefile \
+                -jpeg -tiffcompression jpeg \
+                -- "${FILE_PATH}" "${IMAGE_CACHE_PATH%.*}" \
+       && exit 6 || exit 1;;
+  esac
 }
 
 handle_mime() {
-    local mimetype="${1}"
-    case "${mimetype}" in
-        # Text
-        text/* | */xml | */json)
-            # Syntax highlight
-            if [[ "$( stat --printf='%s' -- "${FILE_PATH}" )" -gt "${HIGHLIGHT_SIZE_MAX}" ]]; then
-                exit 2
-            fi
-            if [[ "$( tput colors )" -ge 256 ]]; then
-                local highlight_format='xterm256'
-            else
-                local highlight_format='ansi'
-            fi
-            highlight --replace-tabs="${HIGHLIGHT_TABWIDTH}" --out-format="${highlight_format}" \
-                --style="${HIGHLIGHT_STYLE}" --force -- "${FILE_PATH}" && exit 5
-            exit 2;;
-        # Image
-        image/*)
-            catimg -w "${PV_WIDTH}" "${FILE_PATH}" -t && exit 4
-            exiftool "${FILE_PATH}" && exit 5
-            exit 1;;
-        # Video and audio
-        video/* | audio/*)
-            mediainfo "${FILE_PATH}" && exit 5
-            exiftool "${FILE_PATH}" && exit 5
-            exit 1;;
-    esac
+  local mimetype="${1}"
+  case "${mimetype}" in
+    # Text
+    text/* | */xml | */json)
+      # Syntax highlight
+      if [[ "$( stat --printf='%s' -- "${FILE_PATH}" )" -gt "${HIGHLIGHT_SIZE_MAX}" ]]; then
+        exit 2
+      fi
+      if [[ "$( tput colors )" -ge 256 ]]; then
+        local highlight_format='xterm256'
+      else
+        local highlight_format='ansi'
+      fi
+      highlight --replace-tabs="${HIGHLIGHT_TABWIDTH}" --out-format="${highlight_format}" \
+        --style="${HIGHLIGHT_STYLE}" --force -- "${FILE_PATH}" && exit 5
+      exit 2;;
+    # Image
+    image/*)
+      chafa --size="${PV_WIDTH}x$((PV_HEIGHT-10))" -c 16 "${FILE_PATH}" &&
+      # since sometimes somethings gets messed
+      # up here remove all the colors
+      # also break some lines in order exiftool to work
+      tput init&&
+      echo "~~If u can read this then this line is not needed :) ~~"&&
+      exiftool -S -ImageSize -FileType -ColorType -ColorSpace -ColorSpaceData -ProfileDescription "${FILE_PATH}" &&
+      exit 4
+      exit 1;;
+    # Video and audio
+    video/* | audio/*)
+      exiftool "${FILE_PATH}" && exit 5
+      exit 1;;
+  esac
 }
 handle_fallback() {
-    echo '----- File Type Classification -----' && file --dereference --brief -- "${FILE_PATH}" && exit 5
-    exit 1
+  exiftool "${FILE_PATH}"&&
+  exit 5
 }
 MIMETYPE="$( file --dereference --brief --mime-type -- "${FILE_PATH}" )"
 if [[ "${PV_IMAGE_ENABLED}" == 'True' ]]; then
-    handle_image "${MIMETYPE}"
+  handle_image "${MIMETYPE}"
 fi
 handle_extension
 handle_mime "${MIMETYPE}"
