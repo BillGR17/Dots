@@ -46,8 +46,7 @@ handle_extension() {
         exit 1;;
     # PDF
     pdf)
-        # Preview as text conversion
-        pdftotext -l 10 -nopgbrk -q -- "${FILE_PATH}" - && exit 5
+        chafa --size="${PV_WIDTH}x$((PV_HEIGHT-10))" --animate=off --bg="#ffffff" -t 1 -c 16 "${FILE_PATH}" && exit 5
         exiftool "${FILE_PATH}" && exit 5
         exit 1;;
     # BitTorrent
@@ -121,7 +120,7 @@ handle_mime() {
       exit 2;;
     # Image
     image/*)
-      chafa --size="${PV_WIDTH}x$((PV_HEIGHT-10))" -c 16 "${FILE_PATH}" &&
+      chafa --size="${PV_WIDTH}x$((PV_HEIGHT-10))" -O 9 -c 16 "${FILE_PATH}" &&
       # since sometimes somethings gets messed
       # up here remove all the colors
       # also break some lines in order exiftool to work
