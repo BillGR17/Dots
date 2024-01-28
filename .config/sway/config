@@ -7,6 +7,7 @@ exec copyq
 # System
 exec_always /usr/bin/lxsession
 exec_always dunst --config ~/.config/dunst/dunstrc
+exec "dbus-update-activation-environment --systemd --all; dbus-update-activation-environment --systemd XDG_CURRENT_DESKTOP=sway"
 # Applications
 exec steam-native
 exec swaymsg "workspace 1;exec firefox"
