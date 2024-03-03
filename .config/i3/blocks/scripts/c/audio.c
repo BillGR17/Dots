@@ -5,17 +5,15 @@ int main() {
   if (e != NULL) {
     int m = atoi(e);
     switch (m) {
-      case 1: system("pulsemixer --toggle-mute&"); break;
-      case 4:
-        system("pulsemixer --unmute&");
-        system("pulsemixer --change-volume +1&");
+      case 1:
+        system("pactl set-sink-mute @DEFAULT_SINK@ toggle");
         break;
-      case 5:
-        system("pulsemixer --unmute&");
-        system("pulsemixer --change-volume -1&");
         break;
+      case 4: system("pactl set-sink-volume @DEFAULT_SINK@ +1%"); break;
+      case 5: system("pactl set-sink-volume @DEFAULT_SINK@ -1%"); break;
     }
   }
-  system("if [[ $(pulsemixer --get-mute) == 0 ]];then pulsemixer --get-volume;else echo 'MUTED';fi");
+  system("if [[ $(pactl get-sink-mute @DEFAULT_SINK@|awk '{print $2}') == 'no'  ]];then pactl get-sink-volume "
+         "@DEFAULT_SINK@ | grep -Po '\\d+(?=%)' | head -n 1;else echo 'MUTED';fi");
   return 0;
 }
