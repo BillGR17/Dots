@@ -14,3 +14,5 @@ se nowrap nu list lcs=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:.
 se spell fenc=utf-8 kmp=greek_utf-8 imi=0 ims=-1
 " Theme Settings
 se tgc
+" Auto save on focus lost
+au BufLeave * sil! wa
