@@ -1,5 +1,5 @@
 fu Toggle_netrw()
-  sil! Lex %:p:h|se nosmd|winc p
+  sil! Lex %:p:h|setl stl=%{strftime('%H:%M')}|se nosmd|winc p
 endf
 fu Change_map()
   " force normal mode
