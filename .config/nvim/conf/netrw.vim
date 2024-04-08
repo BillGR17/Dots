@@ -2,6 +2,8 @@ fu Toggle_netrw()
   sil! Lex %:p:h|se nosmd|winc p
 endf
 fu Change_map()
+  " force normal mode
+  sil! norm!
   " Minor mouse fixes
   nm <buffer> <2-LeftMouse> <cr>
   nm <buffer> <MiddleMouse> <c-l>
