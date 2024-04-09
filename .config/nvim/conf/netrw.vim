@@ -1,7 +1,7 @@
 fu Toggle_netrw()
   sil! Lex %:p:h|setl stl=%{strftime('%H:%M')}|winc p
 endf
-fu Change_map()
+fu s:On_netrw()
   " force normal mode
   sil! norm!
   " Minor mouse fixes
@@ -15,7 +15,7 @@ endf
 " commands
 au VimEnter * cal Toggle_netrw()
 au VimLeave * cal Close_netrw()
-au Filetype netrw cal Change_map()
+au Filetype netrw cal s:On_netrw()
 " Keysmaps
 nm <silent> <C-\> :cal Toggle_netrw()<CR>
 im <silent> <C-\> :cal Toggle_netrw()<CR>
