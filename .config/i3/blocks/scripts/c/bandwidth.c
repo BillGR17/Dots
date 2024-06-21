@@ -2,38 +2,34 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-long long int u = 0, d = 0;
+long long int u = 0, d = 0, _d = 0, _u = 0;
 long long int readf(const char* x) {
   long long int r = 0;
   FILE* fp = fopen(x, "r");
-  if (fp == NULL) {
-    perror("Error while opening the file.\n");
-    exit(EXIT_FAILURE);
-  }
+  if (fp == NULL) return 0;
   fscanf(fp, "%lld", &r);
   fclose(fp);
   return r;
 }
+void writef(const char* x, long long int y) {
+  FILE* fp = fopen(x, "w");
+  if (fp == NULL) return;
+  fprintf(fp, "%lld", y);
+  fclose(fp);
+}
 int main() {
   const char* e = getenv("BLOCK_INSTANCE");
-  char tu[256];
-  char td[256];
+  char tu[512];
+  char td[512];
   sprintf(td, "/sys/class/net/%s/statistics/rx_bytes", e);
   sprintf(tu, "/sys/class/net/%s/statistics/tx_bytes", e);
-  long long int _u = 0, _d = 0;
-  while (1) {
-    d = readf(td);
-    u = readf(tu);
-    if (_d > 0) {
-      printf("D:%.2fmb U:%.2fmb\n", (float)(d - _d) / 1024 / 1024, (float)(u - _u) / 1024 / 1024);
-      fflush(stdout);
-    } else {
-      printf("Initializing...\n");
-      fflush(stdout);
-    }
-    _u = u;
-    _d = d;
-    sleep(1);
-  }
+  d = readf(td);
+  u = readf(tu);
+  _d = readf("/tmp/_d_rx_bytes");
+  _u = readf("/tmp/_u_tx_bytes");
+  fprintf(stdout, "D:%.2fmb U:%.2fmb\n", (float)(d - _d) / 1024 / 1024, (float)(u - _u) / 1024 / 1024);
+  fflush(stdout);
+  writef("/tmp/_d_rx_bytes", d);
+  writef("/tmp/_u_tx_bytes", u);
   return 0;
 }
