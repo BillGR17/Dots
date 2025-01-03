@@ -30,8 +30,6 @@ en
 nm <F5> :cal dein#update() <CR>
 " Plugin Settings
 let g:user_emmet_expandabbr_key='<C-e>'
-let g:user_emmet_install_global=0
-au FileType html,html.*,php EmmetInstall
 
 let g:gitgutter_realtime=1
 let g:gitgutter_eager=0
