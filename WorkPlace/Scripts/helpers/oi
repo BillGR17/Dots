@@ -1,34 +1,28 @@
 #!/bin/bash
 #You need to install optipng and jpegoptim
 #Errors will not be reported... So watch out for that...
-echo "Enter max quality for jpeg"
-read q
+q=90
+if [[ ! -z $1 ]] && [[ ! "$1" =~ '^[0-9]+$' ]] && [ $1 -ge 1 ] && [ $1 -le 100 ];then
+  q=$1
+fi
+echo "JPEG Quality: $q"
 dir=$PWD
 IFS=$'\n'
-png=(`find $dir  -name "*.png"`)
-jpg=(`find $dir  -name "*.jpg" -o -name "*.jpeg"`)
-length=$(( ${#png[@]} + ${#jpg[@]} ))
+img=(`find "$dir" -name *.png -o -name *.jpg`)
 function image {
-  if [ -z "$2" ]; then
-    size=$(stat --printf="%s" ${png[$1]}) #gets image size before compres
-    echo -n "[$(( $1 + 1 ))/$length]${png[$1]}"
-    optipng -o7 -strip all "${png[$1]}" > /dev/null 2>&1 #hide output
-    size2=$(stat --printf="%s" ${png[$1]}) #gets image size after the compress
+  fname=${img[$1]##*/}
+  fext=${fname##*.}
+  size=$(stat --printf="%s" ${img[$1]}) #gets image size before compress
+  echo -n "[$(( $1 + 1 ))/${#img[@]}]${img[$1]}"
+  if [[ ${fext,,} == "png" ]];then
+    optipng -o7 -strip all "${img[$1]}" > /dev/null 2>&1 #hide output
   else
-    size=$(stat --printf="%s" ${jpg[$1]}) #gets image size before  the compress
-    echo -n "[$(($1 + 1 + ${#png[@]} ))/$length]${jpg[$1]}"
-    jpegoptim -f --all-progressive --max=$q  "${jpg[$1]}" > /dev/null 2>&1 #hide output
-    size2=$(stat --printf="%s" ${jpg[$1]}) #gets image size after the compress
+    jpegoptim -f --all-progressive --max=$q "${img[$1]}" > /dev/null 2>&1 #hide output
   fi
-  fsize=$(( $size - $size2 )) #calculets size old - new
-  echo " [(Old) $size - (New) $size2 = $fsize]" #This is the final ouput before it goes to the next one
+  size2=$(stat --printf="%s" ${img[$1]}) #gets image size after the compress
+  fsize=$(( $size - $size2 )) #calculates size old - new
+  echo " [(Old) $size - (New) $size2 = $fsize]" #This is the final output before it goes to the next one
 }
-#find all png and use optipng
-for (( i=0; i<${#png[@]}; i++ )); do
+for (( i=0; i<${#img[@]}; i++ )); do
   image $i
-done
-#find all jpeg and use jpegoptim
-for (( i=0; i<${#jpg[@]};i++ )); do
-  #!for jpeg send a second value when u call the function image!
-  image $i yes
 done
