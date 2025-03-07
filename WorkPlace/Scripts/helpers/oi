@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 #You need to install optipng and jpegoptim
 #Errors will not be reported... So watch out for that...
 q=90
@@ -6,9 +6,10 @@ if [[ ! -z $1 ]] && [[ ! "$1" =~ '^[0-9]+$' ]] && [ $1 -ge 1 ] && [ $1 -le 100 ]
   q=$1
 fi
 echo "JPEG Quality: $q"
-dir=$PWD
 IFS=$'\n'
-img=(`find "$dir" -name *.png -o -name *.jpg`)
+img=(`find . -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg"`)
+
+echo "$img"
 function image {
   fname=${img[$1]##*/}
   fext=${fname##*.}
@@ -23,6 +24,6 @@ function image {
   fsize=$(( $size - $size2 )) #calculates size old - new
   echo " [(Old) $size - (New) $size2 = $fsize]" #This is the final output before it goes to the next one
 }
-for (( i=0; i<${#img[@]}; i++ )); do
+for (( i=1; i<=${#img[@]}; i++ )); do
   image $i
 done
