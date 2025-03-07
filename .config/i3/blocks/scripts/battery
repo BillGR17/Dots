@@ -4,7 +4,10 @@ if [[ ! -z $BLOCK_INSTANCE ]]; then
   if [[ ! -z $target ]]; then
     perc=`upower -i ${target}|awk '/perc/{print int($2)}'`
     if [[ $perc -lt 20 ]]; then
-      gst-play-1.0 /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga>>/dev/null&!
+      warning=`upower -i ${target}|awk '/warning/{print $2}'`
+      if [[ $warning != "none" ]]; then
+        gst-play-1.0 /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga>>/dev/null&!
+      fi
     fi
     echo "$perc"
   fi
