@@ -18,7 +18,6 @@ cal dein#add('terryma/vim-multiple-cursors')
 " UI & Tools
 cal dein#add('airblade/vim-gitgutter')
 cal dein#add('arcticicestudio/nord-vim')
-cal dein#add('rrethy/vim-hexokinase',{'build': 'make hexokinase'})
 cal dein#end()
 if dein#check_install()
   cal dein#install()
@@ -36,5 +35,3 @@ let g:ale_pattern_options = {'.*\.hbs$': {'ale_enabled': 0},'.*\.handlebars$': {
 let g:ale_open_list=0
 
 colo nord
-
-let g:Hexokinase_optInPatterns = [ 'full_hex', 'triple_hex', 'rgb', 'rgba', 'hsl', 'hsla', 'colour_names']
