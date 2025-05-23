@@ -1,6 +1,8 @@
-so ~/.config/nvim/plugins.vim
 " All configs that are not associated with plugin are on conf folder
 " Enable syntax & lang format & lang preferences
+" init plugins
+so ~/.config/nvim/conf/plugins.vim
+" Set reformat options
 so ~/.config/nvim/conf/format.vim
 " Set custom status line
 so ~/.config/nvim/conf/statusline.vim
