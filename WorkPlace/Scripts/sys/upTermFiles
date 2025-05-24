@@ -2,10 +2,10 @@
 # All files to update
 files=(\
   ".config/nvim/init.vim"\
-  ".config/nvim/plugins.vim"\
   ".config/nvim/conf/editor-keys.vim"\
   ".config/nvim/conf/format.vim"\
   ".config/nvim/conf/netrw.vim"\
+  ".config/nvim/conf/plugins.vim"\
   ".config/nvim/conf/pref.vim"\
   ".config/nvim/conf/session.vim"\
   ".config/nvim/conf/statusline.vim"\
