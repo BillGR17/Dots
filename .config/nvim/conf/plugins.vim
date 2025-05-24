@@ -1,4 +1,5 @@
 let s:list = [
+  \"dense-analysis/ale",
   \"sheerun/vim-polyglot",
   \"github/copilot.vim",
   \"mattn/emmet-vim",
