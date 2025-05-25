@@ -7,8 +7,6 @@ if [ -x "$(command -v upTermFiles)" ];then
 fi
 #keep sudo ath :)
 sudo --validate
-#update nvim plugins
-nvim -c "cal dein#update()" +qa!
 #update npm global packages
 if [ -x "$(command -v npm)" ];then
   #check if there is npm in the outdated list
