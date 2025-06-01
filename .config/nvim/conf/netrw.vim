@@ -14,6 +14,7 @@ fu Close_netrw()
 endf
 " commands
 au VimEnter * cal Toggle_netrw()
+au SessionLoadPost * cal Toggle_netrw()
 au VimLeave * cal Close_netrw()
 au Filetype netrw cal s:On_netrw()
 " Keysmaps

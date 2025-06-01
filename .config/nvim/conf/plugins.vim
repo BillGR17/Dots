@@ -47,6 +47,8 @@ cal s:init(0)
 " remove the plugin and reinstall it
 fu Refresh()
   cal s:init(1)
+  packl!
   sil! so ~/.config/nvim/init.vim
 endf
-
+" set nord theme
+colo nord

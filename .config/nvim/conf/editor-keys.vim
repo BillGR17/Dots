@@ -1,5 +1,3 @@
-" completions
-im <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " Quick move line
 nm <C-Up> :m-2<CR>
 nm <C-Down> :m+<CR>
