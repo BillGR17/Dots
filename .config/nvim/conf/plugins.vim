@@ -70,6 +70,5 @@ fu Refresh()
 endf
 " set nord theme
 colo nord
-
 " Set Some
 let g:user_emmet_expandabbr_key='<C-e>'
