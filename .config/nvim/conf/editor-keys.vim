@@ -10,9 +10,6 @@ im ( ()<left>
 im [ []<left>
 im { {}<left>
 im < <><left>
-" inverse tab using shift-tab
-ino <S-Tab> <C-d>
-nn <S-Tab> <<
 " Tab on Normal mode
 nn <Tab> >>
 " Tab on selection
@@ -34,7 +31,5 @@ nm <F7> :if exists("g:syntax_on") <bar>
   \ else <bar>
   \   syn on <bar>
   \ endif <CR>
-" From plugins
-let g:user_emmet_expandabbr_key='<C-e>'
 " set keymap to update the plugins
 nm <F5> :cal Refresh()<CR>

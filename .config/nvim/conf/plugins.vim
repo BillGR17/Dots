@@ -1,7 +1,7 @@
 let s:list = [
   \"dense-analysis/ale",
   \"sheerun/vim-polyglot",
-  \"github/copilot.vim",
+  \"kiddos/gemini.nvim",
   \"mattn/emmet-vim",
   \"terryma/vim-multiple-cursors",
   \"airblade/vim-gitgutter",
@@ -42,6 +42,24 @@ fu s:init(r)
     ec "git not found, please install git"
   en
 endf
+lua << EOF
+local function set_env_from_file(file_path)
+  local file, err = io.open(file_path, "r")
+  if err then
+    vim.notify("Error opening file: " .. tostring(err), vim.log.levels.ERROR)
+  end
+  local content = file:read("*a")
+  file:close()
+  return content
+end
+vim.env.GEMINI_API_KEY = set_env_from_file(vim.fn.expand("~/.gemini_api"))
+require("gemini")
+.setup({
+  model_config = {
+    model_id = GEMINI_2_5_PRO_PREVIEW,
+  },
+})
+EOF
 " check if the plugins is already installed
 cal s:init(0)
 " remove the plugin and reinstall it
@@ -52,3 +70,6 @@ fu Refresh()
 endf
 " set nord theme
 colo nord
+
+" Set Some
+let g:user_emmet_expandabbr_key='<C-e>'
