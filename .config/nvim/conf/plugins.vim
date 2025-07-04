@@ -2,6 +2,7 @@ let s:list = [
   \"dense-analysis/ale",
   \"sheerun/vim-polyglot",
   \"Exafunction/windsurf.vim",
+  \"chrisbra/Colorizer",
   \"mattn/emmet-vim",
   \"terryma/vim-multiple-cursors",
   \"airblade/vim-gitgutter",
@@ -50,6 +51,7 @@ fu Refresh()
   packl!
   sil! so ~/.config/nvim/init.vim
 endf
+au BufEnter * sil! :ColorHighlight
 " set nord theme
 colo nord
 " Set Some
