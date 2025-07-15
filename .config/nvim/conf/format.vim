@@ -7,10 +7,6 @@ let s:has.rustfmt = executable("rustfmt")
 let s:has.yapf = executable("yapf")
 " enable syntax
 syn on
-" executes formating script
-fu s:ExecFormat(exec)
-  exe "%!"a:exec|g/^$/d|%s/\s\+$//e
-endf
 " format function init
 fu FormatIt()
   " check if the current file has at least more than 1 line of code
@@ -19,20 +15,22 @@ fu FormatIt()
     let l:pos=winsaveview()
     " check file syntax and if format exec exist
     if &syn =~# '^\(javascript\|json\)' && s:has.js
-      undoj|cal s:ExecFormat("js-beautify -s 2")
+      undoj|exe "%! js-beautify -s 2"
     elsei &syn =~# '\(html\|mustache\|svg\)' && s:has.js
-      undoj|cal s:ExecFormat("js-beautify -s 2 --type html")
+      undoj|exe "%! js-beautify -s 2 --type html"
     elsei &syn ==# 'css' && s:has.js
-      undoj|cal s:ExecFormat("js-beautify -s 2 --type css")
+      undoj|exe "%! js-beautify -s 2 --type css"
     elsei &syn =~# '^\(c$\|cpp\)' && s:has.clang
-      undoj|cal s:ExecFormat("clang-format --style=file")
+      undoj|exe "%! clang-format --style=file"
     elsei &syn =~# 'rust' && s:has.rustfmt
-      undoj|cal s:MyFMT("rustfmt --emit stdout")|g/^$/d|%s/\s\+$//e
+      undoj|cal s:MyFMT("rustfmt --emit stdout")
     elsei &syn ==# 'go' && s:has.gofmt
-      undoj|cal s:MyFMT("gofmt")|g/^$/d|%s/\s\+$//e
+      undoj|cal s:MyFMT("gofmt")
     elsei &syn ==# 'python' && s:has.yapf
       undoj|cal s:MyFMT("yapf")
     en
+    " remove trailing spaces
+    %s/\s\+$//e
     " always remove tabs and use spaces instead
     %s/\t/  /g
     " move to old position after done executing¬
