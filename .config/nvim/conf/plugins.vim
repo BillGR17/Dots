@@ -13,7 +13,7 @@ let s:loc = "~/.config/nvim/pack/plugin/start/"
 " check if the plugin is installed 
 " but not in the list and remove it
 fu s:removed()
-  if empty(s:loc)
+  if !empty(s:loc)
     let s:plist = split(execute("!ls -1 " . s:loc ), "\n")[1:]
     for s:l in s:plist
       if match(s:list, s:l) == -1
