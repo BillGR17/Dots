@@ -143,6 +143,7 @@ bindsym XF86AudioPrev exec playerctl previous
 # Easy Cursor
 bindsym --release $mod+Escape exec cursor
 
+bindsym --release $mod+Shift+Escape exec dunstctl history-pop
 ###################
 # WINDOW SETTINGS #
 ###################

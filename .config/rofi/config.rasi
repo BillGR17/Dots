@@ -1,10 +1,14 @@
 configuration {
-  modi: "drun,run";
+  modi: "drun,run,window";
   font: "Hack 10";
+  show-icons: true;
+  terminal: "xterm";
+  case-sensitive: false;
 }
 @theme "nord"
 window {
-  width: 200;
-  lines: 5;
+  padding: 0;
+  width: 300;
+  lines: 10;
   show-matching: true;
 }
