@@ -12,6 +12,7 @@ im { {}<left>
 im < <><left>
 " Tab on Normal mode
 nn <Tab> >>
+nn <S-Tab> <<
 " Tab on selection
 vm <Tab> :s/^/  /g<CR>:nohls<CR>gv
 vm <S-Tab> <gv
