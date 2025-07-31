@@ -7,4 +7,4 @@ xset s off&&xset -dpms&
 xrdb -merge .Xresources&
 
 # Start wm
-exec hyprland > ~/.cache/wm.log 2>&1
+exec i3 > ~/.cache/wm.log 2>&1
