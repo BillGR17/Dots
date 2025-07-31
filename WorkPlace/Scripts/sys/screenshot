@@ -1,9 +1,9 @@
 #!/bin/bash
 SCREENSHOT_TYPE="$1" 
-# This script requires sway, jq, xdotool, grim, slurp, imagemagick
+# This script requires hyprctl,awk, xdotool, grim, slurp, imagemagick
 # This should get the active windows name
 if [ ! -z "${WAYLAND_DISPLAY}" ]; then
-  ACTIVE_NAME=$(swaymsg -t get_tree | jq '.. | (.nodes? // empty)[] | select(.focused==true).name')
+  ACTIVE_NAME=$(hyprctl activewindow|sed -n 's/^\s*title: //p'   )
 else
   ACTIVE_NAME=$(xdotool getactivewindow getwindowname)
 fi
@@ -24,7 +24,7 @@ case $SCREENSHOT_TYPE in
   "current")
     # Capture only the active window
     if [ ! -z "${WAYLAND_DISPLAY}" ]; then
-      ACTIVE=$(swaymsg -t get_tree | jq '.. | (.nodes? // empty)[] | select(.focused and .pid) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')
+      ACTIVE=$(hyprctl activewindow| awk '/^\s*at:/ {pos=$2} /^\s*size:/ {size=$2} END {gsub(",", "x", size); print pos " " size}')
       grim -t jpeg -q 100 -g "$(eval echo ${ACTIVE})"  "${SCREENSHOT_LOC}$TIMESTAMP.jpg" 
    else
       ACTIVE_ID=$(xprop -root _NET_ACTIVE_WINDOW|cut -d ' ' -f 5|tail)

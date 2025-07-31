@@ -1,0 +1,42 @@
+* {
+  border: none;
+  border-radius: 0;
+  font-family: Hack, sans-serif;
+  font-size: 10px;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  color: #88C0D0;
+}
+
+window#waybar {
+  background: #2E3440;
+  color: #D8DEE9;
+}
+
+#workspaces button {
+  background: #2E3440;
+  color: #88C0D0;
+}
+
+#workspaces button.active {
+  background: #3B4252;
+  color: #2E3440;
+  font-weight: bold;
+}
+
+#workspaces button.urgent {
+  background-color: #BF616A;
+}
+
+#hyperland-language {
+  font-weight: bold;
+}
+
+#custom-i3_bandwidth,
+#custom-i3_memory,
+#custom-i3_network,
+#hyperland-language,
+#custom-i3_updates {
+  margin: 0 3px;
+}

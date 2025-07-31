@@ -5,7 +5,7 @@ if [ ! -d "$ANTI_LOC" ];then
 fi
 
 source "${ANTI_LOC}antidote.zsh"
-antidote bundle <~/.zsh_plugins.txt >~/.zsh_plugins.zsh 
+antidote bundle <~/.zsh_plugins.txt >~/.zsh_plugins.zsh
 source ~/.zsh_plugins.zsh
 
 HISTFILE=~/.histfile
@@ -56,11 +56,14 @@ export GOPATH=$HOME/.go
 # This makes the numbers with modified & untracked files & code insertions & code deletions
 function _GIT_(){
   if [ -d .git ]; then
-    echo -n "["
-    echo -n "%F{cyan}"$(git branch 2> /dev/null|sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/' -e 's/[a-z]/\U&/g')"%f"
-    echo -n $(git status --porcelain|grep "??"|wc -l)
-    echo -n $(git diff --stat|tail -n 1|sed 's/[^0-9]*/ /g'|awk '{print"%F{cyan}"$1"%f%F{green}"$2"%F{red}"$3"%f"}')
-    echo -n "]"
+    local branch=`git branch --show-current`
+    local gstatus=`git status --porcelain`
+    local shortstat=`git diff --shortstat`
+    local modified=`echo "$gstatus" | grep -E "^ A|\?\?|^ M" | wc -l`
+    local deleted=`echo "$gstatus" | grep "^ D" | wc -l`
+    local inserts=`echo "$shortstat" |sed -n 's/.* \([0-9]\+\) insertion.*/\1/p'`
+    local deletes=`echo "$shortstat" |sed -n 's/.* \([0-9]\+\) deletion.*/\1/p'`
+    echo "B:[%F{cyan}$branch%f]F:[%F{green}$modified%F{red}$deleted%f]I:[%F{green}$inserts%F{red}$deletes%f]"
   fi
 }
 # pre execution function

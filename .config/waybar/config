@@ -1,0 +1,55 @@
+{
+  "layer": "bottom",
+  "position": "bottom",
+  "height": 20,
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-center": ["custom/date"],
+  "modules-right": ["custom/i3_bandwidth", "custom/i3_memory","custom/i3_updates", "custom/i3_network","hyprland/language", "tray"],
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "on-click": "activate"
+  },
+  "tray": {
+    "icon-size": 12,
+    "spacing": 5
+  },
+  "custom/i3_layout": {
+    "exec": "~/.config/i3/blocks/scripts/layout",
+    "return-type": "pango",
+    "interval": 1
+  },
+  "custom/i3_bandwidth": {
+      "exec": "BLOCK_INSTANCE=eno1 ~/.config/i3/blocks/scripts/bandwidth",
+      "return-type": "pango",
+      "interval": 1
+  },
+  "custom/i3_memory": {
+    "format": "M:{}",
+    "exec": "~/.config/i3/blocks/scripts/memory",
+    "return-type": "pango",
+    "interval": 1
+  },
+  "custom/i3_network": {
+    "exec": "~/.config/i3/blocks/scripts/network",
+    "on-middle": "BLOCK_BUTTON=2 ~/.config/i3/blocks/scripts/network",
+    "return-type": "pango",
+    "interval": 1
+  },
+  "custom/date": {
+    "exec": "date +\"%I:%M:%S %d/%m/%y\"",
+    "return-type": "pango",
+    "interval": 1
+  },
+  "custom/i3_updates": {
+    "format": "P:{}",
+    "exec": "~/.config/i3/blocks/scripts/updates",
+    "on-middle": "BLOCK_BUTTON=2 ~/.config/i3/blocks/scripts/updates",
+    "return-type": "pango",
+    "interval": 1
+  },
+  "hyprland/language": {
+    "format": "{short}",
+    "on-click": "hyprctl switchxkblayout main next",
+    "tooltip": false
+  }
+}
