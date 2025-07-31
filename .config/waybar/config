@@ -19,7 +19,7 @@
     "interval": 1
   },
   "custom/i3_bandwidth": {
-      "exec": "BLOCK_INSTANCE=eno1 ~/.config/i3/blocks/scripts/bandwidth",
+      "exec": "BLOCK_INSTANCE=wlp7s0 ~/.config/i3/blocks/scripts/bandwidth",
       "return-type": "pango",
       "interval": 1
   },
@@ -31,7 +31,7 @@
   },
   "custom/i3_network": {
     "exec": "~/.config/i3/blocks/scripts/network",
-    "on-middle": "BLOCK_BUTTON=2 ~/.config/i3/blocks/scripts/network",
+    "on-click-middle": "BLOCK_BUTTON=2 ~/.config/i3/blocks/scripts/network",
     "return-type": "pango",
     "interval": 1
   },
@@ -43,7 +43,7 @@
   "custom/i3_updates": {
     "format": "P:{}",
     "exec": "~/.config/i3/blocks/scripts/updates",
-    "on-middle": "BLOCK_BUTTON=2 ~/.config/i3/blocks/scripts/updates",
+    "on-click-middle": "BLOCK_BUTTON=2 ~/.config/i3/blocks/scripts/updates",
     "return-type": "pango",
     "interval": 1
   },
