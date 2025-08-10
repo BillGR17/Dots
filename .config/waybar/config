@@ -2,9 +2,9 @@
   "layer": "bottom",
   "position": "bottom",
   "height": 20,
-  "modules-left": ["hyprland/workspaces", "hyprland/window"],
-  "modules-center": ["custom/date"],
-  "modules-right": ["custom/i3_bandwidth", "custom/i3_memory","custom/i3_updates", "custom/i3_network","hyprland/language", "tray"],
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["hyprland/window"],
+  "modules-right": ["custom/i3_bandwidth", "custom/i3_memory","custom/i3_updates", "custom/i3_network","custom/date","hyprland/language", "tray"],
   "hyprland/workspaces": {
     "format": "{name}",
     "on-click": "activate"
@@ -45,7 +45,7 @@
     "exec": "~/.config/i3/blocks/scripts/updates",
     "on-click-middle": "BLOCK_BUTTON=2 ~/.config/i3/blocks/scripts/updates",
     "return-type": "pango",
-    "interval": 1
+    "interval": 3600
   },
   "hyprland/language": {
     "format": "{short}",
