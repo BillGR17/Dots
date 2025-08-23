@@ -9,6 +9,10 @@
     "format": "{name}",
     "on-click": "activate"
   },
+  "hyprland/window": {
+    "format": "{title}",
+    "max-length": 80
+  },
   "tray": {
     "icon-size": 12,
     "spacing": 5
