@@ -37,10 +37,9 @@ alias ls="ls --color=tty --group-directories-first "
 alias grep="grep --color=auto"
 # just add the state you want to check execute like this [ssmonit ESTABLISHED]
 alias ssm="watch -n 1 \"ss -tuap state \""
-alias psme="ps -fH -u $(whoami)"
 alias trn="tr ' ' '\n'"
-if command -v pacman &> /dev/null;then alias rem_orphans="PAC_ORP='$(pacman -Qdtq)';if [ -n '$PAC_ORP' ];then sudo pacman -Rsc '$PAC_ORP';else echo 'No Orphans'; fi"; fi
 # Set Environment Variables
+
 # To fix git gpg
 export GPG_TTY=$(tty)
 # To set nvim as default editor
@@ -63,7 +62,14 @@ function _GIT_(){
     local deleted=`echo "$gstatus" | grep "^ D" | wc -l`
     local inserts=`echo "$shortstat" |sed -n 's/.* \([0-9]\+\) insertion.*/\1/p'`
     local deletes=`echo "$shortstat" |sed -n 's/.* \([0-9]\+\) deletion.*/\1/p'`
-    echo "B:[%F{cyan}$branch%f]F:[%F{green}$modified%F{red}$deleted%f]I:[%F{green}$inserts%F{red}$deletes%f]"
+    echo -n "[%F{cyan}$branch%f]"
+    if (( $modified > 0 || $deleted > 0 )); then
+      echo -n "F:[%F{green}$modified%F{red}$deleted%f]"
+    fi
+    if (( $inserts > 0 || $deletes > 0 )); then
+      echo -n "T:[%F{green}$inserts%F{red}$deletes%f]"
+    fi
+    echo ""
   fi
 }
 # pre execution function
