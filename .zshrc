@@ -64,10 +64,10 @@ function _GIT_(){
     local deletes=`echo "$shortstat" |sed -n 's/.* \([0-9]\+\) deletion.*/\1/p'`
     local git_status=""
     git_status+="[%F{cyan}$branch%f]"
-    if (( $modified > 0 || $deleted > 0 )); then
+    if (( ${modified:=0} > 0 || ${deleted:=0} > 0 )); then
       git_status+="F:[%F{green}$modified%F{red}$deleted%f]"
     fi
-    if (( $inserts > 0 || $deletes > 0 )); then
+    if (( ${inserts:=0} > 0 || ${deletes:=0} > 0 )); then
       git_status+="T:[%F{green}$inserts%F{red}$deletes%f]"
     fi
     echo "${git_status}"
@@ -87,7 +87,6 @@ function precmd() {
   fi
 }
 setopt PROMPT_SUBST
-
 
 PROMPT='[%F{yellow}%?%f]${timer_output}$(_GIT_)[%n@%M][%B%~]
 '
