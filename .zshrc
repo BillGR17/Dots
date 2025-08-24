@@ -62,7 +62,8 @@ function _GIT_(){
     local deleted=`echo "$gstatus" | grep "^ D" | wc -l`
     local inserts=`echo "$shortstat" |sed -n 's/.* \([0-9]\+\) insertion.*/\1/p'`
     local deletes=`echo "$shortstat" |sed -n 's/.* \([0-9]\+\) deletion.*/\1/p'`
-    local git_status="[%F{cyan}$branch%f]"
+    local git_status=""
+    git_status+="[%F{cyan}$branch%f]"
     if (( $modified > 0 || $deleted > 0 )); then
       git_status+="F:[%F{green}$modified%F{red}$deleted%f]"
     fi
