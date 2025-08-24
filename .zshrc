@@ -62,14 +62,14 @@ function _GIT_(){
     local deleted=`echo "$gstatus" | grep "^ D" | wc -l`
     local inserts=`echo "$shortstat" |sed -n 's/.* \([0-9]\+\) insertion.*/\1/p'`
     local deletes=`echo "$shortstat" |sed -n 's/.* \([0-9]\+\) deletion.*/\1/p'`
-    echo -n "[%F{cyan}$branch%f]"
+    local git_status="[%F{cyan}$branch%f]"
     if (( $modified > 0 || $deleted > 0 )); then
-      echo -n "F:[%F{green}$modified%F{red}$deleted%f]"
+      git_status+="F:[%F{green}$modified%F{red}$deleted%f]"
     fi
     if (( $inserts > 0 || $deletes > 0 )); then
-      echo -n "T:[%F{green}$inserts%F{red}$deletes%f]"
+      git_status+="T:[%F{green}$inserts%F{red}$deletes%f]"
     fi
-    echo ""
+    echo "${git_status}"
   fi
 }
 # pre execution function
@@ -81,12 +81,12 @@ function preexec() {
 function precmd() {
   if [ $time_start ]; then
     local timer=$(($(date +%s%3N)-$time_start))
-    timer_output=$(printf "%02d:%02d:%02d" $((($timer/(1000*60*60)))) $(((($timer/(1000*60)))%60)) $((($timer/1000)%60)))
+    timer_output=$(printf "[%02d:%02d:%02d]" $((($timer/(1000*60*60)))) $(((($timer/(1000*60)))%60)) $((($timer/1000)%60)))
     unset time_start
   fi
 }
-
 setopt PROMPT_SUBST
 
-PROMPT='%F{236}%K{012}%n@%M%B%~ %f%b%k%f%B%F{012}%f%b '
-RPROMPT='$(_GIT_)${timer_output}[%F{yellow}%?%f]'
+
+PROMPT='[%F{yellow}%?%f]${timer_output}$(_GIT_)[%n@%M][%B%~]
+'
