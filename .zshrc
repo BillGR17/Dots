@@ -3,7 +3,6 @@ if [ ! -d "$ANTI_LOC" ];then
   mkdir -p "$ANTI_LOC"
   git clone --depth=1 https://github.com/mattmc3/antidote.git "$ANTI_LOC"
 fi
-
 source "${ANTI_LOC}antidote.zsh"
 antidote bundle <~/.zsh_plugins.txt >~/.zsh_plugins.zsh
 source ~/.zsh_plugins.zsh
@@ -40,16 +39,12 @@ alias ssm="watch -n 1 \"ss -tuap state \""
 alias trn="tr ' ' '\n'"
 # Set Environment Variables
 
-# To fix git gpg
 export GPG_TTY=$(tty)
-# To set nvim as default editor
+
 export EDITOR=nvim
 export VISUAL="$EDITOR"
-# Set Paths
-# NPM path
+
 export PATH=$HOME/.npm/packages/bin:$PATH
-# Go Lang Path
-export GOPATH=$HOME/.go
 
 # Prompt is set here
 # This makes the numbers with modified & untracked files & code insertions & code deletions
@@ -73,10 +68,12 @@ function _GIT_(){
     echo "${git_status}"
   fi
 }
+
 # pre execution function
 function preexec() {
   time_start=$(date +%s%3N)
 }
+
 # after command ends function
 # count how long it took to execute
 function precmd() {
