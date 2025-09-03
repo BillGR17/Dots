@@ -34,10 +34,15 @@ window#waybar {
   font-weight: bold;
 }
 
+#custom-hyprsysctl {
+  font-size: 15px;
+}
+
 #custom-i3_bandwidth,
 #custom-i3_memory,
 #custom-i3_network,
 #language,
-#custom-i3_updates {
+#custom-i3_updates,
+#custom-hyprsysctl {
   margin: 0 3px;
 }
