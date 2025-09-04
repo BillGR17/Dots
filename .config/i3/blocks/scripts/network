@@ -10,7 +10,7 @@ function bars_output() {
   esac
 }
 if [[ $BLOCK_BUTTON == 2 ]];then
-  xterm -e nmtui
+  alacritty -e nmtui
 fi
 _con_device=`nmcli device status|awk '$3=="connected" {print $1}'|head -n1`
 if [ ! -z $_con_device ];then

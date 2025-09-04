@@ -4,7 +4,7 @@
   "height": 20,
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["hyprland/window"],
-  "modules-right": ["custom/bandwidth", "custom/i3_memory","custom/i3_updates", "custom/i3_network","custom/date","hyprland/language" ,"custom/hyprsysctl", "tray"],
+  "modules-right": ["custom/bandwidth", "custom/memory","custom/updates", "custom/network","custom/date","hyprland/language" ,"custom/hyprsysctl", "tray"],
   "hyprland/workspaces": {
     "format": "{name}",
     "on-click": "activate"
@@ -17,25 +17,20 @@
     "icon-size": 12,
     "spacing": 5
   },
-  "custom/i3_layout": {
-    "exec": "~/.config/i3/blocks/scripts/layout",
-    "return-type": "pango",
-    "interval": 1
-  },
   "custom/bandwidth": {
       "exec": "~/.config/waybar/custom/bandwidth",
       "return-type": "pango",
       "interval": 1
   },
-  "custom/i3_memory": {
+  "custom/memory": {
     "format": "M:{}",
-    "exec": "~/.config/i3/blocks/scripts/memory",
+    "exec": "~/.config/waybar/custom/memory",
     "return-type": "pango",
     "interval": 1
   },
-  "custom/i3_network": {
-    "exec": "~/.config/i3/blocks/scripts/network",
-    "on-click-middle": "BLOCK_BUTTON=2 ~/.config/i3/blocks/scripts/network",
+  "custom/network": {
+    "exec": "~/.config/waybar/custom/network",
+    "on-click-middle": "BLOCK_BUTTON=2 ~/.config/waybar/custom/network",
     "return-type": "pango",
     "interval": 1
   },
@@ -44,10 +39,10 @@
     "return-type": "pango",
     "interval": 1
   },
-  "custom/i3_updates": {
+  "custom/updates": {
     "format": "P:{}",
-    "exec": "~/.config/i3/blocks/scripts/updates",
-    "on-click-middle": "BLOCK_BUTTON=2 ~/.config/i3/blocks/scripts/updates",
+    "exec": "~/.config/waybar/custom/updates",
+    "on-click-middle": "BLOCK_BUTTON=2 ~/.config/waybar/custom/updates",
     "return-type": "pango",
     "interval": 3600
   },
