@@ -43,6 +43,8 @@ window#waybar {
 #custom-network,
 #language,
 #custom-updates,
+#custom-battery-ups_hiddev,
+#custom-battery-battery_ps_controller,
 #custom-hyprsysctl {
   margin: 0 3px;
 }
