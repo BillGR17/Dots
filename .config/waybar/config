@@ -4,7 +4,7 @@
   "height": 20,
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["hyprland/window"],
-  "modules-right": ["custom/i3_bandwidth", "custom/i3_memory","custom/i3_updates", "custom/i3_network","custom/date","hyprland/language" ,"custom/hyprsysctl", "tray"],
+  "modules-right": ["custom/bandwidth", "custom/i3_memory","custom/i3_updates", "custom/i3_network","custom/date","hyprland/language" ,"custom/hyprsysctl", "tray"],
   "hyprland/workspaces": {
     "format": "{name}",
     "on-click": "activate"
@@ -22,8 +22,8 @@
     "return-type": "pango",
     "interval": 1
   },
-  "custom/i3_bandwidth": {
-      "exec": "BLOCK_INSTANCE=wlp7s0 ~/.config/i3/blocks/scripts/bandwidth",
+  "custom/bandwidth": {
+      "exec": "~/.config/waybar/custom/bandwidth",
       "return-type": "pango",
       "interval": 1
   },
