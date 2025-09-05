@@ -8,10 +8,10 @@ DEVICE_PATH=$(upower -e | grep "${BATTERY_ID}")
 BATTERY_INFO=$(upower -i "$DEVICE_PATH")
 read -r PERCENTAGE STATE <<<"$(echo "$BATTERY_INFO" | awk '
     /percentage:/ { p = $2 }
-    /state:/      { s = $2 }
+    /charging/      { s = "true" }
     END           { print p, s }
 ')"
-echo "$PERCENTAGE"
-if [[ "$STATE" != "charging" ]] && [[ "${PERCENTAGE/\%}" -lt "$LOW_THRESHOLD" ]]; then
+echo "$PERCENTAGE $STATE"
+if [[ "$STATE" != "true"  ]] && [[ "${PERCENTAGE/\%}" -lt "$LOW_THRESHOLD" ]]; then
     aplay "$SOUND_FILE" &>/dev/null &!
 fi
