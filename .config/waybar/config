@@ -4,7 +4,7 @@
   "height": 20,
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["hyprland/window"],
-  "modules-right": ["custom/bandwidth", "custom/memory","custom/updates","custom/battery-ups_hiddev","custom/battery-battery_ps_controller", "custom/network","custom/date","hyprland/language" ,"custom/hyprsysctl", "tray"],
+  "modules-right": ["custom/bandwidth", "custom/memory","custom/updates","custom/battery-ups_hiddev","custom/battery-battery_ps_controller", "custom/network","custom/date","hyprland/language","custom/audio","custom/hyprsysctl", "tray"],
   "hyprland/workspaces": {
     "format": "{name}",
     "on-click": "activate"
@@ -16,6 +16,15 @@
   "tray": {
     "icon-size": 12,
     "spacing": 5
+  },
+  "custom/audio": {
+    "format": "S:{}",
+    "exec": "~/.config/waybar/custom/audio",
+    "on-click": "BLOCK_BUTTON=1 ~/.config/waybar/custom/audio",
+    "on-scroll-up": "BLOCK_BUTTON=4 ~/.config/waybar/custom/audio",
+    "on-scroll-down": "BLOCK_BUTTON=5 ~/.config/waybar/custom/audio",
+    "return-type": "pango",
+    "interval": 1
   },
   "custom/bandwidth": {
       "exec": "~/.config/waybar/custom/bandwidth",

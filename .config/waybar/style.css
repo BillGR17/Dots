@@ -38,6 +38,7 @@ window#waybar {
   font-size: 15px;
 }
 
+#custom-audio,
 #custom-bandwidth,
 #custom-memory,
 #custom-network,
