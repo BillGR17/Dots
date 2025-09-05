@@ -4,7 +4,9 @@ BATTERY_ID="${BLOCK_INSTANCE}"
 LOW_THRESHOLD=20
 SOUND_FILE="$HOME/.config/sound_events/low_power.wav"
 DEVICE_PATH=$(upower -e | grep "${BATTERY_ID}")
-
+if [[ -z "$DEVICE_PATH" ]]; then
+    exit 1
+fi
 BATTERY_INFO=$(upower -i "$DEVICE_PATH")
 read -r PERCENTAGE STATE <<<"$(echo "$BATTERY_INFO" | awk '
     /percentage:/ { p = $2 }
