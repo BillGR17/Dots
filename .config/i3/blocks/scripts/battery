@@ -1,14 +1,17 @@
 #!/usr/bin/env zsh
-if [[ ! -z $BLOCK_INSTANCE ]]; then
-  target=`upower -e |grep ${BLOCK_INSTANCE}|head -n1`
-  if [[ ! -z $target ]]; then
-    perc=`upower -i ${target}|awk '/perc/{print int($2)}'`
-    if [[ $perc -lt 20 ]]; then
-      warning=`upower -i ${target}|awk '/warning/{print $2}'`
-      if [[ $warning != "none" ]]; then
-        gst-play-1.0 /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga>>/dev/null&!
-      fi
-    fi
-    echo "$perc"
-  fi
+
+BATTERY_ID="${BLOCK_INSTANCE}"
+LOW_THRESHOLD=20
+SOUND_FILE="$HOME/.config/sound_events/low_power.wav"
+DEVICE_PATH=$(upower -e | grep "${BATTERY_ID}")
+
+BATTERY_INFO=$(upower -i "$DEVICE_PATH")
+read -r PERCENTAGE STATE <<<"$(echo "$BATTERY_INFO" | awk '
+    /percentage:/ { p = $2 }
+    /state:/      { s = $2 }
+    END           { print p, s }
+')"
+echo "$PERCENTAGE"
+if [[ "$STATE" != "charging" ]] && [[ "${PERCENTAGE/\%}" -lt "$LOW_THRESHOLD" ]]; then
+    aplay "$SOUND_FILE" &>/dev/null &!
 fi
