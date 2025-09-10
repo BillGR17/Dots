@@ -173,7 +173,7 @@ workspace 6 output $s
 workspace 8 output $s
 
 #FLOAT WINDOWS ARE HERE
-for_window [title="^nsxiv"] fullscreen enable
+for_window [title="^imv"] fullscreen enable
 
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="bubble"] floating enable
