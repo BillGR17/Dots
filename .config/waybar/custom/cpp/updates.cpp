@@ -35,7 +35,7 @@ int main() {
 
   switch (mouseButton) {
   case 2: {
-    const std::string updateCommand = "alacritty -c \"cat " + kUpdatesFile + " &&paru -Syyuu && echo 'All Done :)' && read\"";
+    const std::string updateCommand = "alacritty -e zsh -c \"cat " + kUpdatesFile + " && yay -Syu && echo 'All Done :)' && read\"";
     system(updateCommand.c_str());
 
     checkUpdates();
