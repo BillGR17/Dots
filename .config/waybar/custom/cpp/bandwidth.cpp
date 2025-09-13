@@ -121,7 +121,7 @@ int main() {
   const long long downloadSpeed = currentRx - prevRx;
   const long long uploadSpeed = currentTx - prevTx;
 
-  std::cout << "▲ " << std::right << std::setw(7) << formatBandwidth(downloadSpeed) << " ▼ " << std::right << std::setw(7)
+  std::cout << "▲ " << std::left << std::setw(7) << formatBandwidth(downloadSpeed) << " ▼ " << std::left << std::setw(7)
             << formatBandwidth(uploadSpeed) << std::endl;
 
   // Save current values for the next execution

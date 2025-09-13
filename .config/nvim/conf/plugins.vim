@@ -1,16 +1,16 @@
 let s:list = [
   \"dense-analysis/ale",
-  \"sheerun/vim-polyglot",
+  \"nvim-treesitter/nvim-treesitter",
   \"Exafunction/windsurf.vim",
   \"chrisbra/Colorizer",
   \"mattn/emmet-vim",
   \"terryma/vim-multiple-cursors",
   \"airblade/vim-gitgutter",
-  \"arcticicestudio/nord-vim"
+  \"folke/tokyonight.nvim"
 \]
 let s:hasgit = executable("git")
 let s:loc = "~/.config/nvim/pack/plugin/start/"
-" check if the plugin is installed 
+" check if the plugin is installed
 " but not in the list and remove it
 fu s:removed()
   if !empty(s:loc)
@@ -52,7 +52,44 @@ fu Refresh()
   sil! so ~/.config/nvim/init.vim
 endf
 au BufEnter * sil! :ColorHighlight
-" set nord theme
-colo nord
-" Set Some
+" set theme
+colo tokyonight-storm
+
+let g:gitgutter_realtime=1
+let g:gitgutter_eager=0
+let g:ale_linters = {'c': ['clang'],'javascript': ['eslint'], 'cs': ['dotnet-build']}
+let g:ale_fixers = { 'cs': ['dotnet-format'] }
+let g:ale_pattern_options = {'.*\.hbs$': {'ale_enabled': 0},'.*\.handlebars$': {'ale_enabled': 0}}
+let g:ale_open_list=0
+
+lua << EOF
+require('nvim-treesitter.configs').setup {
+ensure_installed = {
+  "c", "cpp", "c_sharp", "lua", "vim", "vimdoc", "query",
+  "markdown", "markdown_inline", "javascript", "typescript",
+  "razor", "html", "css", "json", "python", "rust", "bash", "ini",
+  "yaml",  "toml",  "jsonc",  "xml",  "sql",  "dockerfile","cmake",  "make",
+  "regex",  "go"
+  },
+  sync_install = false,
+
+  auto_install = true,
+
+  ignore_install = { "javascript" },
+
+  highlight = {
+    enable = true,
+
+    disable = function(lang, buf)
+        local max_filesize = 100 * 1024
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+            return true
+        end
+    end,
+    additional_vim_regex_highlighting = false,
+  },
+}
+EOF
+au BufNewFile,BufRead *.razor se filetype=razor
 let g:user_emmet_expandabbr_key='<C-e>'
