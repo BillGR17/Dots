@@ -1,16 +1,16 @@
 #!/bin/bash
 # All files to update
 files=(\
-  ".config/nvim/init.vim"\
-  ".config/nvim/conf/editor-keys.vim"\
-  ".config/nvim/conf/format.vim"\
-  ".config/nvim/conf/netrw.vim"\
-  ".config/nvim/conf/plugins.vim"\
-  ".config/nvim/conf/pref.vim"\
-  ".config/nvim/conf/session.vim"\
-  ".config/nvim/conf/statusline.vim"\
-  ".config/nvim/conf/term.vim"\
-  ".config/nvim/conf/window.vim"\
+  ".config/nvim/init.lua"\
+  ".config/nvim/lua/conf/editor-keys.lua"\
+  ".config/nvim/lua/conf/format.lua"\
+  ".config/nvim/lua/conf/netrw.lua"\
+  ".config/nvim/lua/conf/plugins.lua"\
+  ".config/nvim/lua/conf/pref.lua"\
+  ".config/nvim/lua/conf/session.lua"\
+  ".config/nvim/lua/conf/statusline.lua"\
+  ".config/nvim/lua/conf/term.lua"\
+  ".config/nvim/lua/conf/window.lua"\
   ".config/ranger/rc.conf"\
   ".config/ranger/rifle.conf"\
   ".config/ranger/scope.sh"\
