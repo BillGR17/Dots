@@ -1,0 +1,11 @@
+
+require("conf.pref")
+require("conf.plugins")
+require("conf.editor-keys")
+require("conf.format")
+require("conf.statusline")
+require("conf.term")
+require("conf.session")
+require("conf.netrw")
+require("conf.window")
+
