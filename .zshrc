@@ -44,8 +44,6 @@ export GPG_TTY=$(tty)
 export EDITOR=nvim
 export VISUAL="$EDITOR"
 
-export PATH=$HOME/.npm/packages/bin:$PATH
-
 # Prompt is set here
 # This makes the numbers with modified & untracked files & code insertions & code deletions
 function _GIT_(){
