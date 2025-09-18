@@ -5,17 +5,14 @@ sudo --validate
 if [ -x "$(command -v upTermFiles)" ];then
  upTermFiles
 fi
-#keep sudo ath :)
-sudo --validate
 #update npm global packages
 if [ -x "$(command -v npm)" ];then
-  #check if there is npm in the outdated list
-  #and then update npm
-  _up_npm="$(npm out -g)"
-  if [[ $_up_npm =~ "npm" ]];then
-    npm i -g npm
+  CURRENT=$(npm -v)
+  LATEST=$(npm view npm version --silent)
+  if [ "$CURRENT" != "$LATEST" ]; then
+    sudo npm install -g npm@latest
   fi
-  npm up -g
+  sudo npm up -g
 fi
 #update system
 #remove unwanted packages
