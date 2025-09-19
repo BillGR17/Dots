@@ -1,6 +1,6 @@
-
 require("conf.pref")
-require("conf.plugins")
+vim.opt.packpath:append(vim.fn.stdpath("config"))
+require("conf.plugins").setup()
 require("conf.editor-keys")
 require("conf.format")
 require("conf.statusline")
@@ -8,4 +8,3 @@ require("conf.term")
 require("conf.session")
 require("conf.netrw")
 require("conf.window")
-
