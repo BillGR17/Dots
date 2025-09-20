@@ -48,9 +48,9 @@ export VISUAL="$EDITOR"
 # This makes the numbers with modified & untracked files & code insertions & code deletions
 function _GIT_(){
   if [ -d .git ]; then
-    local branch=`git branch --show-current`
-    local gstatus=`git status --porcelain`
-    local shortstat=`git diff --shortstat`
+    local branch=`git branch --show-current 2>/dev/null`
+    local gstatus=`git status --porcelain 2>/dev/null`
+    local shortstat=`git diff --shortstat 2>/dev/null`
     local modified=`echo "$gstatus" | grep -E "^ A|\?\?|^ M" | wc -l`
     local deleted=`echo "$gstatus" | grep "^ D" | wc -l`
     local inserts=`echo "$shortstat" |sed -n 's/.* \([0-9]\+\) insertion.*/\1/p'`
