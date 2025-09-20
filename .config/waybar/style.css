@@ -9,29 +9,30 @@
 }
 
 window#waybar {
-  background: #2E3440;
-  color: #88C0D0;
+  background: #24283b;
+  color: #c0caf5;
 }
 
 #workspaces button {
-  background: #2E3440;
-  color: #88C0D0;
+  background: #24283b;
+  color: #a9b1d6;
 }
 
 #workspaces button.active {
-  background: #3B4252;
-  color: #88C0D0;
+  background: #414868;
+  color: #c0caf5;
   font-weight: bold;
 }
 
 #workspaces button.urgent {
-  background-color: #BF616A;
+  background-color: #f7768e;
   font-weight: bold;
-  color: #2E3440;
+  color: #24283b;
 }
 
 #language {
   font-weight: bold;
+  color: #7aa2f7;
 }
 
 #custom-hyprsysctl {
