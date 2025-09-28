@@ -26,9 +26,8 @@ M.plugins = {
         ale_linters = { c = { "clang" }, javascript = { "eslint" }, cs = { "dotnet-build" } },
         ale_fixers = { cs = { "dotnet-format" } },
         ale_pattern_options = {
-            [".*\\.hbs$"] = { ale_enabled = 0 },
-            [".*\\.handlebars$"] = { ale_enabled = 0 },
-        },
+            [".*\\.handlebars$"] = { ale_enabled = 0 }
+          },
         ale_open_list = 1,
     }, config = function()
         vim.keymap.set("n", "gr", "<Cmd>ALEFindReferences<CR>", {
