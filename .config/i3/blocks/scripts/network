@@ -1,28 +1,37 @@
 #!/usr/bin/env zsh
-function bars_output() {
-  ((bars=$_con_state/25))
-  case $bars in
-    4)echo "▂▄▆▉";;
-    3)echo "▂▄▆";;
-    2)echo "▂▄";;
-    1)echo "▂";;
-    *)echo "ERR";;
-  esac
-}
-if [[ $BLOCK_BUTTON == 2 ]];then
-  alacritty -e nmtui
+
+if [[ "$BLOCK_BUTTON" == "2" ]]; then
+    alacritty -e nmtui &
 fi
-_con_device=`nmcli device status|awk '$3=="connected" {print $1}'|head -n1`
-if [ ! -z $_con_device ];then
-  _con_info=`nmcli device show $_con_device`
-  _con_type=`echo $_con_info|awk '$1 ~ "TYPE" {print $2}'`
-  if [[ $_con_type == "wifi" ]];then
-    _con_state=`echo $_con_info|awk '$1 ~ "STATE"{print ($2+0)}'`
-    echo -n "$_con_device: "
-    bars_output
-  else
-    echo "$_con_type"
-  fi
-else
-  echo "NET ERR"
+
+connection_info=$(nmcli -t -f TYPE,DEVICE,NAME c s --active | head -n1)
+
+if [[ -z "$connection_info" ]]; then
+    echo "Disconnected"
 fi
+
+IFS=':' read -r con_type device ssid <<<"$connection_info"
+
+case "$con_type" in
+    "wifi"|"802-11-wireless")
+        signal_strength=$(nmcli -t -f IN-USE,SIGNAL dev wifi list | grep '^*' | cut -d: -f2)
+        local bars=$(( signal_strength / 25 ))
+        local signal_icon
+
+        case $bars in
+            4) signal_icon="▂▄▆▉" ;;
+            3) signal_icon="▂▄▆ " ;;
+            2) signal_icon="▂▄  " ;;
+            1) signal_icon="▂   " ;;
+            *) signal_icon="    " ;;
+        esac
+
+        echo "$ssid $signal_icon"
+        ;;
+    "ethernet")
+        echo "$device"
+        ;;
+    *)
+        echo "$ssid"
+        ;;
+esac
