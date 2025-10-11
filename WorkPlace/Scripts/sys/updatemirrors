@@ -1,14 +1,97 @@
 #!/usr/bin/env zsh
-# If user has input his own url otherwise use the default one
+
+# A robust script to find the fastest Arch Linux mirrors using ONLY curl and shell built-ins.
+# This version includes verbose output and fixes for URL formatting and test file reliability.
+#
+# force sudo
+
+sudo -v
+
 if [ -z "$1" ]; then
-  ARCH_MIRRORLIST="https://archlinux.org/mirrorlist/?country=HR&country=DE&country=GR&country=IT&protocol=https&ip_version=4&use_mirror_status=on"
-  echo "Using default: $ARCH_MIRRORLIST"
+  ARCH_MIRRORLIST="https://archlinux.org/mirrorlist/?country=GR&country=DE&country=IT&country=BG&country=RO&protocol=https&ip_version=4&use_mirror_status=on"
+  echo "Using default Arch mirrorlist URL (GR, DE, IT, BG, RO)."
 else
   ARCH_MIRRORLIST="$1"
-  echo "Using user input: $ARCH_MIRRORLIST"
+  echo "Using user-provided URL."
 fi
-# if pacman has created a new mirrorlist file remove it
-rm /etc/pacman.d/mirrorlist.pacnew 2> /dev/null || true
-# Downloads the new list removes the comment then sorts 5 of them per speed
-curl -s "$ARCH_MIRRORLIST" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 - > /etc/pacman.d/mirrorlist
 
+TOP_N=10
+
+TEST_FILE="core/os/x86_64/core.db"
+CURL_OPTS=(
+  --silent
+  --output /dev/null
+  --write-out "%{http_code} %{speed_download}"
+  --connect-timeout 3
+  --max-time 5
+)
+
+# --- Main Logic ---
+echo "Fetching and cleaning the initial mirror list..."
+
+local -a mirrors
+while IFS= read -r line; do
+  if [[ "$line" == "#Server"* ]]; then
+    line="${line#\#Server = }"
+    mirrors+=("${line%/\$repo/os/\$arch}")
+  fi
+done < <(curl -s "$ARCH_MIRRORLIST")
+
+if [ ${#mirrors[@]} -eq 0 ]; then
+  echo "Error: Could not retrieve any mirrors from the URL. Exiting."
+  exit 1
+fi
+
+echo "Found ${#mirrors[@]} mirrors. Now testing for validity and speed..."
+
+local results=""
+for mirror_url in "${mirrors[@]}"; do
+  local test_url="${mirror_url}/${TEST_FILE}"
+
+  printf "  -> Testing: %-60s" "$test_url"
+
+  local response
+  response=$(curl "${CURL_OPTS[@]}" "$test_url" 2>/dev/null)
+
+  local http_code=${response% *}
+  local speed=${response#* }
+
+  if [[ "$http_code" -eq 200 && "$speed" != "0.000" ]]; then
+    local speed_int=${speed%.*}
+    local speed_kbps=$(( speed_int / 1024 ))
+    printf "OK (%s KB/s)\n" "$speed_kbps"
+    results+="${speed_int} ${mirror_url}\n"
+  else
+    printf "Failed (Code: %s)\n" "$http_code"
+  fi
+done
+
+echo "\nTesting complete."
+
+if [ -z "$results" ]; then
+  echo "Error: All mirror speed tests failed. Could not find any valid mirrors."
+  exit 1
+fi
+
+echo "Sorting mirrors and generating the new mirrorlist..."
+
+TEMP_FILE=$(mktemp)
+
+echo -e "$results" | sort -rn | head -n "$TOP_N" | cut -d' ' -f2- | while IFS= read -r url; do
+  echo "Server = ${url}/\$repo/os/\$arch"
+done > "$TEMP_FILE"
+
+if [ -s "$TEMP_FILE" ]; then
+  echo "\nThe ${TOP_N} fastest VALID mirrors are:"
+  cut -d'/' -f3 "$TEMP_FILE"
+  echo ""
+
+  echo "Applying new mirrorlist to /etc/pacman.d/mirrorlist..."
+  sudo mv "$TEMP_FILE" /etc/pacman.d/mirrorlist
+  sudo rm /etc/pacman.d/mirrorlist.pacnew 2> /dev/null || true
+  echo "Done!"
+else
+  echo "Error: Failed to generate new mirrorlist. The temporary file was empty."
+  rm "$TEMP_FILE"
+  exit 1
+fi
