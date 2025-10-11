@@ -65,7 +65,7 @@
     "exec": "~/.config/waybar/custom/updates",
     "on-click-middle": "BLOCK_BUTTON=2 ~/.config/waybar/custom/updates",
     "return-type": "pango",
-    "interval": 3600
+    "interval": 360
   },
   "hyprland/language": {
     "format": "{short}",
