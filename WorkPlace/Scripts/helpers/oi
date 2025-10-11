@@ -1,29 +1,109 @@
 #!/usr/bin/env zsh
-#You need to install optipng and jpegoptim
-#Errors will not be reported... So watch out for that...
-q=90
-if [[ ! -z $1 ]] && [[ ! "$1" =~ '^[0-9]+$' ]] && [ $1 -ge 1 ] && [ $1 -le 100 ];then
-  q=$1
-fi
-echo "JPEG Quality: $q"
-IFS=$'\n'
-img=(`find . -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg"`)
 
-echo "$img"
-function image {
-  fname=${img[$1]##*/}
-  fext=${fname##*.}
-  size=$(stat --printf="%s" ${img[$1]}) #gets image size before compress
-  echo -n "[$(( $1 + 1 ))/${#img[@]}]${img[$1]}"
-  if [[ ${fext,,} == "png" ]];then
-    optipng -o7 -strip all "${img[$1]}" > /dev/null 2>&1 #hide output
-  else
-    jpegoptim -f --all-progressive --max=$q "${img[$1]}" > /dev/null 2>&1 #hide output
-  fi
-  size2=$(stat --printf="%s" ${img[$1]}) #gets image size after the compress
-  fsize=$(( $size - $size2 )) #calculates size old - new
-  echo " [(Old) $size - (New) $size2 = $fsize]" #This is the final output before it goes to the next one
+# A powerful, parallel image optimizer for JPG, PNG, GIF, and SVG.
+# Final robust version with safe filename handling and separated output streams.
+
+JPEG_QUALITY="85"
+TARGET_DIR="."
+BACKUP=false
+JOBS=$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 1)
+
+print_usage() {
+  echo "Usage: $0 [-q QUALITY] [-d DIRECTORY] [-j JOBS] [-b] [-h]"
+  echo "  -q QUALITY    JPEG quality from 1-100 (default: $JPEG_QUALITY)."
+  echo "  -d DIRECTORY  The directory to search for images (default: current directory)."
+  echo "  -j JOBS       Number of parallel jobs to run (default: number of CPU cores)."
+  echo "  -b            Create a backup of original files (*.orig)." # Updated help text
+  echo "  -h            Show this help message."
 }
-for (( i=1; i<=${#img[@]}; i++ )); do
-  image $i
+
+RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
+
+check_dependencies() {
+  local missing_deps=()
+  local deps=("jpegoptim" "optipng" "gifsicle" "svgo" "nproc" "stat" "bc")
+  for dep in "${deps[@]}"; do
+    if ! command -v "$dep" &>/dev/null; then
+      missing_deps+=("$dep")
+    fi
+  done
+  if [[ ${#missing_deps[@]} -gt 0 ]]; then
+    echo -e "${RED}Error: The following required tools are not installed:${NC}" >&2
+    for dep in "${missing_deps[@]}"; do echo "  - $dep" >&2; done
+    echo -e "${YELLOW}On Arch Linux, you can install them with:${NC}" >&2
+    echo "sudo pacman -S jpegoptim optipng gifsicle nodejs-svgo coreutils bc" >&2
+    exit 1
+  fi
+}
+
+while getopts "q:d:j:bh" opt; do
+  case "$opt" in
+    q) JPEG_QUALITY=$OPTARG ;; d) TARGET_DIR=$OPTARG ;; j) JOBS=$OPTARG ;; b) BACKUP=true ;; h) print_usage; exit 0 ;; *) print_usage; exit 1 ;;
+  esac
 done
+
+if ! [[ "$JPEG_QUALITY" =~ '^[0-9]+$' ]] || [[ "$JPEG_QUALITY" -lt 1 || "$JPEG_QUALITY" -gt 100 ]]; then
+  echo -e "${RED}Error: Quality must be a number between 1 and 100.${NC}" >&2; exit 1
+fi
+
+check_dependencies
+setopt EXTENDED_GLOB
+images=($TARGET_DIR/**/(#i)*(jpg|jpeg|png|gif|svg)(.))
+
+if [[ ${#images[@]} -eq 0 ]]; then
+  echo "No images found in '$TARGET_DIR'."; exit 0
+fi
+
+echo "Found ${#images[@]} images. Starting optimization with $JOBS parallel jobs..."
+echo "JPEG Quality: $JPEG_QUALITY | Backups: $BACKUP"
+echo "--------------------------------------------------"
+
+total_before=0; total_after=0; optimized_count=0; failed_count=0
+
+process_image() {
+  local img_path="$1"
+  local size_before=$(stat --printf="%s" "$img_path")
+  local success=false; local tool_output
+
+  [[ "$BACKUP" == true ]] && cp -p "$img_path" "${img_path}.orig"
+
+  case "${img_path:e:l}" in
+    jpeg|jpg) tool_output=$(jpegoptim -f --all-progressive --max="$JPEG_QUALITY" "$img_path" 2>&1); [[ $? -eq 0 ]] && success=true ;;
+    png) tool_output=$(optipng -o2 -strip all "$img_path" 2>&1); [[ $? -eq 0 ]] && success=true ;;
+    gif) tool_output=$(gifsicle -b -O3 --colors 256 "$img_path" 2>&1); [[ $? -eq 0 ]] && success=true ;;
+    svg) tool_output=$(svgo "$img_path" --output="$img_path" 2>&1); ! [[ "$tool_output" =~ "Error" ]] && success=true ;;
+    *) return ;;
+  esac
+
+  local size_after=$(stat --printf="%s" "$img_path")
+  local saved_bytes=$((size_before - size_after))
+  local saved_percent
+  if [[ $size_before -gt 0 ]]; then saved_percent=$(printf "%.2f" $(echo "100 * $saved_bytes / $size_before" | bc -l)); else saved_percent="0.00"; fi
+
+  if [[ "$success" == true ]]; then
+    printf "${GREEN}%-60s [SAVED: %d bytes (%s%%)]${NC}\n" "$img_path" "$saved_bytes" "$saved_percent" >&2
+    echo "$size_before $size_after 1 0"
+  else
+    printf "${RED}%-60s [FAILED]${NC}\n" "$img_path" >&2
+    echo "0 0 0 1"
+  fi
+}
+
+FUNC_DEF=$(typeset -f process_image)
+VARS_TO_EXPORT="export JPEG_QUALITY=\"$JPEG_QUALITY\"; export BACKUP=$BACKUP; export GREEN='$GREEN' RED='$RED' NC='$NC';"
+COMMAND_TO_RUN="$VARS_TO_EXPORT $FUNC_DEF; process_image \"\$1\""
+
+summary=$(printf "%s\0" "${images[@]}" | xargs -0 -P "$JOBS" -n 1 zsh -c "$COMMAND_TO_RUN" _)
+
+while read -r b a o f; do
+  total_before=$((total_before + b)); total_after=$((total_after + a)); optimized_count=$((optimized_count + o)); failed_count=$((failed_count + f))
+done <<< "$summary"
+
+total_saved=$((total_before - total_after))
+total_saved_mb=$(printf "%.2f" $(echo "$total_saved / (1024*1024)" | bc -l))
+
+echo "--------------------------------------------------"
+echo -e "${GREEN}Optimization Complete!${NC}"
+echo "Files Optimized: $optimized_count"
+if [[ $failed_count -gt 0 ]]; then echo -e "Files Failed: ${RED}$failed_count${NC}"; fi
+echo "Total Space Saved: $total_saved_mb MB"
