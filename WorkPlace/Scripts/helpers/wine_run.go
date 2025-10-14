@@ -74,7 +74,7 @@ func checkForPrefix(pwd, targetDir string) (string, error) {
   setEnv(prefixPathInTarget)
 
   // Initialize the new prefix.
-  if err := runCommandInPrefix("winecfg"); err != nil {
+  if err := runCommandInPrefix("wineboot"); err != nil {
     log.Println("Warning: winecfg might have failed during initial setup.")
   }
 
