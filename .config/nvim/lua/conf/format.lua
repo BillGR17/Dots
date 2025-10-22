@@ -21,19 +21,19 @@ function FormatIt()
     local syntax = vim.bo.filetype
     if syntax == 'javascript' or syntax == 'json' then
       if has.js then
-        vim.cmd("%! js-beautify -s 2")
+        vim.cmd("undoj|%! js-beautify -s 2")
       end
-    elseif syntax == 'html' or syntax == 'mustache' or syntax == 'svg' then
+    elseif syntax == 'html' or syntax == 'handlebars' or syntax == 'svg' then
       if has.js then
-        vim.cmd("%! js-beautify -s 2 --type html")
+        vim.cmd("undoj|%! js-beautify -s 2 --type html")
       end
     elseif syntax == 'css' then
       if has.js then
-        vim.cmd("%! js-beautify -s 2 --type css")
+        vim.cmd("undoj|%! js-beautify -s 2 --type css")
       end
     elseif syntax == 'c' or syntax == 'cpp' then
       if has.clang then
-        vim.cmd("%! clang-format --style=file")
+        vim.cmd("undoj|%! clang-format --style=file")
       end
     elseif syntax == 'rust' then
       if has.rustfmt then
@@ -66,7 +66,7 @@ function MyFMT(exec)
   local buffer = table.concat(vim.fn.getline(1, '$'), "\n")
 
   -- Execute the command
-  vim.cmd("%! " .. exec)
+  vim.cmd("undoj|%! " .. exec)
 
   -- If the command exits with a non-zero status, restore the original text
   if vim.v.shell_error ~= 0 then
