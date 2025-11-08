@@ -23,7 +23,7 @@ function FormatIt()
       if has.js then
         vim.cmd("undoj|%! js-beautify -s 2")
       end
-    elseif syntax == 'html' or syntax == 'handlebars' or syntax == 'svg' then
+    elseif syntax == 'html' or syntax == 'handlebars' or syntax == 'svg' or syntax == 'xml' then
       if has.js then
         vim.cmd("undoj|%! js-beautify -s 2 --type html")
       end
