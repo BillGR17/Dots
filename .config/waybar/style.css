@@ -35,7 +35,7 @@ window#waybar {
   color: #7aa2f7;
 }
 
-#custom-hyprsysctl {
+#custom-imguipm {
   font-size: 15px;
 }
 
@@ -47,6 +47,6 @@ window#waybar {
 #custom-updates,
 #custom-battery-ups_hiddev,
 #custom-battery-battery_ps_controller,
-#custom-hyprsysctl {
+#custom-imguipm {
   margin: 0 3px;
 }

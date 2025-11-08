@@ -4,7 +4,7 @@
   "height": 20,
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["hyprland/window"],
-  "modules-right": ["custom/bandwidth", "custom/memory","custom/updates","custom/battery-ups_hiddev","custom/battery-battery_ps_controller", "custom/network","custom/date","hyprland/language","custom/audio","custom/hyprsysctl", "tray"],
+  "modules-right": ["custom/bandwidth", "custom/memory","custom/updates","custom/battery-ups_hiddev","custom/battery-battery_ps_controller", "custom/network","custom/date","hyprland/language","custom/audio", "tray", "custom/imguipm"],
   "hyprland/workspaces": {
     "format": "{name}",
     "on-click": "activate"
@@ -72,8 +72,8 @@
     "on-click": "hyprctl switchxkblayout main next",
     "tooltip": false
   },
-  "custom/hyprsysctl": {
+  "custom/imguipm": {
     "format": "⏻",
-    "on-click": "~/.config/waybar/custom/hyprsysctl",
+    "on-click": "~/.config/waybar/custom/imguipm",
   }
 }
