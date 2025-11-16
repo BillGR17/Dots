@@ -62,8 +62,8 @@
   },
   "custom/updates": {
     "format": "P:{}",
-    "exec": "~/.config/waybar/custom/updates",
-    "on-click-middle": "BLOCK_BUTTON=2 ~/.config/waybar/custom/updates",
+    "exec": "imupdate",
+    "on-click-middle": "BLOCK_BUTTON=2 imupdate",
     "return-type": "pango",
     "interval": 360
   },
@@ -74,6 +74,6 @@
   },
   "custom/imguipm": {
     "format": "⏻",
-    "on-click": "~/.config/waybar/custom/imguipm",
+    "on-click": "imguipm",
   }
 }

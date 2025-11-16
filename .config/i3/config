@@ -9,11 +9,7 @@ exec --no-startup-id hsetroot -solid "#3B4252"
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id "dbus-update-activation-environment --systemd --all; dbus-update-activation-environment --systemd XDG_CURRENT_DESKTOP=i3"
 # Applications
-exec --no-startup-id i3-msg "workspace 2;exec thunderbird"
 exec --no-startup-id i3-msg "workspace 1;exec firefox"
-# Tray
-exec_always --no-startup-id parcellite
-exec_always --no-startup-id blueberry-tray
 #####################
 # KEYBOARD SETTINGS #
 #####################
@@ -102,8 +98,6 @@ bindsym $mod+Shift+grave move container to workspace 0
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to log out?' -b 'Logout' 'i3-msg exit'"
 
 # resize window
 mode "resize" {
@@ -142,14 +136,17 @@ bindsym XF86AudioPrev exec playerctl previous
 
 # Easy Cursor
 bindsym --release $mod+Escape exec cursor
-
+# Notification History
 bindsym --release $mod+Shift+Escape exec dunstctl history-pop
+
 ###################
 # WINDOW SETTINGS #
 ###################
 
-new_window pixel 1
-font pango: Hack 10
+new_window pixel 0
+default_border pixel 0
+default_floating_border pixel 0
+font pango: Hack 9
 focus_follows_mouse no
 mouse_warping none
 popup_during_fullscreen smart
@@ -196,32 +193,29 @@ assign [class="(?i)steam"] 0
 #####################
 #COLORS ARE SET HERE#
 #####################
-# Nord theme colors
+# Tokyonight Storm theme colors
 
-set $nord0   #2E3440
-set $nord1   #3B4252
-set $nord2   #434C5E
-set $nord3   #4C566A
-set $nord4   #D8DEE9
-set $nord5   #E5E9F0
-set $nord6   #ECEFF4
-set $nord7   #8FBCBB
-set $nord8   #88C0D0
-set $nord9   #81A1C1
-set $nord10  #5E81AC
-set $nord11  #BF616A
-set $nord12  #D08770
-set $nord13  #EBCB8B
-set $nord14  #A3BE8C
-set $nord15  #B48EAD
+set $bg           #24283b
+set $bg_dark      #1f2335
+set $bg_highlight #292e42
+set $comment      #5c637c
+set $fg           #c0caf5
+set $fg_dark      #a9b1d6
+set $red          #f7768e
+set $orange       #ff9e64
+set $yellow       #e0af68
+set $green        #9ece6a
+set $cyan         #7dcfff
+set $blue         #7aa2f7
+set $purple       #bb9af7
 
-# class                 border  back.   text    indicator child_border
-client.focused          $nord3  $nord0  $nord8  $nord7    $nord8
-client.focused_inactive $nord3  $nord0  $nord7  $nord8    $nord1
-client.unfocused        $nord1  $nord0  $nord10 $nord9    $nord3
-client.urgent           $nord11 $nord0  $nord11 $nord11   $nord11
-client.placeholder      $nord13 $nord0  $nord8  $nord11   $nord11
-client.background       $nord1
+# class                 border      back.       text        indicator   child_border
+client.focused          $blue       $bg         $fg         $blue       $blue
+client.focused_inactive $comment    $bg         $fg_dark    $comment    $comment
+client.unfocused        $bg_dark    $bg_dark    $fg_dark    $bg_dark    $bg_dark
+client.urgent           $red        $bg         $red        $red        $red
+client.placeholder      $yellow     $bg         $yellow     $yellow     $yellow
+client.background       $bg
 
 ##############
 #BAR SETTINGS#
@@ -232,11 +226,12 @@ bar {
   status_command i3blocks -c ~/.config/i3/blocks/i3blocks.conf
   font pango: Hack 10
   colors {
-    background         $nord0
-    statusline         $nord8
-    focused_workspace  $nord0  $nord8
-    active_workspace   $nord7  $nord3
-    inactive_workspace $nord8  $nord0
-    urgent_workspace   $nord0  $nord11
+    background          $bg_dark
+    statusline          $fg
+    #                   background  foreground
+    focused_workspace   $blue       $bg_dark
+    active_workspace    $bg_highlight $fg_dark
+    inactive_workspace  $bg_dark    $comment
+    urgent_workspace    $red        $fg
   }
 }
