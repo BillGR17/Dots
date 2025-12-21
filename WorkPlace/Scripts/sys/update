@@ -19,12 +19,8 @@ fi
 #clean cache
 ##dont ask for any other stuff other than
 #password for sudo
-if [ -x "$(command -v yay)" ]; then
-  yay -Syu --noconfirm --sudoloop
-  if [[ $(pacman -Qdtq|wc -l) > 0 ]];then
-    sudo pacman -Rs $(pacman -Qdtq) --noconfirm
-  fi
-  yay -Scc --noconfirm
+if [ -x "$(command -v paru)" ]; then
+  paru -Syu --noconfirm --sudoloop
 elif [ -x "$(command -v apt)" ]; then
   sudo apt update
   sudo apt dist-upgrade -y
