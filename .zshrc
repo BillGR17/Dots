@@ -88,7 +88,8 @@ function precmd() {
     local now=$(date +%s%3N)
     local timer=$((now - time_start))
     if (( timer > 100 )); then
-        timer_output=$(printf "[%F{yellow}%02d:%02d:%02d%f]" $((timer/(1000*60*60))) $(( (timer/(1000*60))%60 )) $(( (timer/1000)%60 )))
+      local formatted_time=$(printf "%02d:%02d:%02d" $((timer/(1000*60*60))) $(( (timer/(1000*60))%60 )) $(( (timer/1000)%60 )))
+      timer_output="[%F{yellow}${formatted_time}%f]"
     fi
     unset time_start
   fi
