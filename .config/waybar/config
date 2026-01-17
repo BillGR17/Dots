@@ -27,9 +27,9 @@
     "interval": 1
   },
   "custom/bandwidth": {
-      "exec": "~/.config/waybar/custom/bandwidth",
-      "return-type": "pango",
-      "interval": 1
+    "exec": "~/.config/waybar/custom/bandwidth",
+    "return-type": "pango",
+    "interval": 1
   },
   "custom/memory": {
     "format": "M:{}",
