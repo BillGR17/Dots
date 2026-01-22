@@ -41,6 +41,14 @@ bindkey '^P'     fzf-history-widget-accept
 bindkey '^[[A' fzf-history-widget
 bindkey '^[[B' down-line-or-beginning-search
 
+bindkey "^[[3~" delete-char
+bindkey "^[3;5~" delete-char
+
+bindkey "^?" backward-delete-char
+
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+
 # --- 5. Environment & Aliases ---
 export GPG_TTY=$(tty)
 export EDITOR=nvim
