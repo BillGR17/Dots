@@ -10,6 +10,7 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id "dbus-update-activation-environment --systemd --all; dbus-update-activation-environment --systemd XDG_CURRENT_DESKTOP=i3"
 exec --no-startup-id greenclip daemon
 exec --no-startup-id autotiling
+exec --no-startup-id polybar
 # Applications
 exec --no-startup-id i3-msg "workspace 1;exec firefox"
 #####################
@@ -197,6 +198,8 @@ for_window [class="mpv"] floating enable
 for_window [class="(?i)eddie"] floating enable
 for_window [class="(?i).exe"] floating enable
 
+
+assign [class="(?i).exe"] 0
 assign [class="(?i)steam"] 0
 
 #####################
@@ -225,22 +228,3 @@ client.unfocused        $bg_dark    $bg_dark    $fg_dark    $bg_dark    $bg_dark
 client.urgent           $red        $bg         $red        $red        $red
 client.placeholder      $yellow     $bg         $yellow     $yellow     $yellow
 client.background       $bg
-
-##############
-#BAR SETTINGS#
-##############
-
-bar {
-  tray_output $p
-  status_command i3blocks -c ~/.config/i3/blocks/i3blocks.conf
-  font pango: Hack 10
-  colors {
-    background          $bg_dark
-    statusline          $fg
-    #                   background  foreground
-    focused_workspace   $blue       $bg_dark
-    active_workspace    $bg_highlight $fg_dark
-    inactive_workspace  $bg_dark    $comment
-    urgent_workspace    $red        $fg
-  }
-}
