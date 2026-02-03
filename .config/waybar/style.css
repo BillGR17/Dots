@@ -39,14 +39,18 @@ window#waybar {
   font-size: 15px;
 }
 
-#custom-audio,
 #custom-bandwidth,
 #custom-memory,
 #custom-network,
 #language,
 #custom-updates,
-#custom-battery-ups_hiddev,
-#custom-battery-battery_ps_controller,
+#custom-battery,
+#custom-date,
+#pulseaudio,
+#tray,
 #custom-imguipm {
-  margin: 0 3px;
+  margin: 0 5px;
+  color: #c0caf5;
+  background-color: #24283b;
+  padding: 0 5px;
 }
