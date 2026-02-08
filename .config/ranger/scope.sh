@@ -33,38 +33,43 @@ handle_extension() {
     # Archive
     a|ace|alz|arc|arj|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|\
     rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)
-        atool --list -- "${FILE_PATH}" && exit 5
-        bsdtar --list --file "${FILE_PATH}" && exit 5
+        atool --list -- "${FILE_PATH}" 2>/dev/null && exit 5
+        bsdtar --list --file "${FILE_PATH}" 2>/dev/null && exit 5
         exit 1;;
     rar)
         # Avoid password prompt by providing empty password
-        unrar lt -p- -- "${FILE_PATH}" && exit 5
+        unrar lt -p- -- "${FILE_PATH}" 2>/dev/null && exit 5
         exit 1;;
     7z)
         # Avoid password prompt by providing empty password
-        7z l -p -- "${FILE_PATH}" && exit 5
+        7z l -p -- "${FILE_PATH}" 2>/dev/null && exit 5
         exit 1;;
     # PDF
     pdf)
-        chafa --size="${PV_WIDTH}x$((PV_HEIGHT-10))" --animate=off --bg="#ffffff" -t 1 -c 16 "${FILE_PATH}" && exit 5
-        exiftool "${FILE_PATH}" && exit 5
+        chafa --size="${PV_WIDTH}x$((PV_HEIGHT-10))" --animate=off --bg="#ffffff" -t 1 -c 16 "${FILE_PATH}" 2>/dev/null && exit 5
+        exiftool "${FILE_PATH}" 2>/dev/null && exit 5
         exit 1;;
     # BitTorrent
     torrent)
-        transmission-show -- "${FILE_PATH}" && exit 5
+        transmission-show -- "${FILE_PATH}" 2>/dev/null && exit 5
         exit 1;;
     # OpenDocument
     odt|ods|odp|sxw)
         # Preview as text conversion
-        odt2txt "${FILE_PATH}" && exit 5
+        odt2txt "${FILE_PATH}" 2>/dev/null && exit 5
         exit 1;;
     # HTML
     htm|html|xhtml)
         # Preview as text conversion
-        w3m -dump "${FILE_PATH}" && exit 5
-        lynx -dump -- "${FILE_PATH}" && exit 5
-        elinks -dump "${FILE_PATH}" && exit 5
+        w3m -dump "${FILE_PATH}" 2>/dev/null && exit 5
+        lynx -dump -- "${FILE_PATH}" 2>/dev/null && exit 5
+        elinks -dump "${FILE_PATH}" 2>/dev/null && exit 5
         ;; # Continue with next handler on failure
+    # JSON
+    json)
+        jq --color-output . "${FILE_PATH}" && exit 5
+        python -m json.tool -- "${FILE_PATH}" && exit 5
+        ;;
   esac
 }
 handle_image() {
@@ -72,22 +77,22 @@ handle_image() {
   case "${mimetype}" in
     # SVG
      image/svg+xml)
-       convert "${FILE_PATH}" "${IMAGE_CACHE_PATH}" && exit 6
+       convert "${FILE_PATH}" "${IMAGE_CACHE_PATH}" 2>/dev/null && exit 6
        exit 1;;
     # Image
     image/*)
       local orientation
-      orientation="$(identify -format '%[EXIF:Orientation]\n' -- "${FILE_PATH}" )"
+      orientation="$(identify -format '%[EXIF:Orientation]\n' -- "${FILE_PATH}" 2>/dev/null)"
       # If orientation data is present and the image actually
       # needs rotating ("1" means no rotation)...
       if [[ -n "$orientation" && "$orientation" != 1 ]]; then
-        convert -- "${FILE_PATH}" -auto-orient "${IMAGE_CACHE_PATH}" && exit 6
+        convert -- "${FILE_PATH}" -auto-orient "${IMAGE_CACHE_PATH}" 2>/dev/null && exit 6
       fi
       exit 7;;
     # Video
      video/*)
          # Thumbnail
-         ffmpegthumbnailer -i "${FILE_PATH}" -o "${IMAGE_CACHE_PATH}" -s 0 && exit 6
+         ffmpegthumbnailer -i "${FILE_PATH}" -o "${IMAGE_CACHE_PATH}" -s 0 2>/dev/null && exit 6
          exit 1;;
     # PDF
      application/pdf)
@@ -97,7 +102,7 @@ handle_image() {
                 -singlefile \
                 -jpeg -tiffcompression jpeg \
                 -- "${FILE_PATH}" "${IMAGE_CACHE_PATH%.*}" \
-       && exit 6 || exit 1;;
+       2>/dev/null && exit 6 || exit 1;;
   esac
 }
 
@@ -115,29 +120,27 @@ handle_mime() {
       else
         local highlight_format='ansi'
       fi
+      if command -v bat >/dev/null; then
+          bat --color=always --style=plain -- "${FILE_PATH}" && exit 5
+      elif command -v batcat >/dev/null; then
+          batcat --color=always --style=plain -- "${FILE_PATH}" && exit 5
+      fi
       highlight --replace-tabs="${HIGHLIGHT_TABWIDTH}" --out-format="${highlight_format}" \
         --style="${HIGHLIGHT_STYLE}" --force -- "${FILE_PATH}" && exit 5
       exit 2;;
     # Image
     image/*)
-      chafa --size="${PV_WIDTH}x$((PV_HEIGHT-10))" -O 9 -c 16 "${FILE_PATH}" &&
-      # since sometimes somethings gets messed
-      # up here remove all the colors
-      # also break some lines in order exiftool to work
-      tput init&&
-      echo "~~If u can read this then this line is not needed :) ~~"&&
-      exiftool -S -ImageSize -FileType -ColorType -ColorSpace -ColorSpaceData -ProfileDescription "${FILE_PATH}" &&
-      exit 4
+      chafa --size="${PV_WIDTH}x$((PV_HEIGHT-10))" -O 9 -c 16 "${FILE_PATH}" 2>/dev/null && exit 4
+      exiftool -S -ImageSize -FileType -ColorType -ColorSpace -ColorSpaceData -ProfileDescription "${FILE_PATH}" && exit 5
       exit 1;;
     # Video and audio
     video/* | audio/*)
-      exiftool "${FILE_PATH}" && exit 5
+      exiftool "${FILE_PATH}" 2>/dev/null && exit 5
       exit 1;;
   esac
 }
 handle_fallback() {
-  exiftool "${FILE_PATH}"&&
-  exit 5
+  exiftool "${FILE_PATH}" 2>/dev/null && exit 5
 }
 MIMETYPE="$( file --dereference --brief --mime-type -- "${FILE_PATH}" )"
 if [[ "${PV_IMAGE_ENABLED}" == 'True' ]]; then
