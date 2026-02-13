@@ -18,6 +18,7 @@ static const ConfigCommand commands[] = {
     {"hy", "hyprland", "nvim ~/.config/hypr/hyprland.conf"},
     {"i3", "i3wm", "nvim ~/.config/i3/config"},
     {"ng", "nginx", "nvim /etc/nginx/nginx.conf && systemctl restart nginx.service"},
+    {"pb", "polybar", "nvim ~/.config/polybar/config.ini"},
     {"pi", "picom", "nvim ~/.config/picom/pi.conf"},
     {"ra", "ranger", "nvim ~/.config/ranger/rc.conf"},
     {"ro", "rofi", "nvim ~/.config/rofi/config.rasi"},
