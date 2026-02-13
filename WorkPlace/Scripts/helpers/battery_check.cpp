@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <map>
 #include <memory>
 #include <string_view>
 #include <charconv>
@@ -35,6 +36,13 @@ std::string_view trim(std::string_view s) {
     return "";
   auto end = s.find_last_not_of(" \t\n");
   return s.substr(start, end - start + 1);
+}
+
+std::string shorten_name(std::string_view name) {
+  if (name.size() <= 20) {
+    return std::string(name);
+  }
+  return std::string(name.substr(0, 17)) + "...";
 }
 
 DeviceInfo inspect_device(const std::string &path) {
@@ -90,6 +98,20 @@ int main() {
         std::string cmd = "aplay \"" + SOUND_FILE + "\" >/dev/null 2>&1 &";
         std::system(cmd.c_str());
       }
+    }
+  }
+
+  std::map<std::string, int> total_counts;
+  for (auto &d : devices) {
+    d.model = shorten_name(d.model);
+    total_counts[d.model]++;
+  }
+
+  std::map<std::string, int> current_counts;
+  for (auto &d : devices) {
+    if (total_counts[d.model] > 1) {
+      current_counts[d.model]++;
+      d.model += " (" + std::to_string(current_counts[d.model]) + ")";
     }
   }
 
