@@ -133,7 +133,7 @@ bindsym --release $mod+Shift+F12 exec killall ffmpeg
 # Media keys
 bindsym XF86AudioRaiseVolume exec "pactl set-sink-volume @DEFAULT_SINK@ +1%"
 bindsym XF86AudioLowerVolume exec "pactl set-sink-volume @DEFAULT_SINK@ -1%"
-bindsym XF86AudioMute exec "if [[ $(pactl get-sink-mute @DEFAULT_SINK@| awk '{print $2}') == 'no' ]];then pactl set-sink-mute @DEFAULT_SINK@ 1;else pactl set-sink-mute @DEFAULT_SINK@ 0;fi"
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPause exec playerctl pause
@@ -151,7 +151,7 @@ bindsym Control+Mod1+h exec rofi -modi "clipboard:greenclip print" -show clipboa
 # WINDOW SETTINGS #
 ###################
 
-new_window pixel 0
+
 default_border pixel 0
 default_floating_border pixel 0
 font pango: Hack 9
