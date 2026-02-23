@@ -60,7 +60,7 @@ DeviceInfo inspect_device(const std::string &path) {
       if (num_start != std::string_view::npos) {
         std::from_chars(val.data() + num_start, val.data() + val.size(), info.percentage);
       }
-    } else if (line.find("state:") != std::string::npos) {
+    } else if (line.find("state:") != std::string::npos || line.find("icon-name:") != std::string::npos) {
       if (line.find("charging") != std::string::npos && line.find("discharging") == std::string::npos) {
         info.is_charging = true;
       }
