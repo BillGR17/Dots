@@ -107,7 +107,7 @@ int main() {
   // Define paths for network statistics and temporary state files
   const auto rxPath = std::filesystem::path("/sys/class/net/") / interfaceName / "statistics" / "rx_bytes";
   const auto txPath = std::filesystem::path("/sys/class/net/") / interfaceName / "statistics" / "tx_bytes";
-  const auto tempDir = std::filesystem::path("/tmp/waybar-bandwidth/");
+  const auto tempDir = std::filesystem::path("/tmp/_bandwidth/");
   const auto prevRxPath = tempDir / (interfaceName + "_rx");
   const auto prevTxPath = tempDir / (interfaceName + "_tx");
 
