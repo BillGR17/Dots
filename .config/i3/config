@@ -147,6 +147,8 @@ bindsym --release $mod+Escape exec cursor
 bindsym --release $mod+Shift+Escape exec dunstctl history-pop
 # clipboard manager
 bindsym Control+Mod1+h exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+# recheck for monitor
+bindsym Control+Mod1+m exec xrandr --auto
 
 ###################
 # WINDOW SETTINGS #
