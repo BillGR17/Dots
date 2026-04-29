@@ -11,6 +11,7 @@ exec --no-startup-id "dbus-update-activation-environment --systemd --all; dbus-u
 exec --no-startup-id greenclip daemon
 exec --no-startup-id autotiling
 exec --no-startup-id polybar
+exec --no-startup-id bash -c "if ! xset q | grep -q \"Num Lock:  *on\"; then xdotool key --clearmodifiers Num_Lock; fi"
 # Applications
 exec --no-startup-id i3-msg "workspace 1;exec firefox"
 #####################
