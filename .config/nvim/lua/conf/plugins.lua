@@ -111,33 +111,8 @@ M.plugins = {
         -- as it can be annoying. Use '<leader>e' to show errors manually.
     end},
 
-    -- Treesitter for Syntax Highlighting
-    { "nvim-treesitter/nvim-treesitter", config = function()
-        require("nvim-treesitter.configs").setup({
-            -- A list of parser to install
-            ensure_installed = {
-                "c", "cpp", "c_sharp", "lua", "vim", "vimdoc", "query",
-                "markdown", "markdown_inline", "javascript", "typescript",
-                "razor", "html", "css", "json", "python", "rust", "bash", "ini",
-                "yaml", "toml", "jsonc", "xml", "sql", "dockerfile", "cmake", "make",
-                "regex", "go",
-            },
-            sync_install = false,
-            auto_install = true,
-            highlight = {
-                enable = true,
-                -- Disable highlighting for very large files to prevent lag
-                disable = function(lang, buf)
-                    local max_filesize = 100 * 1024 -- 100 KB
-                    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-                    if ok and stats and stats.size > max_filesize then
-                        return true
-                    end
-                end,
-                additional_vim_regex_highlighting = false,
-            },
-        })
-    end },
+    -- Polyglot for Syntax Highlighting
+    { "sheerun/vim-polyglot" },
 
     -- Color Preview
     { "catgoose/nvim-colorizer.lua", config = function()
@@ -180,7 +155,7 @@ local function sync_plugin(plugin_spec, should_update)
 
         -- We must use a synchronous (blocking) system call here.
         -- This ensures the plugin is fully cloned before we proceed.
-        local result = vim.system({ "git", "clone", "--depth", "1", clone_url, target_path }):wait()
+        local result = vim.system({ "git", "clone", "--depth", "1", clone_url, target_path }, { cwd = vim.fn.stdpath("config") }):wait()
 
         if result.code == 0 then
             vim.notify(repo_name .. " installed successfully!")
@@ -192,7 +167,7 @@ local function sync_plugin(plugin_spec, should_update)
         vim.notify("Updating " .. repo_name .. "...")
 
         -- Use a synchronous (blocking) pull to ensure updates are finished.
-        local result = vim.system({ "git", "-C", target_path, "pull" }):wait()
+        local result = vim.system({ "git", "-C", target_path, "pull" }, { cwd = vim.fn.stdpath("config") }):wait()
 
         if result.code == 0 then
             -- Don't show a success message if the repo was already up to date.
@@ -214,25 +189,19 @@ local function remove_unused_plugins()
         plugin_set[get_repo_name(plugin_spec[1])] = true
     end
 
-    -- Use a synchronous scanner to prevent race conditions during :RefreshPlugins
-    local iter = vim.loop.fs_scandir_sync(install_path)
-    if not iter then
+    local ok, files = pcall(vim.fn.readdir, install_path)
+    if not ok then
         vim.notify("Could not scan plugin directory: " .. install_path, vim.log.levels.ERROR)
         return
     end
 
-    while true do
-        local name, type = iter()
-        if not name then
-            break -- No more files
-        end
-
-        if type == "directory" and not plugin_set[name] then
+    for _, name in ipairs(files) do
+        if not plugin_set[name] then
             vim.notify("Removing unused plugin: " .. name)
             local path_to_remove = install_path .. name
 
             -- Use system 'rm -rf' for robust directory removal, as vim.fn.delete can be flaky
-            local result = vim.system({ "rm", "-rf", path_to_remove }):wait()
+            local result = vim.system({ "rm", "-rf", path_to_remove }, { cwd = vim.fn.stdpath("config") }):wait()
             if result.code ~= 0 then
                 vim.notify("Failed to remove directory: " .. path_to_remove, vim.log.levels.ERROR)
             end
