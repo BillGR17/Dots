@@ -49,6 +49,9 @@ bindkey "^[[3~" delete-char
 bindkey "^[3;5~" delete-char
 bindkey "^?" backward-delete-char
 
+# Insert key
+bindkey "^[[2~" overwrite-mode
+
 # Home Key (Multiple variants)
 bindkey "^[[H" beginning-of-line
 bindkey "^[OH" beginning-of-line
