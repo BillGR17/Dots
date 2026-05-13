@@ -11,6 +11,9 @@ antidote bundle <~/.config/zsh/plugins.txt >~/.config/zsh/plugins.zsh
 autoload -U compinit
 compinit -d ~/.zshdump
 
+# Case-insensitive autocompletion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
 source ~/.config/zsh/plugins.zsh
 
 # --- 3. History Settings ---
@@ -50,11 +53,17 @@ bindkey "^?" backward-delete-char
 bindkey "^[[H" beginning-of-line
 bindkey "^[OH" beginning-of-line
 bindkey "^[[1~" beginning-of-line
+bindkey "^[[7~" beginning-of-line
 
 # End Key (Multiple variants)
 bindkey "^[[F" end-of-line
 bindkey "^[OF" end-of-line
 bindkey "^[[4~" end-of-line
+bindkey "^[[8~" end-of-line
+
+# Page Up/Down
+bindkey "^[[5~" up-line-or-beginning-search
+bindkey "^[[6~" down-line-or-beginning-search
 
 # --- 5. Environment & Aliases ---
 export GPG_TTY=$(tty)
