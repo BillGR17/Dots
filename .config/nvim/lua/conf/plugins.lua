@@ -26,89 +26,74 @@ M.plugins = {
         gitgutter_eager = 0,
     } },
 
-    -- LSP & Linting Infrastructure
-    -- mason.nvim: Manages LSP servers, linters, and formatters.
-    { "williamboman/mason.nvim", config = function()
-        -- Initialize mason
-        require("mason").setup()
-    end },
-
-    -- mason-lspconfig: Bridges mason with nvim-lspconfig.
-    { "williamboman/mason-lspconfig.nvim", config = function()
-        -- This function runs when an LSP server attaches to a buffer.
-        -- It's used to set buffer-local keymaps and options.
-        local on_attach = function(client, bufnr)
-            -- Enable completion
-            vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-
-            -- Set keymaps
-            local opts = { buffer = bufnr, noremap = true, silent = true }
-            local keymap = vim.keymap.set
-
-            -- Show documentation on hover
-            keymap("n", "K", vim.lsp.buf.hover, opts)
-            -- Go to definition
-            keymap("n", "gd", vim.lsp.buf.definition, opts)
-            -- Go to type definition
-            keymap("n", "gD", vim.lsp.buf.type_definition, opts)
-            -- Go to implementation
-            keymap("n", "gi", vim.lsp.buf.implementation, opts)
-            -- Go to references
-            keymap("n", "gr", vim.lsp.buf.references, opts)
-            -- Rename symbol
-            keymap("n", "<F2>", vim.lsp.buf.rename, opts)
-            -- Show code actions (like "fix this" or "import module")
-            keymap("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-            keymap("v", "<leader>ca", vim.lsp.buf.code_action, opts)
-            -- Show diagnostic information (errors/warnings) in a floating window
-            keymap("n", "<leader>e", vim.diagnostic.open_float, opts)
-            -- Jump to next/previous diagnostic
-            keymap("n", "[d", vim.diagnostic.goto_prev, opts)
-            keymap("n", "]d", vim.diagnostic.goto_next, opts)
-        end
-
-        -- Configure mason-lspconfig to bridge with lspconfig
-        require("mason-lspconfig").setup({
-            -- List of LSP servers to automatically install via Mason
-            ensure_installed = {
-                "lua_ls", -- For Neovim's own Lua environment
-                "clangd", -- For C/C++
-                "csharp_ls", -- For C#
-                "gopls", -- For Go
-                "eslint", -- For JavaScript/TypeScript
-            },
-
-            -- This 'handlers' block defines how to set up each server.
-            -- It replaces the need for a separate 'setup_handlers' call.
-            handlers = {
-                -- This default handler is called for *each* server in 'ensure_installed'.
-                function(server_name)
-                    require("lspconfig")[server_name].setup({
-                        on_attach = on_attach,
-                    })
-                end,
-            },
-        })
-    end },
-
     -- nvim-lspconfig: The core plugin for LSP configurations.
-    -- We only load it. Its setup is managed entirely by mason-lspconfig.
-    -- However, we use its 'config' block to set global diagnostic styling.
+    -- nvim-lspconfig: The core plugin for LSP configurations.
     {"neovim/nvim-lspconfig", config = function()
-        -- Configure how diagnostics (errors/warnings) are displayed
-        vim.diagnostic.config({
-            virtual_text = true, -- Show error message at the end of the line
-            signs = true,        -- Show 'E'/'W' in the sign column
-            underline = true,    -- Underline the problematic code
-            update_in_insert = false, -- Don't update diagnostics while typing
-            severity_sort = true,  -- Sort diagnostics by severity
-            float = {
-                source = "always", -- Show which linter found the issue (e.g., "clangd")
-            },
+        -- Use LspAttach autocommand for keybindings (Modern way)
+        vim.api.nvim_create_autocmd('LspAttach', {
+            callback = function(args)
+                local bufnr = args.buf
+                local opts = { noremap = true, silent = true, buffer = bufnr }
+
+                -- Keybindings for LSP features
+                vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+                vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+                vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+                vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+                vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+                vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+                vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+                vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
+            end,
         })
 
-        -- We removed the automatic 'CursorHold' autocommand
-        -- as it can be annoying. Use '<leader>e' to show errors manually.
+        -- Configure clangd using the modern vim.lsp.config API (Neovim 0.11+)
+        vim.lsp.config('clangd', {
+            cmd = {
+                "clangd",
+                "--background-index",
+                "--clang-tidy",
+                "--header-insertion=iwyu",
+                "--completion-style=detailed",
+                "--function-arg-placeholders",
+                "--fallback-style=llvm",
+            },
+            init_options = {
+                usePlaceholders = true,
+                completeUnimported = true,
+                clangdFileStatus = true,
+            },
+        })
+        vim.lsp.enable('clangd')
+
+        -- Configure global diagnostic styling
+        vim.diagnostic.config({
+            virtual_text = true,
+            signs = true,
+            underline = true,
+            update_in_insert = false,
+            severity_sort = true,
+            float = { source = "always", border = "rounded" },
+        })
+
+        -- Automatic hover on cursor hold
+        vim.api.nvim_create_autocmd("CursorHold", {
+            callback = function()
+                if #vim.lsp.get_clients({ bufnr = 0 }) == 0 then return end
+                for _, win in ipairs(vim.api.nvim_list_wins()) do
+                    if vim.api.nvim_win_get_config(win).relative ~= "" then return end
+                end
+                vim.lsp.buf.hover({ focusable = false })
+            end,
+        })
+
+        -- Modern way to add rounded borders to hover windows
+        local orig_hover = vim.lsp.handlers["textDocument/hover"]
+        vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+            config = config or {}
+            config.border = "rounded"
+            return orig_hover(err, result, ctx, config)
+        end
     end},
 
     -- Polyglot for Syntax Highlighting
