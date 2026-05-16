@@ -8,8 +8,10 @@
 #include <memory>
 #include <string_view>
 #include <charconv>
+#include <cctype>
 
 const int LOW_THRESHOLD = 20;
+const size_t MAX_OUTPUT_LENGTH = 45;
 const std::string SOUND_FILE = std::string(std::getenv("HOME")) + "/.config/sound_events/low_power.wav";
 
 std::string exec(const char *cmd) {
@@ -43,6 +45,31 @@ std::string shorten_name(std::string_view name) {
     return std::string(name);
   }
   return std::string(name.substr(0, 17)) + "...";
+}
+
+std::string abbreviate_name(std::string_view name) {
+  std::string abbr;
+  bool new_word = true;
+  int word_count = 0;
+
+  for (size_t i = 0; i < name.size(); ++i) {
+    char c = name[i];
+    if (std::isspace(c) || c == '-' || c == '_') {
+      new_word = true;
+    } else if (new_word) {
+      if (std::isalnum(c)) {
+        abbr += static_cast<char>(std::toupper(c));
+        word_count++;
+        
+        if (word_count == 1 && i + 1 < name.size() && std::isupper(name[i + 1])) {
+          abbr += name[i + 1];
+          i++; // skip next char
+        }
+      }
+      new_word = false;
+    }
+  }
+  return abbr;
 }
 
 DeviceInfo inspect_device(const std::string &path) {
@@ -101,23 +128,47 @@ int main() {
     }
   }
 
+  std::vector<DeviceInfo> processed_devices = devices;
   std::map<std::string, int> total_counts;
-  for (auto &d : devices) {
+  for (auto &d : processed_devices) {
     d.model = shorten_name(d.model);
     total_counts[d.model]++;
   }
 
   std::map<std::string, int> current_counts;
-  for (auto &d : devices) {
+  size_t total_length = 0;
+  for (size_t i = 0; i < processed_devices.size(); ++i) {
+    auto &d = processed_devices[i];
     if (total_counts[d.model] > 1) {
       current_counts[d.model]++;
       d.model += " (" + std::to_string(current_counts[d.model]) + ")";
     }
+
+    if (i > 0)
+      total_length += 1; // space
+    total_length += d.model.size() + 2 + std::to_string(d.percentage).size() + 1;
+  }
+
+  if (total_length > MAX_OUTPUT_LENGTH) {
+    processed_devices = devices;
+    std::map<std::string, int> abbr_total_counts;
+    for (auto &d : processed_devices) {
+      d.model = abbreviate_name(d.model);
+      abbr_total_counts[d.model]++;
+    }
+
+    std::map<std::string, int> abbr_current_counts;
+    for (auto &d : processed_devices) {
+      if (abbr_total_counts[d.model] > 1) {
+        abbr_current_counts[d.model]++;
+        d.model += " (" + std::to_string(abbr_current_counts[d.model]) + ")";
+      }
+    }
   }
 
   // Print all on one line: Model: Percentage%
-  for (size_t i = 0; i < devices.size(); ++i) {
-    const auto &d = devices[i];
+  for (size_t i = 0; i < processed_devices.size(); ++i) {
+    const auto &d = processed_devices[i];
 
     if (i > 0)
       std::print(" ");
