@@ -15,7 +15,7 @@ static const ConfigCommand commands[] = {
     {"al", "alacritty", "nvim ~/.config/alacritty/alacritty.toml"},
     {"ap", "apache", "nvim /etc/httpd/conf/httpd.conf && systemctl restart httpd.service"},
     {"du", "dunst", "nvim ~/.config/dunst/dunstrc"},
-    {"hy", "hyprland", "nvim ~/.config/hypr/hyprland.conf"},
+    {"hy", "hyprland", "nvim ~/.config/hypr/hyprland.lua"},
     {"i3", "i3wm", "nvim ~/.config/i3/config"},
     {"ng", "nginx", "nvim /etc/nginx/nginx.conf && systemctl restart nginx.service"},
     {"pb", "polybar", "nvim ~/.config/polybar/config.ini"},
