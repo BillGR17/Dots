@@ -12,17 +12,17 @@ hl.window_rule({
 hl.window_rule({
   name = "steam",
   match = { class = "steam.*" },
-  workspace = "0 silent",
+  workspace = "10 silent",
 })
 hl.window_rule({
   name = "wine",
   match = { class = "wine.*" },
-  workspace = "0 silent",
+  workspace = "10 silent",
 })
 hl.window_rule({
   name = "wine-exe",
   match = { class = ".*%.exe" },
-  workspace = "0 silent",
+  workspace = "10 silent",
 })
 
 -- imv image viewer fullscreen
