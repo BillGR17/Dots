@@ -1,32 +1,43 @@
 {
-  "layer": "bottom",
+  "layer": "top",
   "position": "bottom",
-  "height": 20,
+  "height": 24,
   "modules-left": [
-    "hyprland/workspaces"
-  ],
-  "modules-center": [
+    "hyprland/workspaces",
+    "custom/separator",
     "hyprland/window"
   ],
+  "modules-center": [],
   "modules-right": [
     "custom/bandwidth",
+    "custom/separator",
     "custom/memory",
+    "custom/separator",
     "custom/updates",
+    "custom/separator",
     "custom/battery",
-    "custom/date",
+    "custom/separator",
+    "custom/uptime",
+    "custom/separator",
     "hyprland/language",
-    "custom/network",
+    "custom/separator",
+    "custom/date",
+    "custom/separator",
     "pulseaudio",
-    "tray",
-    "custom/imguipm"
+    "custom/separator",
+    "custom/network",
+    "custom/separator",
+    "custom/imguipm",
+    "custom/separator",
+    "tray"
   ],
   "hyprland/workspaces": {
-    "format": "{name}",
-    "on-click": "activate"
+    "format": "{icon}",
+    "on-click": "echo {}"
   },
   "hyprland/window": {
-    "format": "{title}",
-    "max-length": 80
+    "format": "{}",
+    "max-length": 60
   },
   "tray": {
     "icon-size": 12,
@@ -38,19 +49,20 @@
     "interval": 1
   },
   "custom/memory": {
-    "format": "M:{}",
+    "format": "M: {}",
     "exec": "memcheck",
     "return-type": "pango",
     "interval": 1
   },
   "custom/battery": {
+    "format": "B: {}",
     "exec": "battery_check",
     "return-type": "pango",
-    "interval": 1
+    "interval": 30
   },
   "custom/network": {
     "exec": "network",
-    "on-click-middle": "network -ui",
+    "on-click": "network -ui",
     "return-type": "pango",
     "interval": 1
   },
@@ -60,24 +72,39 @@
     "interval": 1
   },
   "custom/updates": {
-    "format": "P:{}",
+    "format": "P: {}",
     "exec": "imupdate -cli",
+    "on-click": "imupdate -cli",
     "on-click-middle": "imupdate",
     "return-type": "pango",
-    "interval": 360
+    "interval": 600
+  },
+  "custom/uptime": {
+    "format": "U: {}",
+    "exec": "dayup",
+    "return-type": "pango",
+    "interval": 1
   },
   "pulseaudio": {
     "format": "S: {volume}%",
+    "format-muted": "S: muted",
     "scroll-step": 1,
     "on-click": "pavucontrol"
   },
   "hyprland/language": {
-    "format": "{short}",
+    "format": "{}",
+    "format-en": "EN",
+    "format-gr": "GR",
     "on-click": "hyprctl switchxkblayout main next",
     "tooltip": false
   },
   "custom/imguipm": {
-    "format": "⏻",
+    "format": "power-menu",
     "on-click": "imguipm"
+  },
+  "custom/separator": {
+    "format": "|",
+    "interval": "once",
+    "tooltip": false
   }
 }
