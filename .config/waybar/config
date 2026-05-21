@@ -33,7 +33,7 @@
   ],
   "hyprland/workspaces": {
     "format": "{icon}",
-    "on-click": "echo {}"
+    "on-click": "activate"
   },
   "hyprland/window": {
     "format": "{}",
