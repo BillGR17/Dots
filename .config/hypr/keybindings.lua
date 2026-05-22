@@ -53,16 +53,16 @@ hl.bind(mainMod .. " + SHIFT + grave", hl.dsp.window.move({ workspace = 0, follo
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
--- Resize submap (SUPER + R)
-hl.bind(mainMod .. " + R", hl.dsp.submap("resize"))
+-- Resize submap (SUPER + r)
+hl.bind(mainMod .. " + r", hl.dsp.submap("resize"))
 hl.define_submap("resize", function()
   hl.bind("left",   hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
   hl.bind("right",  hl.dsp.window.resize({ x = 10, y = 0, relative = true }), { repeating = true })
   hl.bind("up",     hl.dsp.window.resize({ x = 0, y = -10, relative = true }), { repeating = true })
   hl.bind("down",   hl.dsp.window.resize({ x = 0, y = 10, relative = true }), { repeating = true })
+
   hl.bind("escape", hl.dsp.submap("reset"))
   hl.bind("return", hl.dsp.submap("reset"))
-  hl.bind(mainMod .. " + r", hl.dsp.submap("reset"))
 end)
 
 -- Laptop multimedia volume & brightness control (using pactl to match your i3 config)

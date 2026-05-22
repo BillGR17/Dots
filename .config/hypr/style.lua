@@ -52,6 +52,10 @@ hl.config({
     force_split = 2,
   },
 
+  render = {
+    direct_scanout = false,
+  },
+
   misc = {
     background_color = "rgb(3b4252)",
     disable_hyprland_logo = true,

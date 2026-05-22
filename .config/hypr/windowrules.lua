@@ -90,3 +90,10 @@ hl.window_rule({
   },
   no_focus = true,
 })
+
+-- Center all floating windows
+hl.window_rule({
+  name = "center-all-floating",
+  match = { float = true },
+  center = true,
+})
