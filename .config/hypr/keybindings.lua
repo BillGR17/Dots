@@ -26,7 +26,7 @@ hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"))
 
 -- Easy Cursor, Dunst pop, Greenclip clipboard
 hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd("dunstctl history-pop"))
-hl.bind("CTRL + ALT + H",              hl.dsp.exec_cmd("rofi -modi \"clipboard:greenclip print\" -show clipboard -run-command '{cmd}'"))
+hl.bind("CTRL + ALT + H", hl.dsp.exec_cmd("cliphist list | rofi -dmenu -display-columns 2 | cliphist decode | wl-copy"))
 
 -- Focus navigation (SUPER + Arrow keys)
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
