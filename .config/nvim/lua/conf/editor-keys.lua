@@ -25,7 +25,6 @@ vim.keymap.set("i", "<", "<><Left>", { noremap = true })
 --------------------------------------------------------------------------------
 vim.keymap.set("n", "<Tab>", ">>", opts)
 vim.keymap.set("n", "<S-Tab>", "<<", opts)
-vim.keymap.set("i", "<Tab>", ">>", opts)
 vim.keymap.set("i", "<S-Tab>", "<C-d>", opts)
 
 -- In Visual mode (selection)

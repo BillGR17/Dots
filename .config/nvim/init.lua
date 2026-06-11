@@ -1,5 +1,5 @@
-require("conf.pref")
 vim.opt.packpath:append(vim.fn.stdpath("config"))
+require("conf.pref")
 require("conf.plugins").setup()
 require("conf.editor-keys")
 require("conf.format")

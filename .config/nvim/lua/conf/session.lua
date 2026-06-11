@@ -11,7 +11,7 @@ if vim.fn.argc() == 0 then
   -- Local function to clean up empty windows and save the session.
   local function clear_empty_and_save_session()
     -- Close all windows that are empty (one line, no content).
-    vim.cmd("windo if (line('$') == 1 && getline(1) == '') | clo | en")
+    pcall(vim.cmd, "windo if (line('$') == 1 && getline(1) == '') | clo | en")
 
     -- Count the remaining windows using the API.
     local window_count = #vim.api.nvim_list_wins()

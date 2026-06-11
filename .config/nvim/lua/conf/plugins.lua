@@ -48,6 +48,9 @@ M.plugins = {
         })
 
         -- Configure clangd using the modern vim.lsp.config API (Neovim 0.11+)
+        local ok, blink = pcall(require, 'blink.cmp')
+        local capabilities = ok and blink.get_lsp_capabilities() or nil
+
         vim.lsp.config('clangd', {
             cmd = {
                 "clangd",
@@ -63,6 +66,7 @@ M.plugins = {
                 completeUnimported = true,
                 clangdFileStatus = true,
             },
+            capabilities = capabilities,
         })
         vim.lsp.enable('clangd')
 
@@ -111,11 +115,30 @@ M.plugins = {
     end },
 
     -- Other utilities
-    { "Exafunction/windsurf.vim" },
     { "terryma/vim-multiple-cursors" },
     { "mattn/emmet-vim", globals = {
         user_emmet_expandabbr_key = "<C-e>",
     } },
+
+  -- Snippets
+  { "rafamadriz/friendly-snippets" },
+
+  -- Dependency for blink.cmp v2
+  { "Saghen/blink.lib" },
+
+  -- blink.cmp for autocompletion
+  { "Saghen/blink.cmp", build = "cargo build --release", config = function()
+    require("blink.cmp").setup({
+      keymap = { preset = "super-tab" },
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = "mono"
+      },
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
+      },
+    })
+  end },
 }
 
 --- Helper function to get the repository name from a 'owner/repo' string.
@@ -132,18 +155,35 @@ local function sync_plugin(plugin_spec, should_update)
     local repo_url = plugin_spec[1]
     local repo_name = get_repo_name(repo_url)
     local target_path = install_path .. repo_name
+    local branch = plugin_spec.branch
 
     -- If plugin isn't installed, clone it.
     if not vim.loop.fs_stat(target_path) then
         vim.notify("Installing " .. repo_name .. "...")
         local clone_url = "https://github.com/" .. repo_url .. ".git"
 
+        local clone_cmd = { "git", "clone", "--depth", "1" }
+        if branch then
+            table.insert(clone_cmd, "-b")
+            table.insert(clone_cmd, branch)
+        end
+        table.insert(clone_cmd, clone_url)
+        table.insert(clone_cmd, target_path)
+
         -- We must use a synchronous (blocking) system call here.
         -- This ensures the plugin is fully cloned before we proceed.
-        local result = vim.system({ "git", "clone", "--depth", "1", clone_url, target_path }, { cwd = vim.fn.stdpath("config") }):wait()
+        local result = vim.system(clone_cmd, { cwd = vim.fn.stdpath("config") }):wait()
 
         if result.code == 0 then
-            vim.notify(repo_name .. " installed successfully!")
+          if plugin_spec.build then
+            vim.notify("Building " .. repo_name .. "...")
+            local build_cmd = { "sh", "-c", plugin_spec.build }
+            local build_result = vim.system(build_cmd, { cwd = target_path }):wait()
+            if build_result.code ~= 0 then
+              vim.notify("Failed to build " .. repo_name .. ": " .. (build_result.stderr or build_result.stdout), vim.log.levels.ERROR)
+            end
+          end
+          vim.notify(repo_name .. " installed successfully!")
         else
             vim.notify("Failed to install " .. repo_name .. ": " .. (result.stderr or result.stdout), vim.log.levels.ERROR)
         end
@@ -159,7 +199,15 @@ local function sync_plugin(plugin_spec, should_update)
             if result.stdout:match("Already up to date") then
                 vim.notify(repo_name .. " is already up to date.", vim.log.levels.INFO)
             else
-                vim.notify(repo_name .. " updated!")
+              if plugin_spec.build then
+                vim.notify("Building " .. repo_name .. "...")
+                local build_cmd = { "sh", "-c", plugin_spec.build }
+                local build_result = vim.system(build_cmd, { cwd = target_path }):wait()
+                if build_result.code ~= 0 then
+                  vim.notify("Failed to build " .. repo_name .. ": " .. (build_result.stderr or build_result.stdout), vim.log.levels.ERROR)
+                end
+              end
+              vim.notify(repo_name .. " updated!")
             end
         else
             vim.notify("Failed to update " .. repo_name .. ": " .. (result.stderr or result.stdout), vim.log.levels.ERROR)
