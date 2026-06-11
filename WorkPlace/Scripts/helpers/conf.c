@@ -20,7 +20,7 @@ static const ConfigCommand commands[] = {
     {"ng", "nginx", "nvim /etc/nginx/nginx.conf && systemctl restart nginx.service"},
     {"pb", "polybar", "nvim ~/.config/polybar/config.ini"},
     {"pi", "picom", "nvim ~/.config/picom/pi.conf"},
-    {"ra", "ranger", "nvim ~/.config/ranger/rc.conf"},
+    {"yz", "yazi", "nvim ~/.config/yazi/yazi.toml"},
     {"ro", "rofi", "nvim ~/.config/rofi/config.rasi"},
     {"tm", "tmux", "nvim ~/.tmux.conf"},
     {"vi", "nvim", "nvim ~/.config/nvim/init.lua"},

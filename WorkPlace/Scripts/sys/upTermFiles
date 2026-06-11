@@ -11,9 +11,7 @@ files=(\
   ".config/nvim/lua/conf/statusline.lua"\
   ".config/nvim/lua/conf/term.lua"\
   ".config/nvim/lua/conf/window.lua"\
-  ".config/ranger/rc.conf"\
-  ".config/ranger/rifle.conf"\
-  ".config/ranger/scope.sh"\
+  ".config/yazi/yazi.toml"\
   ".config/zsh/plugins.txt"\
   "WorkPlace/Scripts/sys/upTermFiles"\
   ".zshrc"\
