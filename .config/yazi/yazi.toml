@@ -1,0 +1,148 @@
+[opener]
+#-------------------------------------------
+# Websites
+#-------------------------------------------
+firefox = [
+  { run = "firefox \"$@\"", orphan = true, desc = "Firefox" }
+]
+
+#-------------------------------------------
+# Misc
+#-------------------------------------------
+exec = [
+  { run = "\"$1\"", block = true, desc = "Execute" }
+]
+man = [
+  { run = "man \"$1\"", block = true, desc = "Man page" }
+]
+wine_run = [
+  { run = "wine_run \"$@\"", orphan = true, desc = "wine_run" }
+]
+proton = [
+  { run = "proton \"$@\"", orphan = true, desc = "proton" }
+]
+wine = [
+  { run = "wine \"$@\"", orphan = true, desc = "wine" }
+]
+make = [
+  { run = "make", block = true, desc = "Make" }
+]
+
+#-------------------------------------------
+# Code
+#-------------------------------------------
+python = [
+  { run = "python \"$1\"", block = true, desc = "Run Python" }
+]
+perl = [
+  { run = "perl \"$1\"", block = true, desc = "Run Perl" }
+]
+ruby = [
+  { run = "ruby \"$1\"", block = true, desc = "Run Ruby" }
+]
+node = [
+  { run = "node \"$1\"", block = true, desc = "Run Node" }
+]
+zsh = [
+  { run = "zsh \"$1\"", block = true, desc = "Run Zsh" }
+]
+php = [
+  { run = "php \"$1\"", block = true, desc = "Run PHP" }
+]
+
+#-------------------------------------------
+# Media
+#-------------------------------------------
+vlc = [
+  { run = "vlc \"$@\"", orphan = true, desc = "VLC" }
+]
+
+#-------------------------------------------
+# Documents
+#-------------------------------------------
+libreoffice = [
+  { run = "libreoffice \"$@\"", orphan = true, desc = "LibreOffice" }
+]
+
+#-------------------------------------------
+# Image Viewing
+#-------------------------------------------
+inkscape = [
+  { run = "inkscape \"$@\"", orphan = true, desc = "Inkscape" }
+]
+display = [
+  { run = "display \"$@\"", orphan = true, desc = "Display" }
+]
+imv = [
+  { run = "imv \"$@\"", orphan = true, desc = "imv" }
+]
+gimp = [
+  { run = "gimp \"$@\"", orphan = true, desc = "GIMP" }
+]
+
+#-------------------------------------------
+# Archives
+#-------------------------------------------
+extract_7z = [
+  { run = "7z -p x \"$@\" -aoa", block = true, desc = "Extract 7z" }
+]
+extract_tar = [
+  { run = "for file in \"$@\"; do tar vvxf \"$file\"; done", block = true, desc = "Extract Tar" }
+]
+extract_rar = [
+  { run = "for file in \"$@\"; do unrar x \"$file\"; done", block = true, desc = "Extract RAR" }
+]
+
+#-------------------------------------------
+# Default option
+#-------------------------------------------
+nvim = [
+  { run = "nvim \"$@\"", block = true, desc = "Neovim" }
+]
+
+
+[open]
+rules = [
+  # Websites
+  { url = "*.{htm,html}", use = "firefox" },
+
+  # Misc
+  { mime = "application/x-executable", use = "exec" },
+  { mime = "application/javascript", use = "exec" },
+  { mime = "text/x-shellscript", use = "exec" },
+  { mime = "application/x-pie-executable", use = "exec" },
+  { url = "*.1", use = "man" },
+  { url = "*.exe", use = [ "wine_run", "proton", "wine" ] },
+  { url = "{Makefile,makefile}", use = "make" },
+
+  # Code
+  { url = "*.py", use = "python" },
+  { url = "*.pl", use = "perl" },
+  { url = "*.rb", use = "ruby" },
+  { url = "*.js", use = "node" },
+  { url = "*.sh", use = "zsh" },
+  { url = "*.php", use = "php" },
+
+  # Media
+  { mime = "audio/*", use = "vlc" },
+  { url = "*.ogg", use = "vlc" },
+  { mime = "video/*", use = "vlc" },
+
+  # Documents
+  { url = "*.pdf", use = "firefox" },
+  { url = "*.{ppt,pptx,odf,odg,odp,ods,odt,doc,docx,sxc,xls,xlsx,xlt,xlw,gnm,gnumeric}", use = "libreoffice" },
+
+  # Image Viewing
+  { mime = "image/svg+xml", use = [ "inkscape", "display" ] },
+  { mime = "image/*", use = [ "imv", "gimp" ] },
+  { url = "*.xcf", use = "gimp" },
+
+  # Archives
+  { url = "*.{7z,zip}", use = "extract_7z" },
+  { url = "*.{tar,gz,bz2,xz}", use = "extract_tar" },
+  { url = "*.rar", use = "extract_rar" },
+
+  # Default fallback
+  { mime = "*", use = "nvim" },
+  { url = "*", use = "nvim" }
+]
