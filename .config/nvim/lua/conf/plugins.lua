@@ -127,7 +127,7 @@ M.plugins = {
   { "Saghen/blink.lib" },
 
   -- blink.cmp for autocompletion
-  { "Saghen/blink.cmp", build = "cargo build --release", config = function()
+  { "Saghen/blink.cmp", build = function() require('blink.cmp').build():pwait() end, config = function()
     require("blink.cmp").setup({
       keymap = { preset = "super-tab" },
       appearance = {
@@ -177,10 +177,18 @@ local function sync_plugin(plugin_spec, should_update)
         if result.code == 0 then
           if plugin_spec.build then
             vim.notify("Building " .. repo_name .. "...")
-            local build_cmd = { "sh", "-c", plugin_spec.build }
-            local build_result = vim.system(build_cmd, { cwd = target_path }):wait()
-            if build_result.code ~= 0 then
-              vim.notify("Failed to build " .. repo_name .. ": " .. (build_result.stderr or build_result.stdout), vim.log.levels.ERROR)
+            if type(plugin_spec.build) == "function" then
+              vim.opt.runtimepath:prepend(target_path)
+              local ok, err = pcall(plugin_spec.build)
+              if not ok then
+                vim.notify("Failed to build " .. repo_name .. ": " .. tostring(err), vim.log.levels.ERROR)
+              end
+            else
+              local build_cmd = { "sh", "-c", plugin_spec.build }
+              local build_result = vim.system(build_cmd, { cwd = target_path }):wait()
+              if build_result.code ~= 0 then
+                vim.notify("Failed to build " .. repo_name .. ": " .. (build_result.stderr or build_result.stdout), vim.log.levels.ERROR)
+              end
             end
           end
           vim.notify(repo_name .. " installed successfully!")
@@ -201,10 +209,18 @@ local function sync_plugin(plugin_spec, should_update)
             else
               if plugin_spec.build then
                 vim.notify("Building " .. repo_name .. "...")
-                local build_cmd = { "sh", "-c", plugin_spec.build }
-                local build_result = vim.system(build_cmd, { cwd = target_path }):wait()
-                if build_result.code ~= 0 then
-                  vim.notify("Failed to build " .. repo_name .. ": " .. (build_result.stderr or build_result.stdout), vim.log.levels.ERROR)
+                if type(plugin_spec.build) == "function" then
+                  vim.opt.runtimepath:prepend(target_path)
+                  local ok, err = pcall(plugin_spec.build)
+                  if not ok then
+                    vim.notify("Failed to build " .. repo_name .. ": " .. tostring(err), vim.log.levels.ERROR)
+                  end
+                else
+                  local build_cmd = { "sh", "-c", plugin_spec.build }
+                  local build_result = vim.system(build_cmd, { cwd = target_path }):wait()
+                  if build_result.code ~= 0 then
+                    vim.notify("Failed to build " .. repo_name .. ": " .. (build_result.stderr or build_result.stdout), vim.log.levels.ERROR)
+                  end
                 end
               end
               vim.notify(repo_name .. " updated!")
