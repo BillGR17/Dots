@@ -4,21 +4,14 @@ local mainMod = "SUPER"
 hl.bind(mainMod .. " + Return",    hl.dsp.exec_cmd("alacritty"))
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close())
 hl.bind("ALT + F4",                hl.dsp.window.close())
-hl.bind(mainMod .. " + X",         hl.dsp.exec_cmd("xkill"))
+hl.bind(mainMod .. " + X",         hl.dsp.exec_cmd("hyprctl kill"))
 hl.bind(mainMod .. " + SHIFT + SPACE", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F",         hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd("rofi -show run"))
 
-hl.bind(mainMod .. " + H",         hl.dsp.layout("preselect r"))
-hl.bind(mainMod .. " + V",         hl.dsp.layout("preselect d"))
-hl.bind(mainMod .. " + E",         hl.dsp.layout("togglesplit"))
+hl.bind(mainMod .. " + W",         hl.dsp.group.toggle())
 
-hl.bind(mainMod .. " + S",         hl.dsp.exec_cmd("hyprctl dispatch togglegroup"))
-hl.bind(mainMod .. " + W",         hl.dsp.exec_cmd("hyprctl dispatch togglegroup"))
-hl.bind(mainMod .. " + A",         hl.dsp.exec_cmd("hyprctl dispatch focuscurrentorlast"))
-hl.bind(mainMod .. " + SPACE",     hl.dsp.exec_cmd("hyprctl dispatch cyclenext"))
-
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("hyprctl dispatch pin"))
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.pin())
 
 
 -- System control
