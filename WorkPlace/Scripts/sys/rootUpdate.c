@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
       exit(2);
     } else {
       char* files[4] = { ".zshrc", ".tmux.conf", ".Xresources", ".xinitrc" };
-      char* folders[6] = { "i3", "nvim", "ranger", "picom", "dunst", "rofi" };
+      char* folders[6] = { "i3", "nvim", "yazi", "picom", "dunst", "rofi" };
       for (int i = 0; i < 4; i++) {
         char u[128], r[128];
         sprintf(u, "/home/%s/%s", argv[1], files[i]);
