@@ -17,9 +17,11 @@ hl.config({
       active_border   = blue,
       inactive_border = comment,
     },
-    resize_on_border  = false,
-    allow_tearing     = false,
-    layout            = "dwindle",
+    layout            = "master",
+  },
+
+  master = {
+    allow_small_split = true
   },
 
   decoration = {
@@ -43,13 +45,7 @@ hl.config({
   },
 
   animations = {
-    enabled = false,
-  },
-
-  dwindle = {
-    preserve_split = true,
-    permanent_direction_override = false,
-    force_split = 2,
+    enabled = true,
   },
 
   render = {
@@ -62,4 +58,16 @@ hl.config({
     disable_splash_rendering = true,
     force_default_wallpaper = 0,
   },
+
+  ecosystem = {
+    no_update_news = true,
+    no_donation_nag = true
+  },
+
+  quirks = {
+    prefer_hdr = 1
+  }
 })
+hl.curve( "anim_main", { type = "bezier", points = { {0.5, 0.9}, {0.1, 1.1} } })
+hl.animation({ leaf = "workspaces", enabled = true, speed = 1, bezier = "anim_main" })
+hl.animation({ leaf = "windows", enabled = true, speed = 1, bezier = "anim_main", style = "slide"})

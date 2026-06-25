@@ -1,10 +1,10 @@
 hl.monitor({
-  output   = "DP-1",
-  mode     = "2560x1440@165",
+  output = "DP-1",
+  mode = "2560x1440@165",
   position = "0x0",
-  scale    = 1,
-  bitdepth = 24,
-  vrr      = 1,
+  scale = 1,
+  bitdepth = 10,
+  vrr = 1
 })
 
 -- Wildcard monitor fallback for other displays

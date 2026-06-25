@@ -4,8 +4,8 @@ hl.window_rule({
   match = { title = "^(Picture-in-Picture)$" },
   float = true,
   pin = true,
-  size = "monitor_w*0.25 monitor_h*0.25",
-  move = "monitor_w*0.75 0",
+  size = "monitor_w*0.15 monitor_h*0.15",
+  move = "monitor_w*0.85 0",
 })
 
 -- Assign Steam & Wine to workspace 0
@@ -68,8 +68,9 @@ end
 
 hl.window_rule({
   name = "float-shutdown",
-  match = { title = "Shutdown PC" },
+  match = { class = "org.gtk.shutitdown", title = "Shutdown PC" },
   float = true,
+  center = true,
 })
 
 -- Standard drag/maximize fixes
@@ -91,9 +92,18 @@ hl.window_rule({
   no_focus = true,
 })
 
--- Center all floating windows
+-- Center all floating windows except ueberzug
 hl.window_rule({
   name = "center-all-floating",
-  match = { float = true },
+  match = { float = true, class = "negative:ueberzugpp.*$" },
   center = true,
 })
+
+-- Fix Yazi image preview (ueberzugpp) flashing/tiling
+hl.window_rule({
+  name = "ueberzugpp",
+  match = { class = "^ueberzug.*" },
+  float = true,
+  no_focus = true,
+})
+
