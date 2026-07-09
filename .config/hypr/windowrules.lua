@@ -4,6 +4,7 @@ hl.window_rule({
   match = { title = "^(Picture-in-Picture)$" },
   float = true,
   pin = true,
+  no_focus = true,
   size = "monitor_w*0.15 monitor_h*0.15",
   move = "monitor_w*0.85 0",
 })
