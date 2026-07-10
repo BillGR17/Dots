@@ -6,7 +6,7 @@ hl.window_rule({
   pin = true,
   no_focus = true,
   size = "monitor_w*0.15 monitor_h*0.15",
-  move = "monitor_w*0.85 0",
+  move = "0 monitor_h*0.85",
 })
 
 -- Assign Steam & Wine to workspace 0
