@@ -13,10 +13,6 @@ exec = [
   { run = "\"$1\"", orphan = true, desc = "Execute" }
 ]
 
-exec_sh = [
-  { run = "sh \"$1\"", orphan = true, desc = "Execute" }
-]
-
 man = [
   { run = "man \"$1\"", block = true, desc = "Man page" }
 ]
@@ -109,12 +105,13 @@ rules = [
   { url = "*.{htm,html}", use = "firefox" },
 
   # Executables
-  { mime = "*executable", use = "exec" },
-  { mime = "*shell*", use = "exec_sh" },
+  { url = "{*.exe,*.EXE,*.msi,*.MSI,}", use = [ "wine_run", "proton", "wine" ] },
+  { mime = "application/*executable*", use = "exec" },
+  { mime = "*shell*", use = "exec" },
 
-# Misc
+
+  # Misc
   { url = "*.1", use = "man" },
-  { url = "*.exe", use = [ "wine_run", "proton", "wine" ] },
   { url = "{Makefile,makefile}", use = "make" },
 
   # Code
@@ -126,7 +123,6 @@ rules = [
 
   # Media
   { mime = "audio/*", use = "vlc" },
-  { url = "*.ogg", use = "vlc" },
   { mime = "video/*", use = "vlc" },
 
   # Documents
