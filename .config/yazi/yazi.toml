@@ -3,27 +3,27 @@
 # Websites
 #-------------------------------------------
 firefox = [
-  { run = "firefox \"$@\"", orphan = true, desc = "Firefox" }
+  { run = "firefox %s", orphan = true, desc = "Firefox" }
 ]
 
 #-------------------------------------------
 # Misc
 #-------------------------------------------
 exec = [
-  { run = "\"$1\"", orphan = true, desc = "Execute" }
+  { run = "%s1", orphan = true, desc = "Execute" }
 ]
 
 man = [
-  { run = "man \"$1\"", block = true, desc = "Man page" }
+  { run = "man %s1", block = true, desc = "Man page" }
 ]
 wine_run = [
-  { run = "wine_run \"$@\"", orphan = true, desc = "wine_run" }
+  { run = "wine_run %s", orphan = true, desc = "wine_run" }
 ]
 proton = [
-  { run = "proton \"$@\"", orphan = true, desc = "proton" }
+  { run = "proton %s", orphan = true, desc = "proton" }
 ]
 wine = [
-  { run = "wine \"$@\"", orphan = true, desc = "wine" }
+  { run = "wine %s", orphan = true, desc = "wine" }
 ]
 make = [
   { run = "make", block = true, desc = "Make" }
@@ -33,69 +33,69 @@ make = [
 # Code
 #-------------------------------------------
 python = [
-  { run = "python \"$1\"", block = true, desc = "Run Python" }
+  { run = "python %s1", block = true, desc = "Run Python" }
 ]
 perl = [
-  { run = "perl \"$1\"", block = true, desc = "Run Perl" }
+  { run = "perl %s1", block = true, desc = "Run Perl" }
 ]
 ruby = [
-  { run = "ruby \"$1\"", block = true, desc = "Run Ruby" }
+  { run = "ruby %s1", block = true, desc = "Run Ruby" }
 ]
 node = [
-  { run = "node \"$1\"", block = true, desc = "Run Node" }
+  { run = "node %s1", block = true, desc = "Run Node" }
 ]
 php = [
-  { run = "php \"$1\"", block = true, desc = "Run PHP" }
+  { run = "php %s1", block = true, desc = "Run PHP" }
 ]
 
 #-------------------------------------------
 # Media
 #-------------------------------------------
 vlc = [
-  { run = "vlc \"$@\"", orphan = true, desc = "VLC" }
+  { run = "vlc %s", orphan = true, desc = "VLC" }
 ]
 
 #-------------------------------------------
 # Documents
 #-------------------------------------------
 libreoffice = [
-  { run = "libreoffice \"$@\"", orphan = true, desc = "LibreOffice" }
+  { run = "libreoffice %s", orphan = true, desc = "LibreOffice" }
 ]
 
 #-------------------------------------------
 # Image Viewing
 #-------------------------------------------
 inkscape = [
-  { run = "inkscape \"$@\"", orphan = true, desc = "Inkscape" }
+  { run = "inkscape %s", orphan = true, desc = "Inkscape" }
 ]
 display = [
-  { run = "display \"$@\"", orphan = true, desc = "Display" }
+  { run = "display %s", orphan = true, desc = "Display" }
 ]
 imv = [
-  { run = "imv \"$@\"", orphan = true, desc = "imv" }
+  { run = "imv %s", orphan = true, desc = "imv" }
 ]
 gimp = [
-  { run = "gimp \"$@\"", orphan = true, desc = "GIMP" }
+  { run = "gimp %s", orphan = true, desc = "GIMP" }
 ]
 
 #-------------------------------------------
 # Archives
 #-------------------------------------------
 extract_7z = [
-  { run = "7z -p x \"$@\" -aoa", block = true, desc = "Extract 7z" }
+  { run = "7z -p x %s -aoa", block = true, desc = "Extract 7z" }
 ]
 extract_tar = [
-  { run = "for file in \"$@\"; do tar vvxf \"$file\"; done", block = true, desc = "Extract Tar" }
+  { run = "for file in %s; do tar vvxf \"$file\"; done", block = true, desc = "Extract Tar" }
 ]
 extract_rar = [
-  { run = "for file in \"$@\"; do unrar x \"$file\"; done", block = true, desc = "Extract RAR" }
+  { run = "for file in %s; do unrar x \"$file\"; done", block = true, desc = "Extract RAR" }
 ]
 
 #-------------------------------------------
 # Default option
 #-------------------------------------------
 nvim = [
-  { run = "nvim \"$@\"", block = true, desc = "Neovim" }
+  { run = "nvim %s", block = true, desc = "Neovim" }
 ]
 
 
