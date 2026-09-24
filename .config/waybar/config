@@ -55,10 +55,12 @@
     "interval": 1
   },
   "custom/battery": {
-    "format": "B: {}",
-    "exec": "battery_check",
-    "return-type": "pango",
-    "interval": 30
+    "format": "{}",
+    "exec": "battery_check --json",
+    "return-type": "json",
+    "interval": 30,
+    "on-click": "battery_check --notify",
+    "tooltip": true
   },
   "custom/network": {
     "exec": "network",

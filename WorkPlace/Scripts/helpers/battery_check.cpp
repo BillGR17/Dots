@@ -1,18 +1,21 @@
 #include <print>
+#include <array>
 #include <cstdio>
 #include <cstdlib>
 #include <string>
 #include <sstream>
 #include <vector>
-#include <map>
 #include <memory>
 #include <string_view>
 #include <charconv>
 #include <cctype>
 
-const int LOW_THRESHOLD = 20;
-const size_t MAX_OUTPUT_LENGTH = 45;
-const std::string SOUND_FILE = std::string(std::getenv("HOME")) + "/.config/sound_events/low_power.wav";
+const int LOW_THRESHOLD = 30;
+
+std::string sound_file() {
+  const char *home = std::getenv("HOME");
+  return std::string(home ? home : "") + "/.config/sound_events/low_power.wav";
+}
 
 std::string exec(const char *cmd) {
   std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
@@ -29,6 +32,7 @@ std::string exec(const char *cmd) {
 struct DeviceInfo {
   int percentage = -1;
   bool is_charging = false;
+  std::string state;
   std::string model = "Unknown";
 };
 
@@ -60,7 +64,7 @@ std::string abbreviate_name(std::string_view name) {
       if (std::isalnum(c)) {
         abbr += static_cast<char>(std::toupper(c));
         word_count++;
-        
+
         if (word_count == 1 && i + 1 < name.size() && std::isupper(name[i + 1])) {
           abbr += name[i + 1];
           i++; // skip next char
@@ -71,6 +75,18 @@ std::string abbreviate_name(std::string_view name) {
   }
   return abbr;
 }
+
+// Short display name for the bar: keep it if tiny, else abbreviate to initials.
+std::string short_name(std::string_view name) {
+  if (name.size() <= 10)
+    return std::string(name);
+  std::string abbr = abbreviate_name(name);
+  if (!abbr.empty())
+    return abbr;
+  return shorten_name(name);
+}
+
+bool is_notable(const DeviceInfo &d) { return d.is_charging || d.percentage < LOW_THRESHOLD; }
 
 DeviceInfo inspect_device(const std::string &path) {
   DeviceInfo info;
@@ -87,7 +103,12 @@ DeviceInfo inspect_device(const std::string &path) {
       if (num_start != std::string_view::npos) {
         std::from_chars(val.data() + num_start, val.data() + val.size(), info.percentage);
       }
-    } else if (line.find("state:") != std::string::npos || line.find("icon-name:") != std::string::npos) {
+    } else if (size_t pos = line.find("state:"); pos != std::string::npos) {
+      info.state = std::string(trim(std::string_view(line).substr(pos + 6)));
+      if (info.state.find("charging") != std::string::npos && info.state.find("discharging") == std::string::npos) {
+        info.is_charging = true;
+      }
+    } else if (line.find("icon-name:") != std::string::npos) {
       if (line.find("charging") != std::string::npos && line.find("discharging") == std::string::npos) {
         info.is_charging = true;
       }
@@ -99,10 +120,10 @@ DeviceInfo inspect_device(const std::string &path) {
   return info;
 }
 
-int main() {
+std::vector<DeviceInfo> collect_devices() {
   std::string raw_list = exec("upower -e");
   if (raw_list.empty())
-    return 1;
+    return {};
 
   std::stringstream ss(raw_list);
   std::string path;
@@ -122,63 +143,173 @@ int main() {
 
       // Audio Alert Logic (kept internal, not printed)
       if (!info.is_charging && info.percentage < LOW_THRESHOLD) {
-        std::string cmd = "aplay \"" + SOUND_FILE + "\" >/dev/null 2>&1 &";
+        std::string cmd = "aplay \"" + sound_file() + "\" >/dev/null 2>&1 &";
         std::system(cmd.c_str());
       }
     }
   }
+  return devices;
+}
 
-  std::vector<DeviceInfo> processed_devices = devices;
-  std::map<std::string, int> total_counts;
-  for (auto &d : processed_devices) {
-    d.model = shorten_name(d.model);
-    total_counts[d.model]++;
+// Bar-friendly one-liner: only low/charging devices are listed,
+// empty string when every battery is above the low threshold.
+// '!name: NN%' = low, 'name: NN%+' = charging.
+std::string format_compact(const std::vector<DeviceInfo> &devices) {
+  std::vector<const DeviceInfo *> notable;
+  for (const auto &d : devices) {
+    if (is_notable(d))
+      notable.push_back(&d);
   }
+  if (notable.empty())
+    return "";
 
-  std::map<std::string, int> current_counts;
-  size_t total_length = 0;
-  for (size_t i = 0; i < processed_devices.size(); ++i) {
-    auto &d = processed_devices[i];
-    if (total_counts[d.model] > 1) {
-      current_counts[d.model]++;
-      d.model += " (" + std::to_string(current_counts[d.model]) + ")";
+  std::string out;
+  for (const auto *d : notable) {
+    if (!out.empty())
+      out += ' ';
+    bool low = !d->is_charging && d->percentage < LOW_THRESHOLD;
+    if (low)
+      out += '!';
+    out += short_name(d->model);
+    out += ": " + std::to_string(d->percentage) + "%";
+    if (d->is_charging)
+      out += '+';
+  }
+  return out;
+}
+
+// Full detail, one device per line.
+std::string format_full(const std::vector<DeviceInfo> &devices) {
+  if (devices.empty())
+    return "No battery devices found";
+
+  std::string out;
+  for (const auto &d : devices) {
+    if (!out.empty())
+      out += '\n';
+    out += d.model + ": " + std::to_string(d.percentage) + "% ";
+    out += d.is_charging ? "charging" : (d.state.empty() ? "unknown" : d.state);
+    if (!d.is_charging && d.percentage < LOW_THRESHOLD)
+      out += " (LOW)";
+  }
+  return out;
+}
+
+std::string json_escape(std::string_view s) {
+  std::string out;
+  for (char c : s) {
+    switch (c) {
+    case '"':
+      out += "\\\"";
+      break;
+    case '\\':
+      out += "\\\\";
+      break;
+    case '\n':
+      out += "\\n";
+      break;
+    case '\r':
+      out += "\\r";
+      break;
+    case '\t':
+      out += "\\t";
+      break;
+    default:
+      if (static_cast<unsigned char>(c) < 0x20)
+        continue;
+      out += c;
     }
-
-    if (i > 0)
-      total_length += 1; // space
-    total_length += d.model.size() + 2 + std::to_string(d.percentage).size() + 1;
   }
+  return out;
+}
 
-  if (total_length > MAX_OUTPUT_LENGTH) {
-    processed_devices = devices;
-    std::map<std::string, int> abbr_total_counts;
-    for (auto &d : processed_devices) {
-      d.model = abbreviate_name(d.model);
-      abbr_total_counts[d.model]++;
+// Waybar renders tooltips as pango markup.
+std::string pango_escape(std::string_view s) {
+  std::string out;
+  for (char c : s) {
+    if (c == '&')
+      out += "&amp;";
+    else if (c == '<')
+      out += "&lt;";
+    else if (c == '>')
+      out += "&gt;";
+    else
+      out += c;
+  }
+  return out;
+}
+
+std::string shell_quote(std::string_view s) {
+  std::string out = "'";
+  for (char c : s) {
+    if (c == '\'')
+      out += "'\\''";
+    else
+      out += c;
+  }
+  out += "'";
+  return out;
+}
+
+void send_notification(const std::vector<DeviceInfo> &devices) {
+  bool any_low = false;
+  for (const auto &d : devices) {
+    if (!d.is_charging && d.percentage < LOW_THRESHOLD)
+      any_low = true;
+  }
+  std::string cmd = "notify-send -a Battery -u " + std::string(any_low ? "critical" : "normal") + " " + shell_quote("Battery") + " " +
+                    shell_quote(format_full(devices)) + " >/dev/null 2>&1";
+  std::system(cmd.c_str());
+}
+
+void print_usage() {
+  std::print("usage: battery_check [--full|--json|--notify]\n"
+             "  (default)  compact bar output: only low (below 30%) or charging\n"
+             "             devices, nothing at all when all batteries are fine\n"
+             "  --full     full details, one device per line\n"
+             "  --json     waybar JSON: text = compact, tooltip = full details\n"
+             "  --notify   show full details as a desktop notification\n"
+             "  --help     show this help\n");
+}
+
+int main(int argc, char **argv) {
+  bool full = false, json = false, notify = false;
+
+  for (int i = 1; i < argc; ++i) {
+    std::string_view arg = argv[i];
+    if (arg == "--full" || arg == "-f") {
+      full = true;
+    } else if (arg == "--json") {
+      json = true;
+    } else if (arg == "--notify" || arg == "-n") {
+      notify = true;
+    } else if (arg == "--help" || arg == "-h") {
+      print_usage();
+      return 0;
+    } else {
+      std::print(stderr, "battery_check: unknown option '{}'\n", arg);
+      print_usage();
+      return 1;
     }
-
-    std::map<std::string, int> abbr_current_counts;
-    for (auto &d : processed_devices) {
-      if (abbr_total_counts[d.model] > 1) {
-        abbr_current_counts[d.model]++;
-        d.model += " (" + std::to_string(abbr_current_counts[d.model]) + ")";
-      }
-    }
   }
 
-  // Print all on one line: Model: Percentage%
-  for (size_t i = 0; i < processed_devices.size(); ++i) {
-    const auto &d = processed_devices[i];
+  std::vector<DeviceInfo> devices = collect_devices();
 
-    if (i > 0)
-      std::print(" ");
-
-    std::print("{}: {}%", d.model, d.percentage);
+  if (notify) {
+    send_notification(devices);
+    return 0;
   }
 
-  if (!devices.empty()) {
-    std::println("");
+  if (full) {
+    std::print("{}\n", format_full(devices));
+    return 0;
   }
 
+  if (json) {
+    std::print("{{\"text\": \"{}\", \"tooltip\": \"{}\"}}\n", json_escape(format_compact(devices)), json_escape(pango_escape(format_full(devices))));
+    return 0;
+  }
+
+  std::print("{}\n", format_compact(devices));
   return 0;
 }
