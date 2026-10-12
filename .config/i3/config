@@ -30,7 +30,7 @@ bindsym $mod+Return exec alacritty
 floating_modifier $mod
 
 # start the program launcher
-bindsym $mod+d exec rofi -show run
+bindsym $mod+d exec rofi -show
 
 # kill focused window
 bindsym $mod+Shift+q kill
