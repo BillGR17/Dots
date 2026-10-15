@@ -8,6 +8,9 @@ vim.o.sessionoptions = "tabpages,winsize"
 -- Execute session logic only if Neovim was started without file arguments.
 if vim.fn.argc() == 0 then
 
+  -- Store the initial working directory when Neovim starts
+  local initial_cwd = vim.fn.getcwd()
+
   -- Local function to clean up empty windows and save the session.
   local function clear_empty_and_save_session()
     -- Close all windows that are empty (one line, no content).
@@ -18,7 +21,9 @@ if vim.fn.argc() == 0 then
 
     -- Don't bother saving a session if only one window is left.
     if window_count > 1 then
-      vim.cmd("mks! .session.vim~")
+      -- Save session in the initial working directory, not current directory
+      local session_file = initial_cwd .. "/.session.vim~"
+      vim.cmd("mks! " .. session_file)
     end
   end
 
@@ -31,7 +36,7 @@ if vim.fn.argc() == 0 then
     nested = true, -- Equivalent to 'nested' in Vimscript.
     desc = "Load temporary session on startup.",
     callback = function()
-      local session_file = ".session.vim~"
+      local session_file = initial_cwd .. "/.session.vim~"
       -- Check if the session file exists.
       if vim.loop.fs_stat(session_file) then
         vim.cmd("source " .. session_file)
