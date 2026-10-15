@@ -80,18 +80,51 @@ M.plugins = {
             float = { source = "always", border = "rounded" },
         })
 
-        -- Automatic hover on cursor hold
+        -- Debounced auto-hover on cursor hold
+        local hover_timer = nil
         vim.api.nvim_create_autocmd("CursorHold", {
             callback = function()
+                -- Debounce: skip if timer already running from a previous trigger
+                if hover_timer then return end
                 if #vim.lsp.get_clients({ bufnr = 0 }) == 0 then return end
+
+                -- Don't open if a floating window is already visible
                 for _, win in ipairs(vim.api.nvim_list_wins()) do
                     if vim.api.nvim_win_get_config(win).relative ~= "" then return end
                 end
+
+                -- Debounce to avoid rapid re-firing
+                hover_timer = vim.uv.new_timer()
+                hover_timer:start(500, 0, function()
+                    hover_timer = nil
+                end)
+
                 vim.lsp.buf.hover({ focusable = false })
             end,
         })
 
-        -- Modern way to add rounded borders to hover windows
+        -- Close hover window on CursorMoved so it updates when you move to a new symbol
+        vim.api.nvim_create_autocmd("CursorMoved", {
+            callback = function()
+                if hover_timer then
+                    hover_timer:stop()
+                    hover_timer = nil
+                end
+                -- Close any lsp-related floating windows (hover docs)
+                for _, win in ipairs(vim.api.nvim_list_wins()) do
+                    local cfg = vim.api.nvim_win_get_config(win)
+                    if cfg.relative ~= "" then
+                        local buf = vim.api.nvim_win_get_buf(win)
+                        local ft = vim.bo[buf].filetype
+                        if ft and ft:match("^lsp") then
+                            vim.api.nvim_win_close(win, false)
+                        end
+                    end
+                end
+            end,
+        })
+
+        -- Rounded borders for hover windows (modern handler override)
         local orig_hover = vim.lsp.handlers["textDocument/hover"]
         vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
             config = config or {}
