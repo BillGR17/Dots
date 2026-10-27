@@ -20,7 +20,7 @@ wine_run = [
   { run = "wine_run %s", orphan = true, desc = "wine_run" }
 ]
 proton = [
-  { run = "proton %s", orphan = true, desc = "proton" }
+  { run = "proton %s", block = true, desc = "proton" }
 ]
 wine = [
   { run = "wine %s", orphan = true, desc = "wine" }
@@ -142,3 +142,8 @@ rules = [
   # Fallback
   { url = "*", use = "nvim" }
 ]
+
+
+[mgr]
+linemode = "size"
+
