@@ -7,7 +7,7 @@ hl.bind("ALT + F4",                hl.dsp.window.close())
 hl.bind(mainMod .. " + X",         hl.dsp.exec_cmd("hyprctl kill"))
 hl.bind(mainMod .. " + SHIFT + SPACE", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F",         hl.dsp.window.fullscreen())
-hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd("rofi -show run"))
+hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd("rofi -show"))
 
 hl.bind(mainMod .. " + W",         hl.dsp.group.toggle())
 
