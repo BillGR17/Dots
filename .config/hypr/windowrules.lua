@@ -7,7 +7,7 @@ hl.window_rule({
   float = true,
   pin = true,
   size = "monitor_w*0.15 monitor_h*0.15",
-  move = "0 monitor_h*0.85",
+  move = "monitor_w*100 monitor_h*0.85",
 })
 
 local pipNoFocus = hl.window_rule({
