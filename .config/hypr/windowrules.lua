@@ -1,12 +1,19 @@
 -- Sticky Picture-in-Picture
+-- no_focus lives in its own rule (pip-nofocus) so it can be toggled at
+-- runtime with SUPER + grave (see keybindings.lua).
 hl.window_rule({
   name = "picture-in-picture",
   match = { title = "^(Picture-in-Picture)$" },
   float = true,
   pin = true,
-  no_focus = true,
   size = "monitor_w*0.15 monitor_h*0.15",
   move = "0 monitor_h*0.85",
+})
+
+local pipNoFocus = hl.window_rule({
+  name = "pip-nofocus",
+  match = { title = "^(Picture-in-Picture)$" },
+  no_focus = true,
 })
 
 -- Assign Steam & Wine to workspace 0
@@ -107,4 +114,6 @@ hl.window_rule({
   float = true,
   no_focus = true,
 })
+
+return { pipNoFocus = pipNoFocus }
 

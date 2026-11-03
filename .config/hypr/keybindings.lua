@@ -39,7 +39,25 @@ for i = 1, 10 do
   hl.bind(mainMod .. " + " .. key,         hl.dsp.focus({ workspace = i }))
   hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i, follow = false }))
 end
-hl.bind(mainMod .. " + grave",         hl.dsp.focus({ workspace = 0 }))
+-- SUPER + grave: toggle whether the PiP window is focusable.
+-- On  -> PiP accepts focus and receives it.
+-- Off -> PiP goes back to no_focus; if it had focus, return it to the previous window.
+hl.bind(mainMod .. " + grave", function()
+  local tw = hl.get_window("title:^(Picture-in-Picture)$")
+  if not tw then return end
+  local rules = require("windowrules")
+  local enabled = rules.pipNoFocus:is_enabled()
+  rules.pipNoFocus:set_enabled(not enabled)
+  local active = hl.get_active_window()
+  if not enabled then
+    hl.dispatch(hl.dsp.focus({ window = tw }))
+  elseif active and active.address == tw.address then
+    local prev = hl.get_last_window()
+    if prev and prev.address ~= tw.address then
+      hl.dispatch(hl.dsp.focus({ window = prev }))
+    end
+  end
+end)
 hl.bind(mainMod .. " + SHIFT + grave", hl.dsp.window.move({ workspace = 0, follow = false }))
 
 -- Mouse dragging/resizing
