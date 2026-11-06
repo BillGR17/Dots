@@ -56,6 +56,7 @@ for _, cls in ipairs(floating_classes) do
     name = "float-" .. cls:gsub("[%[%]%*%.]", ""),
     match = { class = cls },
     float = true,
+    max_size = "monitor_w*0.5 monitor_h*0.5"
   })
 end
 
@@ -71,22 +72,10 @@ for _, t in ipairs(floating_titles) do
     name = "float-title-" .. t:gsub("[%[%]%*%.%-]", ""),
     match = { title = t },
     float = true,
+    size = "monitor_w*0.5 monitor_h*0.5",
   })
 end
 
-hl.window_rule({
-  name = "float-shutdown",
-  match = { class = "org.gtk.shutitdown", title = "Shutdown PC" },
-  float = true,
-  center = true,
-})
-
--- Standard drag/maximize fixes
-hl.window_rule({
-  name = "suppress-maximize",
-  match = { class = ".*" },
-  suppress_event = "maximize",
-})
 hl.window_rule({
   name = "focus-drag-fix",
   match = {
@@ -98,13 +87,6 @@ hl.window_rule({
     pin        = false,
   },
   no_focus = true,
-})
-
--- Center all floating windows except ueberzug
-hl.window_rule({
-  name = "center-all-floating",
-  match = { float = true, class = "negative:ueberzugpp.*$" },
-  center = true,
 })
 
 -- Fix Yazi image preview (ueberzugpp) flashing/tiling
