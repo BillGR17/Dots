@@ -4,31 +4,20 @@
   "height": 24,
   "modules-left": [
     "hyprland/workspaces",
-    "custom/separator",
     "hyprland/window"
   ],
   "modules-center": [],
   "modules-right": [
     "custom/bandwidth",
-    "custom/separator",
     "custom/memory",
-    "custom/separator",
     "custom/updates",
-    "custom/separator",
     "custom/battery",
-    "custom/separator",
     "custom/uptime",
-    "custom/separator",
     "hyprland/language",
-    "custom/separator",
     "custom/date",
-    "custom/separator",
     "pulseaudio",
-    "custom/separator",
     "custom/network",
-    "custom/separator",
     "custom/imguipm",
-    "custom/separator",
     "tray"
   ],
   "hyprland/workspaces": {
@@ -58,6 +47,7 @@
     "format": "{}",
     "exec": "battery_check --json",
     "return-type": "json",
+    "hide-empty-text": true,
     "interval": 30,
     "on-click": "battery_check --notify",
     "tooltip": true

@@ -45,11 +45,6 @@ window#waybar {
   padding-left: 8px;
 }
 
-#custom-separator {
-  color: #565f89;
-  padding: 0 4px;
-}
-
 #language {
   min-width: 20px;
 }
