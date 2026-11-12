@@ -4,7 +4,12 @@ hl.monitor({
   position = "0x0",
   scale = 1,
   bitdepth = 10,
-  vrr = 1
+  vrr = 1,
+  cm = "hdr",
+  supports_hdr = 1,
+  sdrbrightness = 1.0,
+  sdrsaturation = 1.0,
+  sdr_min_luminance = 0.01
 })
 
 -- Wildcard monitor fallback for other displays
