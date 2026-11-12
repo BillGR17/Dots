@@ -10,7 +10,6 @@
   "modules-right": [
     "custom/bandwidth",
     "custom/memory",
-    "custom/updates",
     "custom/battery",
     "custom/uptime",
     "hyprland/language",
