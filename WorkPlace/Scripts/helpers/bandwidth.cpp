@@ -80,15 +80,13 @@ std::string formatBandwidth(long long bytesPerSecond) {
   const double mb = kb * 1024.0;
   const double gb = mb * 1024.0;
   std::ostringstream oss;
-  oss << std::fixed << std::setprecision(2);
+  oss << std::fixed << std::setprecision(1);
   if (bytesPerSecond >= gb) {
     oss << bytesPerSecond / gb << "G";
   } else if (bytesPerSecond >= mb) {
     oss << bytesPerSecond / mb << "M";
-  } else if (bytesPerSecond >= kb) {
-    oss << bytesPerSecond / kb << "K";
   } else {
-    oss << static_cast<long long>(bytesPerSecond) << "B";
+    oss << bytesPerSecond / kb << "K";
   }
   return oss.str();
 }
@@ -121,8 +119,7 @@ int main() {
   const long long downloadSpeed = currentRx - prevRx;
   const long long uploadSpeed = currentTx - prevTx;
 
-  std::cout << "▲ " << std::left << std::setw(7) << formatBandwidth(downloadSpeed) << " ▼ " << std::left << std::setw(7)
-            << formatBandwidth(uploadSpeed) << std::endl;
+  std::cout << "▲ " << formatBandwidth(downloadSpeed) << " ▼ " << formatBandwidth(uploadSpeed) << std::endl;
 
   // Save current values for the next execution
   writeValueToFile(prevRxPath, currentRx);
